@@ -1,24 +1,19 @@
-// TopStudiesList.js
 import React from 'react';
-import { TabGroup, TabList, Tab, TabPanels, TabPanel, Text } from "@tremor/react";
+import { Card, Title, BarList, Bold, Flex, Text } from "@tremor/react";
 
 const TopStudiesList = ({ studiesData }) => {
   return (
-    <TabGroup>
-      <TabList className="mt-4">
-        {studiesData.map((study) => (
-          <Tab key={study.id}>{study.name}</Tab>
-        ))}
-      </TabList>
-      <TabPanels>
-        {studiesData.map((study) => (
-          <TabPanel key={study.id}>
-            {/* Content for Study */}
-            <Text>{study.name} Details</Text>
-          </TabPanel>
-        ))}
-      </TabPanels>
-    </TabGroup>
+    <Card className="">
+      <Title style={{  fontSize: "14px", fontWeight: 400, lineHeight: "20px", letterSpacing: "0em", textAlign: "left", }}>Top 5 de estudios</Title>
+      <BarList
+        data={studiesData.map((study) => ({
+          value: study.percent,
+          name: study.name,
+        }))}
+        color="emerald"
+        valueFormatter={(value) => `${value}%`}
+      />
+    </Card>
   );
 };
 

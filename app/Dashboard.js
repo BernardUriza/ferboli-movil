@@ -16,11 +16,14 @@ const Dashboard = () => {
 
   return (
     <Card>
-      {/* Numeric Indicators */}
-      <NumericIndicators />
+      
+      <div className="flex justify-between mb-4">
+          {/* Numeric Indicators */}
+          <NumericIndicators />
 
-      {/* List of Top Studies */}
-      <TopStudiesList studiesData={studiesData} />
+          {/* List of Top Studies */}
+          <TopStudiesList studiesData={studiesData} />
+      </div>
 
       {/* Table of Clinical Results */}
       <ClinicalResultsTable studiesData={studiesData} />

@@ -1,18 +1,18 @@
 // NumericIndicators.js
 import React from 'react';
-import { Text, Metric } from "@tremor/react";
+import { Text, Metric, Card } from "@tremor/react";
 
 const NumericIndicators = () => {
   return (
-    <div className="flex justify-between mb-4">
-      <div>
+    <div className="flex-column w-1/4">
+      <Card className="max-w-xs my-3">
         <Text>Number of Clients</Text>
         <Metric>42</Metric>
-      </div>
-      <div>
+      </Card>
+      <Card className="max-w-xs my-3">
         <Text>Sent by Email</Text>
         <Metric>25</Metric>
-      </div>
+      </Card>
     </div>
   );
 };
