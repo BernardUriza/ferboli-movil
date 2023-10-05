@@ -4,15 +4,19 @@ import { Text, Metric, Card } from "@tremor/react";
 
 const NumericIndicators = () => {
   return (
-    <div className="flex-column w-1/4">
-      <Card className="max-w-xs my-3">
-        <Text>Number of Clients</Text>
-        <Metric>42</Metric>
-      </Card>
-      <Card className="max-w-xs my-3">
-        <Text>Sent by Email</Text>
-        <Metric>25</Metric>
-      </Card>
+    <div className="h-full">
+      <div className="h-1/2 pb-3">
+        <Card className="h-full">
+          <Text>Number of Clients</Text>
+          <Metric>42</Metric>
+        </Card>
+      </div>
+      <div className="h-1/2">
+        <Card className="h-full">
+          <Text>Sent by Email</Text>
+          <Metric>12</Metric>
+        </Card>
+      </div>
     </div>
   );
 };

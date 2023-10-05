@@ -1,6 +1,6 @@
 // Dashboard.js
 import React from 'react';
-import { Card } from "@tremor/react";
+import { Grid, Col } from "@tremor/react";
 import NumericIndicators from './components/NumericIndicators';
 import TopStudiesList from './components/TopStudiesList';
 import ClinicalResultsTable from './components/ClinicalResultsTable';
@@ -15,19 +15,22 @@ const Dashboard = () => {
   ];
 
   return (
-    <Card>
-      
-      <div className="flex justify-between mb-4">
+    <div className='pt-3'>
+      <Grid numItems={1} numItemsLg={3} className="gap-2">
+        <Col numColSpan={1} numColSpanLg={1}>
           {/* Numeric Indicators */}
           <NumericIndicators />
-
+        </Col>
+        <Col numColSpan={1} numColSpanLg={2}>
           {/* List of Top Studies */}
           <TopStudiesList studiesData={studiesData} />
-      </div>
-
+        </Col>
+      </Grid>
       {/* Table of Clinical Results */}
-      <ClinicalResultsTable studiesData={studiesData} />
-    </Card>
+      <div className='pt-3'>
+        <ClinicalResultsTable studiesData={studiesData} />
+      </div>
+    </div>
   );
 };
 

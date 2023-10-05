@@ -36,13 +36,13 @@ const Page = () => {
 
       <TabGroup>
         <TabList className="tabs">
-          <Tab onClick={() => handleTabChange('dashboard')}>
-            <HomeIcon className="w-6 h-6" /> Dashboard
+          <Tab className="flex" onClick={() => handleTabChange('dashboard')}>
+            <HomeIcon className="w-6 h-6" /> <label>Dashboard</label>
           </Tab>
-          <Tab onClick={() => handleTabChange('users')}>
+          <Tab className="flex" onClick={() => handleTabChange('users')}>
             <UserIcon className="w-6 h-6" /> Users
           </Tab>
-          <Tab onClick={() => handleTabChange('results')}>
+          <Tab className="flex" onClick={() => handleTabChange('results')}>
             <SearchIcon className="w-6 h-6" /> Results
           </Tab>
         </TabList>
