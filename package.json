@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "node generate-date.js && git-commit.bat"
+    "deploy": "node generate-date.js && git-commit.bat",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
