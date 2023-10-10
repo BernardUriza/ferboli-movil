@@ -4,27 +4,16 @@ import { Grid, Col } from "@tremor/react";
 import NumericIndicators from './components/NumericIndicators';
 import TopStudiesList from './components/TopStudiesList';
 import ClinicalResultsTable from './components/ClinicalResultsTable';
+import { fetchMedicalReports } from './useCases/fetchMedicalReports';
 
 const Dashboard = () => {
   const [studiesData, setStudiesData] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch('/api/medicalReports');
-        if (response.ok) {
-          const data = await response.json();
-          setStudiesData(data);
-        } else {
-          console.error('Error fetching medical reports:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching medical reports:', error);
-      }
-    }
-
-    fetchData();
-  }, []);
+    fetchMedicalReports()
+      .then((medicalReports) => setStudiesData(medicalReports))
+      .catch((error) => console.error(error.message));
+  }, []);  
 
   return (
     <div className='pt-3'>
