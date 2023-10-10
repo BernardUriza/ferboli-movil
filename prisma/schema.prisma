@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MedicalReport {
+  id         Int       @id @default(autoincrement())
+  name String
+  patientName String
+  status  String
+  diagnosis  String
+  date  DateTime
+  createdAt  DateTime  @default(now())
+  // Otros campos relevantes para tu informe médico
+}

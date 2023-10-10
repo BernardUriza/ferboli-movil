@@ -18,15 +18,15 @@ const Page = () => {
     <div className='container mx-auto my-5 font-sans'>
 
       <div className="flex items-center my-5 space-x-4">
-        <div class="w-28">
+        <div className="w-28">
           <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto" />
         </div>
-        <div class="flex-1">
-          <div class="text-gray-700 text-xl font-normal leading-7">Bienvenido, Dr. Ernesto Fernandez</div>
-          <div class="text-gray-500 text-base font-normal leading-5">Panel de administración</div>
+        <div className="flex-1">
+          <div className="text-gray-700 text-xl font-normal leading-7">Bienvenido, Dr. Ernesto Fernandez</div>
+          <div className="text-gray-500 text-base font-normal leading-5">Panel de administración</div>
         </div>
         <div className="w-28">
-          <button class="text-gray-500 hover:text-blue-700 flex items-center focus:outline-none">
+          <button className="text-gray-500 hover:text-blue-700 flex items-center focus:outline-none">
             Salir
             <HiOutlineArrowRightOnRectangle className="mx-1 w-6 h-6" />
           </button>
