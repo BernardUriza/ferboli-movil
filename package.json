@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "node generate-date.js && git-commit.bat",
-    "prisma:generate": "prisma generate"
+    "deploy": "node generate-date.js && git-commit.bat"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
