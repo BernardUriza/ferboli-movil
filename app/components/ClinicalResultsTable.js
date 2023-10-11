@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell, Button, Title } from "@tremor/react";
-import { DownloadIcon, PrinterIcon, PencilIcon } from '@heroicons/react/outline';
+import { Card, Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell, Button, Title, Select, SelectItem  } from "@tremor/react";
+import { DownloadIcon, UserAddIcon, PrinterIcon, PencilIcon, FilterIcon } from '@heroicons/react/outline';
 import ReportForm from './ReportForm';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import TextInputWithIcon from '../controls/TextInputWithIcon';
@@ -43,10 +43,27 @@ const ClinicalResultsTable = ({ studiesData }) => {
       <div className="flex justify-between items-center mb-4">
         <Title>Lista de Resultados Clínicos</Title>
         <div className="flex items-center">
+          <div className="max-w-sm mx-auto space-y-6">
+            <Select style={{width: '15vw'}}>
+              <SelectItem value="1" icon={FilterIcon}>
+                Kilometers
+              </SelectItem>
+              <SelectItem value="2" icon={FilterIcon}>
+                Meters
+              </SelectItem>
+              <SelectItem value="3" icon={FilterIcon}>
+                Miles
+              </SelectItem>
+              <SelectItem value="4" icon={FilterIcon}>
+                Nautical Miles
+              </SelectItem>
+            </Select>
+          </div>
           <TextInputWithIcon />
-          <Button onClick={() => setIsFormOpen(true)}>
-            <PrinterIcon className="w-6 h-6 mr-2" />
-            New Report
+          <Button  onClick={() => setIsFormOpen(true)}>
+            <label className='flex'>
+              <UserAddIcon className="w-6 h-6 mr-2" /> <div>New</div>
+            </label>
           </Button>
         </div>
       </div>
