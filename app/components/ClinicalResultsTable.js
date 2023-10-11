@@ -1,10 +1,55 @@
-// ClinicalResultsTable.js
-import React from 'react';
-import { Card, Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell } from "@tremor/react";
+import React, { useState } from 'react';
+import { Card, Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell, Button, Title } from "@tremor/react";
+import { DownloadIcon, PrinterIcon, PencilIcon } from '@heroicons/react/outline';
+import ReportForm from './ReportForm';
+import TableCellButtonIcon from '../controls/TableCellButtonIcon';
+import TextInputWithIcon from '../controls/TextInputWithIcon';
+
 
 const ClinicalResultsTable = ({ studiesData }) => {
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const reportsPerPage = 10; // Adjust the number of reports per page
+
+  const filteredReports = studiesData.filter((report) =>
+    report.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const paginatedReports = filteredReports.slice(
+    (pageNumber - 1) * reportsPerPage,
+    pageNumber * reportsPerPage
+  );
+
+  const openForm = (report) => {
+    setSelectedReport(report);
+    setIsFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setSelectedReport(null);
+    setIsFormOpen(false);
+  };
+
+  const saveReport = (report) => {
+    setSelectedReport(report);
+    setIsFormOpen(false);
+  };
+
   return (
     <Card>
+      <div className="flex justify-between items-center mb-4">
+        <Title>Lista de Resultados Clínicos</Title>
+        <div className="flex items-center">
+          <TextInputWithIcon />
+          <Button onClick={() => setIsFormOpen(true)}>
+            <PrinterIcon className="w-6 h-6 mr-2" />
+            New Report
+          </Button>
+        </div>
+      </div>
       <Table className="mt-4">
         <TableHead>
           <TableRow>
@@ -16,21 +61,22 @@ const ClinicalResultsTable = ({ studiesData }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {studiesData.map((result) => (
+          {paginatedReports.map((result) => (
             <TableRow key={result.id}>
               <TableCell>{result.id}</TableCell>
               <TableCell>{result.date}</TableCell>
               <TableCell>{result.name}</TableCell>
               <TableCell>{result.status}</TableCell>
               <TableCell>
-                <button>Download</button>
-                <button>Print</button>
-                <button>View</button>
+                <TableCellButtonIcon text={"Download"} icon={<DownloadIcon className="w-4 h-4" />} />
+                <TableCellButtonIcon text={"Print"} icon={<PrinterIcon className="w-4 h-4" />} />
+                <TableCellButtonIcon onClick={() => openForm(result)} text={"Edit"} icon={<PencilIcon className="w-4 h-4" />} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {isFormOpen && <ReportForm report={selectedReport} onClose={closeForm} onSave={saveReport} />}
     </Card>
   );
 };

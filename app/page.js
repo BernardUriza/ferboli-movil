@@ -28,7 +28,7 @@ const Page = () => {
             Panel de administración
           </div>
         </div>
-        <div className="w-28 lg:w-auto lg:self-end">
+        <div className="w-28 lg:w-auto my-auto" style={{ alignSelf: 'flex-end' }}>
           <button className="text-gray-500 hover:text-blue-700 flex items-center focus:outline-none">
             Salir
             <HiOutlineArrowRightOnRectangle className="mx-1 w-6 h-6" />
