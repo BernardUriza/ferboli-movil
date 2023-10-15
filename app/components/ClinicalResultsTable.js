@@ -4,6 +4,7 @@ import { DownloadIcon, UserAddIcon, PrinterIcon, PencilIcon, FilterIcon, SearchI
 import ReportForm from './ReportForm';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import TextInputWithIcon from '../controls/TextInputWithIcon';
+import StatusBadge from '../controls/StatusBadge';
 
 const ClinicalResultsTable = ({ studiesData }) => {
   const [selectedReport, setSelectedReport] = useState(null);
@@ -12,7 +13,7 @@ const ClinicalResultsTable = ({ studiesData }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(''); // State for column filtering
 
-  const reportsPerPage = 3; // Adjust the number of reports per page
+  const reportsPerPage = 10; // Adjust the number of reports per page
 
   const filteredReports = studiesData.filter((report) =>
     report.name.toLowerCase().includes(filterText.toLowerCase())
@@ -98,7 +99,7 @@ const ClinicalResultsTable = ({ studiesData }) => {
               <TableCell>{report.id}</TableCell>
               <TableCell>{report.date}</TableCell>
               <TableCell>{report.name}</TableCell>
-              <TableCell>{report.status}</TableCell>
+              <TableCell><StatusBadge>{report.status}</StatusBadge> {report.status}</TableCell>
               <TableCell>
                 <TableCellButtonIcon text={"Download"} icon={<DownloadIcon className="w-4 h-4" />} />
                 <TableCellButtonIcon text={"Print"} icon={<PrinterIcon className="w-4 h-4" />} />
