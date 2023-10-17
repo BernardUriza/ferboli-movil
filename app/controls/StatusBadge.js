@@ -1,9 +1,9 @@
 import { Badge } from "@tremor/react";
-import { StatusOnlineIcon, ClockIcon, CogIcon, MinusCircleIcon, ShoppingCartIcon } from "@heroicons/react/outline";
+import { ClockIcon, UploadIcon, BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 
 const StatusBadge = ({ status }) => {
   let badgeColor = "green"; // Default color
-  let badgeIcon = StatusOnlineIcon; // Default icon
+  let badgeIcon = CheckCircleIcon; // Default icon
 
   switch (status) {
     case "Pendiente":
@@ -12,15 +12,15 @@ const StatusBadge = ({ status }) => {
       break;
     case "Enviando":
       badgeColor = "blue";
-      badgeIcon = CogIcon;
+      badgeIcon = UploadIcon;
       break;
     case "No entregado":
       badgeColor = "red";
-      badgeIcon = MinusCircleIcon;
+      badgeIcon = BanIcon;
       break;
     case "Activo":
       badgeColor = "green";
-      badgeIcon = ShoppingCartIcon;
+      badgeIcon = CheckCircleIcon;
       break;
     default:
       badgeColor = "gray";

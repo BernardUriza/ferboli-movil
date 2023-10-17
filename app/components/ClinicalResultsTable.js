@@ -4,6 +4,7 @@ import ReportForm from './ReportForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
+import StatusBadge from '../controls/StatusBadge';
 
 const ClinicalResultsTable = ({ studiesData }) => {
   const [selectedReport, setSelectedReport] = useState(null);
@@ -28,6 +29,15 @@ const ClinicalResultsTable = ({ studiesData }) => {
     setIsFormOpen(false);
   };
 
+  const renderCell = (columnKey, item) => {
+    if (columnKey === 'status') {
+      // Render the StatusBadge for the 'status' column
+      return <StatusBadge status={item.status} />;
+    } else {
+      // Render other columns as usual
+      return item[columnKey];
+    }
+  };
   const columns = [
     { key: 'id', title: 'ID' },
     { key: 'date', title: 'Fecha' },
@@ -59,6 +69,7 @@ const ClinicalResultsTable = ({ studiesData }) => {
         itemsPerPage={itemsPerPage}
         pageNumber={pageNumber}
         openForm={openForm}
+        renderCell={renderCell}
       />
       <Pagination
         pageNumber={pageNumber}
