@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CheckIcon } from "@heroicons/react/outline";
 
-const CustomCheckbox = ({ checked, onChange }) => {
+const CustomCheckbox = ({ checked, onChange, label }) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const handleCheckboxChange = () => {
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+    onChange(newCheckedState); // Pass the new checked state to the parent component.
+  };
+
   return (
     <label className="flex items-center space-x-2 cursor-pointer">
       <div
-        className={`w-6 h-6 border rounded-md transition-colors duration-300 ease-in-out border-gray-400 ${checked ? 'bg-blue-500 border-blue-500' : ''}`}
+        className={`w-6 h-6 border rounded-md transition-colors duration-300 ease-in-out border-gray-400 ${isChecked ? 'bg-blue-500 border-blue-500' : ''}`}
+        onClick={handleCheckboxChange}
       >
-        <input type="checkbox" className="hidden" checked={checked} onChange={onChange} />
-        {checked && (
-          <CheckIcon color='white'/>
+        {isChecked && (
+          <CheckIcon color='white' />
         )}
       </div>
-      <span className="text-gray-700">Label</span>
+      {label && <span className="text-gray-700">{label}</span>}
     </label>
   );
 };

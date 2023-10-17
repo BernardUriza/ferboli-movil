@@ -91,7 +91,7 @@ const CoreTable = ({
         {paginatedData.map((item) => (
           <TableRow key={item.id}>
             <TableCell>
-              <CustomCheckbox checked={selectAll} />
+              <CustomCheckbox checked={selectAll} onChange={() => {}}/>
             </TableCell>
             {columns.map((column) => (
               <TableCell key={column.key}>{renderCell(column.key, item)}</TableCell>
