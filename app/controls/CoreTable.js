@@ -26,20 +26,20 @@ const CoreTable = ({
 
   const filteredDataWithColumnFilter = selectedFilter
     ? filteredData.filter((item) =>
-        item[selectedFilter] && (item[selectedFilter] + '').toLowerCase().includes(filterText.toLowerCase())
-      )
+      item[selectedFilter] && (item[selectedFilter] + '').toLowerCase().includes(filterText.toLowerCase())
+    )
     : filteredData;
 
   const sortedData = sortedColumn
     ? [...filteredDataWithColumnFilter].sort((a, b) => {
-        const aValue = a[sortedColumn] || '';
-        const bValue = b[sortedColumn] || '';
-        if (sortAscending) {
-          return aValue.localeCompare(bValue);
-        } else {
-          return bValue.localeCompare(aValue);
-        }
-      })
+      const aValue = a[sortedColumn] || '';
+      const bValue = b[sortedColumn] || '';
+      if (sortAscending) {
+        return aValue.localeCompare(bValue);
+      } else {
+        return bValue.localeCompare(aValue);
+      }
+    })
     : filteredDataWithColumnFilter;
 
   useEffect(() => {
@@ -67,12 +67,12 @@ const CoreTable = ({
     const selectedIndex = itemsSelected.indexOf(item);
     const newSelected = [...itemsSelected];
 
-    if(newCheckedState){
+    if (newCheckedState) {
       if (selectedIndex === -1) {
         newSelected.push(item);
       }
     }
-    else{
+    else {
       if (selectedIndex != -1) {
         newSelected.splice(selectedIndex, 1);
       }
@@ -99,7 +99,9 @@ const CoreTable = ({
     <Table>
       <TableHead className="bg-slate-50">
         <TableRow>
-          <TableHeaderCell>
+          <TableHeaderCell
+            style={{ "width": "50px" }}
+          >
             <CustomCheckbox
               checked={selectAll}
               onChange={handleSelectAll}
@@ -109,17 +111,20 @@ const CoreTable = ({
             <TableHeaderCell
               key={column.key}
               onClick={() => handleSortColumn(column.key)}
+              style={{ "width": column.width }}
             >
-              {column.title}
-              {sortedColumn === column.key && (
-                <span className="ml-1">
-                  {sortAscending ? (
-                    <SortAscendingIcon className="w-4 h-4" />
-                  ) : (
-                    <SortDescendingIcon className="w-4 h-4" />
-                  )}
-                </span>
-              )}
+              <div class="flex">
+                <span style={{ "cursor": "pointer" }}>{column.title}</span>
+                {sortedColumn === column.key && (
+                  <span className="ml-2 mt-1">
+                    {sortAscending ? (
+                      <SortAscendingIcon className="w-4 h-4" />
+                    ) : (
+                      <SortDescendingIcon className="w-4 h-4" />
+                    )}
+                  </span>
+                )}
+              </div>
             </TableHeaderCell>
           ))}
           <TableHeaderCell>Actions</TableHeaderCell>
