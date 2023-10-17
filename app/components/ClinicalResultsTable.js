@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell, Button, Title, Select, SelectItem } from "@tremor/react";
+import { Card, Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell, Button, Title, Select, SelectItem, Badge } from "@tremor/react";
 import { DownloadIcon, UserAddIcon, PrinterIcon, PencilIcon, FilterIcon, SearchIcon } from '@heroicons/react/outline';
 import ReportForm from './ReportForm';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
@@ -13,7 +13,7 @@ const ClinicalResultsTable = ({ studiesData }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(''); // State for column filtering
 
-  const reportsPerPage = 10; // Adjust the number of reports per page
+  const reportsPerPage = 4; // Adjust the number of reports per page
 
   const filteredReports = studiesData.filter((report) =>
     report.name.toLowerCase().includes(filterText.toLowerCase())
@@ -21,10 +21,10 @@ const ClinicalResultsTable = ({ studiesData }) => {
 
   // Apply column filtering based on the selected option
   const filteredReportsWithColumnFilter = selectedFilter
-    ? filteredReports.filter((report) =>{
-        report[selectedFilter] && (report[selectedFilter]+"").toLowerCase().includes(filterText.toLowerCase())
+    ? filteredReports.filter((report) => {
+      report[selectedFilter] && (report[selectedFilter] + "").toLowerCase().includes(filterText.toLowerCase())
     }
-      )
+    )
     : filteredReports;
 
   const totalPageCount = Math.ceil(filteredReportsWithColumnFilter.length / reportsPerPage);
@@ -48,13 +48,35 @@ const ClinicalResultsTable = ({ studiesData }) => {
     setIsFormOpen(false);
   };
 
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPageCount; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers.map((number) => (
+      <button
+        key={number}
+        onClick={() => setPageNumber(number)}
+        className={`mx-1 px-3 py-1 rounded-full ${number === pageNumber ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-500 hover:text-white'
+          }`}
+      >
+        {number}
+      </button>
+    ));
+  };
+
   return (
-    <Card>
-      <div className="flex justify-between items-center mb-4">
-        <Title>Lista de Resultados Clínicos</Title>
+    <Card style={{ "padding": "0px" }}>
+      <div className="flex justify-between items-center p-4">
+        <Title>Lista de Resultados Clínicos
+          <Badge className='mx-3' color="green" size="sm">
+            {paginatedReports.length} reportes
+          </Badge>
+        </Title>
         <div className="flex items-center">
           <div className="max-w-sm mx-auto space-y-6">
-            <Select style={{ width: '15vw' }} value={selectedFilter} onValueChange={setSelectedFilter}>
+            <Select placeholder="Filtrar" style={{ width: '15vw' }} value={selectedFilter} onValueChange={setSelectedFilter}>
               <SelectItem value="" icon={FilterIcon}>
                 All Columns
               </SelectItem>
@@ -83,8 +105,8 @@ const ClinicalResultsTable = ({ studiesData }) => {
           </Button>
         </div>
       </div>
-      <Table className="mt-4">
-        <TableHead>
+      <Table>
+        <TableHead className='bg-slate-50'>
           <TableRow>
             <TableHeaderCell>ID</TableHeaderCell>
             <TableHeaderCell>Fecha</TableHeaderCell>
@@ -99,7 +121,7 @@ const ClinicalResultsTable = ({ studiesData }) => {
               <TableCell>{report.id}</TableCell>
               <TableCell>{report.date}</TableCell>
               <TableCell>{report.name}</TableCell>
-              <TableCell><StatusBadge>{report.status}</StatusBadge> {report.status}</TableCell>
+              <TableCell><StatusBadge status={report.status} /></TableCell>
               <TableCell>
                 <TableCellButtonIcon text={"Download"} icon={<DownloadIcon className="w-4 h-4" />} />
                 <TableCellButtonIcon text={"Print"} icon={<PrinterIcon className="w-4 h-4" />} />
@@ -109,15 +131,27 @@ const ClinicalResultsTable = ({ studiesData }) => {
           ))}
         </TableBody>
       </Table>
-      {isFormOpen && <ReportForm report={selectedReport} onClose={closeForm} onSave={saveReport} />}
-      <div className="mt-4 flex justify-center">
-        <Button onClick={() => setPageNumber(Math.max(pageNumber - 1, 1))} disabled={pageNumber === 1}>
-          Previous
+      {/* Pagination section */}
+      <div className="bg-slate-50 flex justify-between border-t border-solid border-t-1 border-t-gray-300 p-3">
+        <Button
+          onClick={() => setPageNumber(Math.max(pageNumber - 1, 1))}
+          disabled={pageNumber === 1}
+          className="ml-2"
+        >
+          Anterior
         </Button>
-        <Button onClick={() => setPageNumber(Math.min(pageNumber + 1, totalPageCount))} disabled={pageNumber === totalPageCount}>
-          Next
+        <div>
+          {renderPageNumbers()}
+        </div>
+        <Button
+          onClick={() => setPageNumber(Math.min(pageNumber + 1, totalPageCount))}
+          disabled={pageNumber === totalPageCount}
+          className="mr-2"
+        >
+          Siguiente
         </Button>
       </div>
+      {isFormOpen && <ReportForm report={selectedReport} onClose={closeForm} onSave={saveReport} />}
     </Card>
   );
 };

@@ -1,3 +1,5 @@
+//For running the seed 
+//node .\prisma\seeds\medicalReportSeed.js
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -11,6 +13,7 @@ const studiesData = [
   
 
 async function main() {
+  await prisma.medicalReport.deleteMany({})
   for (const studyData of studiesData) {
     await prisma.medicalReport.create({
       data: studyData,
