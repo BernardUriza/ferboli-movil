@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell } from "@tremor/react";
 import { DownloadIcon, PrinterIcon, PencilIcon, SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/outline';
 import TableCellButtonIcon from './TableCellButtonIcon';
@@ -18,6 +18,7 @@ const CoreTable = ({
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortAscending, setSortAscending] = useState(true);
   const [itemsSelected, setItemsSelected] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(filterText.toLowerCase())
@@ -41,10 +42,15 @@ const CoreTable = ({
       })
     : filteredDataWithColumnFilter;
 
-  const paginatedData = sortedData.slice(
-    (pageNumber - 1) * itemsPerPage,
-    pageNumber * itemsPerPage
-  );
+  useEffect(() => {
+    // Update the currentItems state when the pagination or filtered data changes
+    const start = (pageNumber - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    setCurrentItems(sortedData.slice(start, end));
+    // Deselect all when pagination or filters change
+    //setItemsSelected([]);
+    //setSelectAll(false);
+  }, [pageNumber, itemsPerPage, sortedData, filterText, selectedFilter]);
 
   const handleSortColumn = (column) => {
     if (column === sortedColumn) {
@@ -57,30 +63,37 @@ const CoreTable = ({
     }
   };
 
-  const handleSelect = (item) => {
+  const handleSelect = (item, newCheckedState) => {
     const selectedIndex = itemsSelected.indexOf(item);
     const newSelected = [...itemsSelected];
 
-    if (selectedIndex === -1) {
-      newSelected.push(item);
-    } else {
-      newSelected.splice(selectedIndex, 1);
+    if(newCheckedState){
+      if (selectedIndex === -1) {
+        newSelected.push(item);
+      }
+    }
+    else{
+      if (selectedIndex != -1) {
+        newSelected.splice(selectedIndex, 1);
+      }
     }
 
     setItemsSelected(newSelected);
   };
 
-  const handleSelectAll = () => {
-    if (!selectAll) {
-      // Select all items
-      setItemsSelected([...filteredDataWithColumnFilter]);
+  const handleSelectAll = (newCheckedState) => {
+    setSelectAll(newCheckedState);
+  };
+  useEffect(() => {
+    if (selectAll) {
+      // Select all items on the current page
+      setItemsSelected([...currentItems]);
     } else {
-      // Deselect all items
+      // Deselect all items on the current page
       setItemsSelected([]);
     }
+  }, [selectAll]);
 
-    setSelectAll(!selectAll);
-  };
 
   return (
     <Table>
@@ -113,19 +126,19 @@ const CoreTable = ({
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedData.map((item) => (
+        {currentItems.map((item) => (
           <TableRow key={item.id}>
             <TableCell>
               <CustomCheckbox
-                checked={itemsSelected.includes(item)}
-                onChange={() => handleSelect(item)}
+                checked={selectAll || itemsSelected.includes(item)}
+                onChange={(newCheckedState) => handleSelect(item, newCheckedState)}
               />
             </TableCell>
             {columns.map((column) => (
               <TableCell key={column.key}>{renderCell(column.key, item)}</TableCell>
             ))}
             <TableCell>
-              <TableCellButtonIcon text={"Downloa3d"} icon={<DownloadIcon className="w-4 h-4" />} />
+              <TableCellButtonIcon text={"Downlsoad"} icon={<DownloadIcon className="w-4 h-4" />} />
               <TableCellButtonIcon text={"Print"} icon={<PrinterIcon className="w-4 h-4" />} />
               <TableCellButtonIcon onClick={() => openForm(item)} text={"Edit"} icon={<PencilIcon className="w-4 h-4" />} />
             </TableCell>
