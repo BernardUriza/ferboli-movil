@@ -53,8 +53,8 @@ const ClinicalResultsTable = ({ studiesData }) => {
 
   return (
     <Card style={{ "padding": "0px" }}>
-      <div className="flex justify-between items-center p-4">
-        <Title>Lista de Resultados Clínicos
+      <div className="md:flex justify-between items-center p-4">
+        <Title className='my-2'>Lista de Resultados Clínicos
           <Badge className='mx-3' color="green" size="sm">
             {studiesData.length} reportes
           </Badge>

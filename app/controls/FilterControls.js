@@ -1,7 +1,8 @@
 import React from 'react';
 import { Select, SelectItem, Button } from "@tremor/react";
-import { FilterIcon, UserAddIcon } from '@heroicons/react/outline';
+import { FilterIcon, PlusIcon } from '@heroicons/react/outline';
 import TextInputWithIcon from './TextInputWithIcon';
+import TableCellButtonIcon from './TableCellButtonIcon';
 
 const FilterControls = ({
   selectedFilter,
@@ -35,11 +36,7 @@ const FilterControls = ({
         value={filterText}
         onChange={(e) => setFilterText(e.target.value)}
       />
-      <Button onClick={() => setIsFormOpen(true)}>
-        <label className='flex'>
-          <UserAddIcon className="w-6 h-6 mr-2" /> <div>New</div>
-        </label>
-      </Button>
+      <TableCellButtonIcon onClick={() => setIsFormOpen(true)} icon={<PlusIcon className="w-6 h-6" />} />
     </div>
   );
 };

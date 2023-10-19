@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline';
 import { Button } from "@tremor/react";
 
 const Pagination = ({
@@ -16,7 +17,8 @@ const Pagination = ({
       <button
         key={number}
         onClick={() => setPageNumber(number)}
-        className={`mx-1 px-3 py-1 ${number === pageNumber ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+        style={number === pageNumber ? {"backgroundColor":"#ECFDF3", "color": "#12B76A"} : {"backgroundColor":"white", "color": "#667085"}}
+        className={`mx-1 rounded px-3 py-1 hover:font-bold`}
       >
         {number}
       </button>
@@ -31,8 +33,12 @@ const Pagination = ({
         className="ml-2"
         variant="secondary"
         color='gray'
+        cssClass='flex'
       >
-        Anterior
+        <div className="flex">
+          <ArrowLeftIcon className="mr-3 w-6 h-6" />
+          <span className='pt-0.5'>Anterior</span>
+        </div>
       </Button>
       <div>
         {renderPageNumbers()}
@@ -44,7 +50,10 @@ const Pagination = ({
         variant="secondary"
         color='gray'
       >
-        Siguiente
+        <div className="flex">
+          <span className='pt-0.5'>Siguiente</span> 
+          <ArrowRightIcon className="ml-3 w-6 h-6" />
+        </div>
       </Button>
     </div>
   );

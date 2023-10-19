@@ -6,20 +6,21 @@ const TableCellButtonIcon = ({ icon, text, onClick }) => {
   return (
     <div className="relative inline-block">
       <button
-        className="bg-blue-500 text-white p-2 rounded-full mx-3"
+        className="bg-white text-dark p-2 rounded-full mx-3"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={onClick}
       >
         {icon}
       </button>
-      <div
-        className={`absolute z-10 bg-gray-800 text-white text-sm rounded p-2 -mt-10 right-0 top-0 transform -translate-x-1/2 transition-opacity duration-300 ease-in-out tooltip ${
-          showTooltip ? 'block' : 'hidden'
-        }`}
-      >
-        {text}
-      </div>
+      {text &&
+        <div
+          className={`absolute z-10 bg-gray-800 text-white text-sm rounded p-2 -mt-10 right-0 top-0 transform -translate-x-1/2 transition-opacity duration-300 ease-in-out tooltip ${showTooltip ? 'block' : 'hidden'
+            }`}
+        >
+          {text}
+        </div>
+      }
     </div>
   );
 };

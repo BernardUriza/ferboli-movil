@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableHead, TableHeaderCell, TableBody, TableRow, TableCell } from "@tremor/react";
-import { DownloadIcon, PrinterIcon, PencilIcon, SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/outline';
+import { TrashIcon, PencilIcon, SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/outline';
 import TableCellButtonIcon from './TableCellButtonIcon';
 import CustomCheckbox from './CustomCheckbox';
 
@@ -113,7 +113,7 @@ const CoreTable = ({
               onClick={() => handleSortColumn(column.key)}
               style={{ "width": column.width }}
             >
-              <div class="flex">
+              <div className="flex">
                 <span style={{ "cursor": "pointer" }}>{column.title}</span>
                 {sortedColumn === column.key && (
                   <span className="ml-2 mt-1">
@@ -127,7 +127,7 @@ const CoreTable = ({
               </div>
             </TableHeaderCell>
           ))}
-          <TableHeaderCell>Actions</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -143,9 +143,8 @@ const CoreTable = ({
               <TableCell key={column.key}>{renderCell(column.key, item)}</TableCell>
             ))}
             <TableCell>
-              <TableCellButtonIcon text={"Downlsoad"} icon={<DownloadIcon className="w-4 h-4" />} />
-              <TableCellButtonIcon text={"Print"} icon={<PrinterIcon className="w-4 h-4" />} />
-              <TableCellButtonIcon onClick={() => openForm(item)} text={"Edit"} icon={<PencilIcon className="w-4 h-4" />} />
+              <TableCellButtonIcon text={"Remover"} icon={<TrashIcon className="w-6 h-6" />} />
+              <TableCellButtonIcon onClick={() => openForm(item)} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} />
             </TableCell>
           </TableRow>
         ))}
