@@ -10,28 +10,29 @@ import { saveMedicalReports } from './useCases/saveMedicalReport';
 const Dashboard = () => {
   const [studiesData, setStudiesData] = useState([]);
 
-  useEffect(() => {
+  const fecthReports = () => {
     fetchMedicalReports()
       .then((medicalReports) => setStudiesData(medicalReports))
       .catch((error) => console.error(error.message));
-  }, []);  
+  }
 
-  
+  useEffect(fecthReports, []);  
+
   const handleSaveReport = (editedReport) => {
-    saveMedicalReports(editedReport)
-      .then((result) => {
-        if (result.success) {
-          // Guardado exitoso, puedes realizar acciones adicionales si es necesario
-          console.log('Informe médico guardado exitosamente.');
-          // Actualiza el estado o muestra un mensaje de éxito
-        } else {
-          // Error al guardar, puedes mostrar un mensaje de error
-          console.error('Error al guardar el informe médico.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error al guardar el informe médico: ' + error.message);
-      });
+    saveMedicalReports(editedReport)      
+    .then((result) => {
+      if (result.success) {
+        // Guardado exitoso, puedes realizar acciones adicionales si es necesario
+        console.log('Informe médico guardado exitosamente en dashboard.');
+        fecthReports()
+      } else {
+        // Error al guardar, puedes mostrar un mensaje de error
+        console.error('Error al guardar el informe médico en api.');
+      }
+    })
+    .catch((error) => {
+      console.error('Error al guardar el informe médico: ' + error.message);
+    });
   };  
 
   return (
