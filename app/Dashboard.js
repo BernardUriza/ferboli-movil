@@ -5,6 +5,7 @@ import NumericIndicators from './components/NumericIndicators';
 import TopStudiesList from './components/TopStudiesList';
 import ClinicalResultsTable from './components/ClinicalResultsTable';
 import { fetchMedicalReports } from './useCases/fetchMedicalReports';
+import { saveMedicalReports } from './useCases/saveMedicalReport';
 
 const Dashboard = () => {
   const [studiesData, setStudiesData] = useState([]);
@@ -14,6 +15,24 @@ const Dashboard = () => {
       .then((medicalReports) => setStudiesData(medicalReports))
       .catch((error) => console.error(error.message));
   }, []);  
+
+  
+  const handleSaveReport = (editedReport) => {
+    saveMedicalReports(editedReport)
+      .then((result) => {
+        if (result.success) {
+          // Guardado exitoso, puedes realizar acciones adicionales si es necesario
+          console.log('Informe médico guardado exitosamente.');
+          // Actualiza el estado o muestra un mensaje de éxito
+        } else {
+          // Error al guardar, puedes mostrar un mensaje de error
+          console.error('Error al guardar el informe médico.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error al guardar el informe médico: ' + error.message);
+      });
+  };  
 
   return (
     <div className='pt-3'>
@@ -29,7 +48,7 @@ const Dashboard = () => {
       </Grid>
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable studiesData={studiesData} />
+        <ClinicalResultsTable studiesData={studiesData} save={handleSaveReport} />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 
-const ClinicalResultsTable = ({ studiesData }) => {
+const ClinicalResultsTable = ({ studiesData, save }) => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [filterText, setFilterText] = useState('');
@@ -25,6 +25,7 @@ const ClinicalResultsTable = ({ studiesData }) => {
   };
 
   const saveReport = (report) => {
+    save(report)
     setSelectedReport(report);
     setIsFormOpen(false);
   };
