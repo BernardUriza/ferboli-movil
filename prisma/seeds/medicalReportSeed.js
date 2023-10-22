@@ -1,23 +1,56 @@
-//For running the seed 
+//npx prisma db push --force-reset   
 //node .\prisma\seeds\medicalReportSeed.js
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { faker } = require('@faker-js/faker');
+const statusOptions = ["Activo", "Enviando", "Pendiente", "No entregado"];
 
-const studiesData = [
-    { name: "Study 1", date: "2023-09-25T08:00:00Z", status: "Activo", patientName: "John Doe", diagnosis: "Some diagnosis for Study 1" },
-    { name: "Study 2", date: "2023-09-24T14:30:00Z", status: "Enviando", patientName: "Alice Smith", diagnosis: "Some diagnosis for Study 2" },
-    { name: "Study 3", date: "2023-09-23T10:15:00Z", status: "Pendiente", patientName: "Bob Johnson", diagnosis: "Some diagnosis for Study 3" },
-    { name: "Study 4", date: "2023-09-22T16:45:00Z", status: "Activo", patientName: "Eve Brown", diagnosis: "Some diagnosis for Study 4" },
-    { name: "Study 5", date: "2023-09-21T09:20:00Z", status: "No entregado", patientName: "Grace Wilson", diagnosis: "Some diagnosis for Study 5" },
-  ];
-  
+// Generar datos aleatorios para pacientes
+const generatePatients = (count) => {
+  const patients = [];
+  const genderOptions = ["Hombre", "Mujer"];
+  const statusPatientOptions = ["Activo", "Archivado"];
+
+  for (let i = 0; i < count; i++) {
+    const patient = {
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      phone: faker.phone.phoneNumber(),
+      information: faker.lorem.sentence(),
+      dateOfBirth: faker.date.past(), // Fecha de nacimiento aleatoria en el pasado
+      gender: faker.random.arrayElement(genderOptions),
+      status: faker.random.arrayElement(statusPatientOptions),
+    };
+
+    patients.push(patient);
+  }
+
+  return patients;
+};
 
 async function main() {
-  await prisma.medicalReport.deleteMany({})
-  for (const studyData of studiesData) {
-    await prisma.medicalReport.create({
-      data: studyData,
+  await prisma.patient.deleteMany();
+  const patientData = generatePatients(5); // Genera 5 pacientes aleatorios
+  for (const patientInfo of patientData) {
+    const patient = await prisma.patient.create({
+      data: patientInfo,
     });
+
+    // Generar informes médicos para cada paciente
+    const numMedicalReports = faker.random.number({ min: 1, max: 5 }); // Genera entre 1 y 5 informes médicos por paciente
+    for (let i = 0; i < numMedicalReports; i++) {
+      await prisma.medicalReport.create({
+        data: {
+          name: `Estudio ${i + 1}`,
+          date: faker.date.past(), // Fecha aleatoria en el pasado
+          status: faker.random.arrayElement(statusOptions),
+          diagnosis: faker.lorem.sentence(),
+          patient: {
+            connect: { id: patient.id }, // Establece la relación con el paciente recién creado
+          },
+        },
+      });
+    }
   }
 }
 

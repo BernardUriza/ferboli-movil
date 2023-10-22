@@ -51,6 +51,18 @@ const ReportForm = ({ report, onClose, onSave }) => {
         </div>
 
         <div className="mb-4">
+          <label>Paciente</label>
+          <TextInput
+            type="text"
+            name="name"
+            value={editedReport.name}
+            onChange={(e) => setEditedReport({ ...editedReport, name: e.target.value })}
+          />
+          <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+            Editar paciente
+          </Button>
+        </div>
+        <div className="mb-4">
           <label>Nombre</label>
           <TextInput
             type="text"
@@ -72,10 +84,15 @@ const ReportForm = ({ report, onClose, onSave }) => {
           </Select>
         </div>
       </form>
+      <div className="flex">
+        <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+          Guardar
+        </Button>
 
-      <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
-        Guardar
-      </Button>
+        <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+          Enviar al cliente
+        </Button>
+      </div>
     </CustomModal>
   );
 };
