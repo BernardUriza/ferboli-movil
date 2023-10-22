@@ -44,9 +44,19 @@ const ReportForm = ({ report, onClose, onSave }) => {
       title={report ? 'Administrar Reporte' : 'Nuevo Reporte'}
       visible={!!report}
       onClose={onClose}
-      widthPercentage="1/2"
+      widthPercentage="80"
       titleClassName="text-blue-500"
       modalClassName="p-8"
+      footerElement={
+        <div className="flex">
+          <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+            Guardar
+          </Button>
+  
+          <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+            Enviar al cliente
+          </Button>
+        </div>}
     >
       <form>
         <div className="flex">
@@ -109,15 +119,6 @@ const ReportForm = ({ report, onClose, onSave }) => {
           </Select>
         </div>
       </form>
-      <div className="flex">
-        <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
-          Guardar
-        </Button>
-
-        <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
-          Enviar al cliente
-        </Button>
-      </div>
     </CustomModal>
       {/* Patient Editor Modal */}
       {isPatientEditorOpen && (
