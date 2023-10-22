@@ -7,7 +7,7 @@ export async function fetchMedicalReports() {
     if (response.ok) {
       const data = await response.json();
       return data.map((report) =>
-        new MedicalReport(report.id, report.name, report.date, report.status)
+        new MedicalReport(report.id, report.name, report.date, report.status, report.diagnosis, report.patient)
       );
     } else {
       throw new Error('Error fetching medical reports');

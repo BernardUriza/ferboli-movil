@@ -4,9 +4,13 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Obtener todos los reportes médicos
+// Obtener todos los reportes médicos con los joins de los pacientes
 export async function getAllMedicalReports() {
-  return prisma.medicalReport.findMany();
+  return prisma.medicalReport.findMany({
+    include: {
+      patient: true,
+    },
+  });
 }
 
 // Crear un nuevo reporte médico

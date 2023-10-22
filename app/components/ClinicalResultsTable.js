@@ -40,6 +40,9 @@ const ClinicalResultsTable = ({ studiesData, save }) => {
       const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
       const formattedDate = new Date(item.date).toLocaleDateString('es-AR', dateOptions).replace(/de /g, '');
       return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
+    }
+    else if (columnKey === 'name') {      
+      return item.patient?.name + " - " + item.name; // Replace spaces with slashes
     } else {
       // Render other columns as usual
       return item[columnKey];
