@@ -12,7 +12,7 @@ const ClinicalResultsTable = ({ studiesData, save }) => {
   const [filterText, setFilterText] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(''); // State for column filtering
-  const itemsPerPage = 4; // Adjust the number of items per page
+  const itemsPerPage = 11; // Adjust the number of items per page
 
   const openForm = (item) => {
     setSelectedReport(item);

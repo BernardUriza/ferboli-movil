@@ -6,6 +6,7 @@ const TableCellButtonIcon = ({ icon, text, onClick }) => {
   return (
     <div className="relative inline-block">
       <button
+        type='button'
         className="bg-white text-dark p-2 rounded-full mx-3"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
