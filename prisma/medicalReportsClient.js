@@ -1,10 +1,8 @@
-// api/medicalReports.js (o donde quieras organizar tus funciones)
-
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Obtener todos los reportes médicos con los joins de los pacientes
+// Obtener todos los reportes médicos con los joins de los pacientes y categorías
 export async function getAllMedicalReports() {
   return prisma.medicalReport.findMany({
     include: {
@@ -17,7 +15,10 @@ export async function getAllMedicalReports() {
 // Crear un nuevo reporte médico
 export async function createMedicalReport(data) {
   return prisma.medicalReport.create({
-    data,
+    data: {
+      ...data,
+      createdAt: new Date() // Agrega la fecha de creación automáticamente
+    },
   });
 }
 
@@ -26,6 +27,10 @@ export async function getMedicalReportById(id) {
   return prisma.medicalReport.findUnique({
     where: {
       id,
+    },
+    include: {
+      patient: true,
+      category: true
     },
   });
 }
@@ -37,6 +42,10 @@ export async function updateMedicalReport(id, data) {
       id,
     },
     data,
+    include: {
+      patient: true,
+      category: true
+    },
   });
 }
 

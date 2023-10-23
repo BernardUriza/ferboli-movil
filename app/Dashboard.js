@@ -6,13 +6,19 @@ import TopStudiesList from './components/TopStudiesList';
 import ClinicalResultsTable from './components/ClinicalResultsTable';
 import { fetchMedicalReports } from './useCases/fetchMedicalReports';
 import { saveMedicalReports } from './useCases/saveMedicalReport';
+import { fetchCategories } from './useCases/fetchCategories';
+import categories from '@/pages/api/categories';
 
 const Dashboard = () => {
   const [studiesData, setStudiesData] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const fecthReports = () => {
     fetchMedicalReports()
       .then((medicalReports) => setStudiesData(medicalReports))
+      .catch((error) => console.error(error.message));
+    fetchCategories()
+      .then((c) => setCategories(c))
       .catch((error) => console.error(error.message));
   }
 
@@ -34,7 +40,7 @@ const Dashboard = () => {
       console.error('Error al guardar el informe médico: ' + error.message);
     });
   };  
-
+debugger
   return (
     <div className='pt-3'>
       <Grid numItems={1} numItemsLg={3} className="gap-2">
@@ -49,7 +55,7 @@ const Dashboard = () => {
       </Grid>
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable studiesData={studiesData} save={handleSaveReport} />
+        <ClinicalResultsTable studiesData={studiesData} categories={categories} save={handleSaveReport} />
       </div>
     </div>
   );

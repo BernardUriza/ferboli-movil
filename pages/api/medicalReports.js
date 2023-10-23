@@ -1,4 +1,4 @@
-import { getAllMedicalReports, createMedicalReport, updateMedicalReport, getMedicalReportById } from '../../prisma/client';
+import { getAllMedicalReports, createMedicalReport, updateMedicalReport, getMedicalReportById } from '../../prisma/medicalReportsClient';
 
 export default async (req, res) => {
   if (req.method === 'GET') {

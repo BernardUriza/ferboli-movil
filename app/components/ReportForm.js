@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
-import { Select, SelectItem } from "@tremor/react";
-import { SearchSelect, SearchSelectItem } from "@tremor/react";
+import { Select, SelectItem } from '@tremor/react';
+import { SearchSelect, SearchSelectItem } from '@tremor/react';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 
-
-const ReportForm = ({ report, onClose, onSave }) => {
+const ReportForm = ({ report, categories, onClose, onSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
@@ -18,6 +17,7 @@ const ReportForm = ({ report, onClose, onSave }) => {
     date: new Date(),
     name: '',
     status: '',
+    category: '', 
   };
 
   const [editedReport, setEditedReport] = useState(initialEditedReport);
@@ -38,7 +38,7 @@ const ReportForm = ({ report, onClose, onSave }) => {
     // After successfully saving, close the patient editor modal
     closePatientEditor();
   };
-
+  
   return (
     <>
       <CustomModal
@@ -50,14 +50,15 @@ const ReportForm = ({ report, onClose, onSave }) => {
         modalClassName="p-8"
         footerElement={
           <div className="flex">
-            <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+            <Button type="primary" className="ml-auto" onClose={onClose} onClick={() => onSave(editedReport)}>
               Guardar
             </Button>
 
-            <Button type="primary" className='ml-auto' onClose={onClose} onClick={() => onSave(editedReport)}>
+            <Button type="primary" className="ml-auto" onClose={onClose} onClick={() => onSave(editedReport)}>
               Enviar al cliente
             </Button>
-          </div>}
+          </div>
+        }
       >
         <form>
           <div className="flex">
@@ -79,6 +80,7 @@ const ReportForm = ({ report, onClose, onSave }) => {
                 <DatePicker
                   name="date"
                   value={new Date(editedReport.date)}
+                  enableClear={false}
                   onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
                 />
               </div>
@@ -102,7 +104,7 @@ const ReportForm = ({ report, onClose, onSave }) => {
 
           <div className="mb-4">
             <label>Paciente</label>
-            <div className='flex'>
+            <div className="flex">
               <TextInput
                 type="text"
                 name="name"
@@ -119,9 +121,11 @@ const ReportForm = ({ report, onClose, onSave }) => {
               value={editedReport.category}
               onValueChange={(value) => setEditedReport({ ...editedReport, category: value })}
             >
-              <SearchSelectItem value="Hematología">Hematología</SearchSelectItem>
-              <SearchSelectItem value="Química sanguínea">Química sanguínea</SearchSelectItem>
-              {/* Agrega más categorías aquí */}
+              {categories.map((category) => (
+                <SearchSelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SearchSelectItem>
+              ))}
             </SearchSelect>
           </div>
           <div className="mb-4">
