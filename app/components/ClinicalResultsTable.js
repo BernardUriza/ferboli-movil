@@ -42,7 +42,7 @@ const ClinicalResultsTable = ({ studiesData, save }) => {
       return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
     }
     else if (columnKey === 'name') {      
-      return item.patient?.name + " - " + item.name; // Replace spaces with slashes
+      return item.patient?.name + " - " + item.category?.name; // Replace spaces with slashes
     } else {
       // Render other columns as usual
       return item[columnKey];

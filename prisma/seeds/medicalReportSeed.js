@@ -4,6 +4,38 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { faker } = require('@faker-js/faker');
 const statusOptions = ["Activo", "Enviando", "Pendiente", "No entregado"];
+const categoriesSeed = [
+  { "name": "Hematología" },
+  { "name": "Química sanguínea" },
+  { "name": "Microbiología" },
+  { "name": "Inmunología" },
+  { "name": "Parasitología" },
+  { "name": "Uroanálisis" },
+  { "name": "Endocrinología" },
+  { "name": "Genética" },
+  { "name": "Toxicología" },
+  { "name": "Virología" },
+  { "name": "Inmunohematología" },
+  { "name": "Serología" },
+  { "name": "Bioquímica clínica" },
+  { "name": "Análisis de orina" },
+  { "name": "Cultivo de tejidos" },
+  { "name": "Citología" },
+  { "name": "Histopatología" },
+  { "name": "Neurofisiología" },
+  { "name": "Electrofisiología" },
+  { "name": "Radiología" },
+  { "name": "Resonancia magnética" },
+  { "name": "Tomografía computarizada" },
+  { "name": "Ecografía" },
+  { "name": "Doppler" },
+  { "name": "Electrocardiografía" },
+  { "name": "Holter" },
+  { "name": "Espirometría" },
+  { "name": "Electroencefalografía" },
+  { "name": "Colonoscopía" },
+  { "name": "Endoscopía" }
+];
 
 // Generar datos aleatorios para pacientes
 const generatePatients = (count) => {
@@ -28,29 +60,60 @@ const generatePatients = (count) => {
   return patients;
 };
 
+// Generar datos aleatorios para informes médicos
+const generateMedicalReports = (count, patients, categories) => {
+  const medicalReports = [];
+
+  for (let i = 0; i < count; i++) {
+    const patient = faker.random.arrayElement(patients);
+    const category = faker.random.arrayElement(categories);
+
+    const medicalReport = {
+      name: faker.lorem.words(2),
+      date: faker.date.past(),
+      status: faker.random.arrayElement(statusOptions),
+      diagnosis: faker.lorem.sentence(),
+      patient: {
+        connect: { id: patient.id },
+      },
+      category: {
+        connect: { id: category.id },
+      },
+    };
+
+    medicalReports.push(medicalReport);
+  }
+
+  return medicalReports;
+};
+
+
+
 async function main() {
   await prisma.patient.deleteMany();
+  await prisma.category.deleteMany();
+
   const patientData = generatePatients(5); // Genera 5 pacientes aleatorios
   for (const patientInfo of patientData) {
     const patient = await prisma.patient.create({
       data: patientInfo,
     });
+  }
 
-    // Generar informes médicos para cada paciente
-    const numMedicalReports = faker.random.number({ min: 1, max: 5 }); // Genera entre 1 y 5 informes médicos por paciente
-    for (let i = 0; i < numMedicalReports; i++) {
-      await prisma.medicalReport.create({
-        data: {
-          name: `Estudio ${i + 1}`,
-          date: faker.date.past(), // Fecha aleatoria en el pasado
-          status: faker.random.arrayElement(statusOptions),
-          diagnosis: faker.lorem.sentence(),
-          patient: {
-            connect: { id: patient.id }, // Establece la relación con el paciente recién creado
-          },
-        },
-      });
-    }
+  for (const categoryInfo of categoriesSeed) { // Cambio de 'categories' a 'categoriesSeed'
+    await prisma.category.create({
+      data: categoryInfo,
+    });
+  }
+
+  const patients = await prisma.patient.findMany();
+  const categories = await prisma.category.findMany();
+
+  const medicalReportsData = generateMedicalReports(20, patients, categories); // Genera 20 informes médicos aleatorios
+  for (const reportInfo of medicalReportsData) {
+    await prisma.medicalReport.create({
+      data: reportInfo,
+    });
   }
 }
 

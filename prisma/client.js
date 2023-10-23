@@ -9,6 +9,7 @@ export async function getAllMedicalReports() {
   return prisma.medicalReport.findMany({
     include: {
       patient: true,
+      category: true
     },
   });
 }
