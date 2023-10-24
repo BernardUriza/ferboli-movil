@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
 import { Select, SelectItem } from "@tremor/react";
+import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 
 const PatientForm = ({ patient, onClose, onSave }) => {
     // Set initial state based on whether patient is null
@@ -40,17 +41,17 @@ const PatientForm = ({ patient, onClose, onSave }) => {
                                 onChange={(e) => setEditedPatient({ ...editedPatient, id: e.target.value })}
                             />
                         </div>
+                    </div>
 
-                        <div className="mb-4">
-                            <label>Status</label>
-                            <Select
-                                value={editedPatient.status}
-                                onValueChange={(value) => setEditedPatient({ ...editedPatient, status: value })}
-                            >
-                                <SelectItem value="Activo">Activo</SelectItem>
-                                <SelectItem value="Archivado">Archivado</SelectItem>
-                            </Select>
-                        </div>
+                    <div className="w-1/2 mb-4">
+                        <label>Status</label>
+                        <Select
+                            value={editedPatient.status}
+                            onValueChange={(value) => setEditedPatient({ ...editedPatient, status: value })}
+                        >
+                            <SelectItem value="Activo" icon={CheckCircleIcon}>Activo</SelectItem>
+                            <SelectItem value="Archivado" icon={BanIcon}>Archivado</SelectItem>
+                        </Select>
                     </div>
                 </div>
                 <div className="mb-4">

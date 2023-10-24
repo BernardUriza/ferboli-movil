@@ -6,8 +6,8 @@ import TopStudiesList from './components/TopStudiesList';
 import ClinicalResultsTable from './components/ClinicalResultsTable';
 import { fetchMedicalReports } from './useCases/fetchMedicalReports';
 import { saveMedicalReports } from './useCases/saveMedicalReport';
+import { savePatient } from './useCases/savePatient';
 import { fetchCategories } from './useCases/fetchCategories';
-import categories from '@/pages/api/categories';
 
 const Dashboard = () => {
   const [studiesData, setStudiesData] = useState([]);
@@ -41,6 +41,24 @@ const Dashboard = () => {
     });
   };  
 
+  const handleSavePatient = (editedPatient) => {
+    savePatient(editedPatient)
+      .then((result) => {
+        if (result.success) {
+          // Patient data saved successfully, you can perform additional actions if needed
+          console.log('Patient data saved successfully in dashboard.');
+          fetchReports(); // Refresh the list of medical reports
+        } else {
+          // Error while saving, you can display an error message
+          console.error('Error while saving patient data in the API.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error while saving patient data: ' + error.message);
+      });
+  };
+  
+
   return (
     <div className='pt-3'>
       <Grid numItems={1} numItemsLg={3} className="gap-2">
@@ -55,7 +73,7 @@ const Dashboard = () => {
       </Grid>
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable studiesData={studiesData} categories={categories} save={handleSaveReport} />
+        <ClinicalResultsTable studiesData={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient}/>
       </div>
     </div>
   );

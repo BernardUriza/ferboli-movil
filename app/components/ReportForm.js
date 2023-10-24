@@ -6,8 +6,9 @@ import { SearchSelect, SearchSelectItem } from '@tremor/react';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
+import StatusSelect from '../controls/StatusSelect';
 
-const ReportForm = ({ report, categories, onClose, onSave, onSend }) => {
+const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
@@ -33,7 +34,7 @@ const ReportForm = ({ report, categories, onClose, onSave, onSend }) => {
 
   const handlePatientSave = (editedPatientData) => {
     // Send a request to update the patient data on the server
-    // You can use fetch or another HTTP client library here
+    onSavePatient(editedPatientData);
 
     // After successfully saving, close the patient editor modal
     closePatientEditor();
@@ -89,17 +90,13 @@ const ReportForm = ({ report, categories, onClose, onSave, onSend }) => {
             <div className="flex-1">
               <div className="mb-4">
                 <label>Status</label>
-                <Select
+                <StatusSelect
                   value={editedReport.status}
                   onValueChange={(value) => setEditedReport({ ...editedReport, status: value })}
-                >
-                  <SelectItem value="Pendiente">Pendiente</SelectItem>
-                  <SelectItem value="Enviando">Enviando</SelectItem>
-                  <SelectItem value="No entregado">No entregado</SelectItem>
-                  <SelectItem value="Activo">Activo</SelectItem>
-                </Select>
+                />
               </div>
             </div>
+
           </div>
 
           <div className="mb-4">

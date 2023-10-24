@@ -6,7 +6,7 @@ import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 
-const ClinicalResultsTable = ({ studiesData, categories, save }) => {
+const ClinicalResultsTable = ({ studiesData, categories, save, savePatient }) => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [filterText, setFilterText] = useState('');
@@ -86,7 +86,7 @@ const ClinicalResultsTable = ({ studiesData, categories, save }) => {
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(studiesData.length / itemsPerPage)}
       />
-      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSave={saveReport} />}
+      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSave={saveReport} onSavePatient={savePatient} />}
     </Card>
   );
 };
