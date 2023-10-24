@@ -1,35 +1,46 @@
-import React from 'react';
+// Users.js
+import React, {useState, useEffect} from 'react';
+import PatientsTable from './components/PatientsTable';
+import { fetchPatients } from './useCases/fetchPatients';
+import { savePatient } from './useCases/savePatient';
 
-const Dashboard = () => {
+const Users = () => {
+  const [patients, setPatients] = useState([]);
+
+  const fecthPatients = () => {
+    fetchPatients()
+      .then((patients) => setPatients(patients))
+      .catch((error) => console.error(error.message));
+  }
+
+  useEffect(fecthPatients, []);  
+
+  const handleSave = (editedPatient) => {
+    savePatient(editedPatient)
+      .then((result) => {
+        if (result.success) {
+          // Patient data saved successfully, you can perform additional actions if needed
+          console.log('Patient data saved successfully in dashboard.');
+          fetchReports(); // Refresh the list of medical reports
+        } else {
+          // Error while saving, you can display an error message
+          console.error('Error while saving patient data in the API.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error while saving patient data: ' + error.message);
+      });
+  };
+  
+
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <div className="row">
-        <div className="column">
-          <div className="indicator">
-            <h3>Number of Clients</h3>
-            <p>100</p>
-          </div>
-        </div>
-        <div className="column">
-          <div className="indicator">
-            <h3>Email Results Sent</h3>
-            <p>50</p>
-          </div>
-        </div>
+    <div className='pt-3'>
+      {/* Table of Clinical Results */}
+      <div className='pt-3'>
+        <PatientsTable patients={patients} save={handleSave}/>
       </div>
-      <h3>Top 5 Studies</h3>
-      <ul>
-        <li>Study 1</li>
-        <li>Study 2</li>
-        <li>Study 3</li>
-        <li>Study 4</li>
-        <li>Study 5</li>
-      </ul>
-      <h3>Clinic Results Details</h3>
-      {/* Add the table with columns ID, Date, Name, Status, and Actions here */}
     </div>
   );
 };
 
-export default Dashboard;
+export default Users;
