@@ -73,7 +73,7 @@ const Dashboard = () => {
       </Grid>
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable studiesData={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient}/>
+        <ClinicalResultsTable reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={fecthReports}/>
       </div>
     </div>
   );

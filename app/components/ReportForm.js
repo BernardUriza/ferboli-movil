@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
-import { Select, SelectItem } from '@tremor/react';
 import { SearchSelect, SearchSelectItem } from '@tremor/react';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
@@ -12,16 +11,24 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
-  // Set initial state based on whether report is null
-  const initialEditedReport = report || {
+  useEffect(() => {
+    setEditedReport(report || {
+      id: '',
+      date: new Date(),
+      name: '',
+      status: '',
+      category: '',
+    });
+  }, [report]);
+
+  // Initialize the editedReport state with the report prop
+  const [editedReport, setEditedReport] = useState(report || {
     id: '',
     date: new Date(),
     name: '',
     status: '',
     category: '',
-  };
-
-  const [editedReport, setEditedReport] = useState(initialEditedReport);
+  });
 
   const editPatient = (patient) => {
     setSelectedPatient(patient);

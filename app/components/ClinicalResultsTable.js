@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Title, Badge } from "@tremor/react";
 import ReportForm from './ReportForm';
 import FilterControls from '../controls/FilterControls';
@@ -6,13 +6,18 @@ import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 
-const ClinicalResultsTable = ({ studiesData, categories, save, savePatient }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh }) => {
   const [selectedReport, setSelectedReport] = useState(null);
+  const [studiesData, setStudiesData] = useState(reports);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(''); // State for column filtering
   const itemsPerPage = 11; // Adjust the number of items per page
+
+  useEffect(() => {
+    setStudiesData(reports);
+  }, [reports]);
 
   const openForm = (item) => {
     setSelectedReport(item);
@@ -24,6 +29,21 @@ const ClinicalResultsTable = ({ studiesData, categories, save, savePatient }) =>
     setIsFormOpen(false);
   };
 
+  const handleSavePatient = (patient) => {
+    // Update the patient information in the selected report
+    if (selectedReport) {
+      setSelectedReport({
+        ...selectedReport,
+        patient: patient, // Update the patient property
+      });
+    }
+  
+    // Call the savePatient function to save the patient information
+    savePatient(patient);
+    refresh();
+  };
+  
+  
   const saveReport = (report) => {
     save(report)
     setSelectedReport(report);
@@ -86,7 +106,7 @@ const ClinicalResultsTable = ({ studiesData, categories, save, savePatient }) =>
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(studiesData.length / itemsPerPage)}
       />
-      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSave={saveReport} onSavePatient={savePatient} />}
+      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSave={saveReport} onSavePatient={handleSavePatient} />}
     </Card>
   );
 };
