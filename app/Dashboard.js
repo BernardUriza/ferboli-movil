@@ -68,7 +68,7 @@ const Dashboard = () => {
         </Col>
         <Col numColSpan={1} numColSpanLg={2}>
           {/* List of Top Studies */}
-          <TopStudiesList studiesData={studiesData} />
+          <TopStudiesList studiesData={studiesData} categories={categories}/>
         </Col>
       </Grid>
       {/* Table of Clinical Results */}

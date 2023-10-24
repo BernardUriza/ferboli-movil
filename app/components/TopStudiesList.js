@@ -1,18 +1,41 @@
 import React from 'react';
 import { Card, Title, BarList, Bold, Flex, Text } from "@tremor/react";
 
-const TopStudiesList = ({ studiesData }) => {
-  const topStudies = studiesData.slice(0, 5);
+const TopStudiesList = ({ studiesData, categories }) => {
+  debugger
+  // Create a mapping of category IDs to names
+  const categoryMap = categories.reduce((map, category) => {
+    map[category.id] = category.name;
+    return map;
+  }, {});
+
+  // Group studies by categories and count the number of reports per category
+  const categoryCounts = studiesData.reduce((categoryCount, study) => {
+    const { category } = study;
+    const categoryName = categoryMap[category.id];
+    categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
+    return categoryCount;
+  }, {});
+
+  // Sort categories by the number of reports (descending order)
+  const sortedCategories = Object.entries(categoryCounts).sort(
+    (a, b) => b[1] - a[1]
+  );
+
+  // Select the top five categories
+  const topCategories = sortedCategories.slice(0, 5);
+
   return (
     <Card className="">
-      <Title style={{  fontSize: "14px", fontWeight: 400, lineHeight: "20px", letterSpacing: "0em", textAlign: "left", }}>Top 5 de estudios</Title>
+      <Title style={{ fontSize: "14px", fontWeight: 400, lineHeight: "20px", letterSpacing: "0em", textAlign: "left" }}>
+        Top 5 de categorías
+      </Title>
       <BarList
-        data={topStudies.map((study) => ({
-          value: study.percent,
-          name: study.name,
+        data={topCategories.map(([category, count]) => ({
+          value: count,
+          name: category,
         }))}
-        color="emerald"
-        valueFormatter={(value) => `${value}%`}
+        valueFormatter={(value) => `${value} reportes`}
       />
     </Card>
   );
