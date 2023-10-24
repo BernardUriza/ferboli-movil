@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline';
 import { Button } from "@tremor/react";
 
@@ -7,6 +7,11 @@ const Pagination = ({
   setPageNumber,
   totalPageCount,
 }) => {
+  useEffect(() => {
+    // This code will run whenever pageNumber or totalPageCount changes
+    // You can add any logic here if needed
+  }, [pageNumber, totalPageCount]);
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPageCount; i++) {
@@ -29,7 +34,7 @@ const Pagination = ({
     <div className="flex justify-between border-t border-solid border-t-1 border-t-gray-300 p-3">
       <Button
         onClick={() => setPageNumber(Math.max(pageNumber - 1, 1))}
-        disabled={pageNumber === 1}
+        disabled={totalPageCount+"" === "1" || (pageNumber === 1)}
         className="ml-2"
         variant="secondary"
         color='gray'
@@ -45,7 +50,7 @@ const Pagination = ({
       </div>
       <Button
         onClick={() => setPageNumber(Math.min(pageNumber + 1, totalPageCount))}
-        disabled={pageNumber === totalPageCount}
+        disabled={totalPageCount+"" === "1" || (pageNumber === totalPageCount)}
         className="mr-2"
         variant="secondary"
         color='gray'

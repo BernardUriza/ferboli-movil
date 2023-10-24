@@ -13,6 +13,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
   const [filterText, setFilterText] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(''); // State for column filtering
+  const [lengthFiltered, setLengthFiltered] = useState(reports.length);
   const itemsPerPage = 11; // Adjust the number of items per page
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
       <div className="md:flex justify-between items-center p-4">
         <Title className='my-2'>Lista de Resultados Clínicos
           <Badge className='mx-3' color="green" size="sm">
-            {studiesData.length} reportes
+            {lengthFiltered} reportes
           </Badge>
         </Title>
         <FilterControls
@@ -100,11 +101,12 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
         pageNumber={pageNumber}
         openForm={openForm}
         renderCell={renderCell}
+        onFiltered={(e)=>{setLengthFiltered(e)}}
       />
       <Pagination
         pageNumber={pageNumber}
         setPageNumber={setPageNumber}
-        totalPageCount={Math.ceil(studiesData.length / itemsPerPage)}
+        totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
       {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSave={saveReport} onSavePatient={handleSavePatient} />}
     </Card>

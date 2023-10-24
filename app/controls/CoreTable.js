@@ -13,6 +13,7 @@ const CoreTable = ({
   pageNumber,
   renderCell,
   openForm,
+  onFiltered
 }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [sortedColumn, setSortedColumn] = useState(null);
@@ -74,6 +75,8 @@ const CoreTable = ({
     // Deselect all when pagination or filters change
     //setItemsSelected([]);
     //setSelectAll(false);
+    
+    onFiltered(filteredDataWithColumnFilter.length)
   }, [pageNumber, itemsPerPage, sortedData, filterText, selectedFilter]);
 
   const handleSortColumn = (column) => {
@@ -117,7 +120,6 @@ const CoreTable = ({
       setItemsSelected([]);
     }
   }, [selectAll]);
-
 
   return (
     <Table>
