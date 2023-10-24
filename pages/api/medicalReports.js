@@ -11,7 +11,7 @@ export default async (req, res) => {
     }
   } else if (req.method === 'POST') {
     try {
-      const { id, name, date, status } = req.body;
+      const { id, name, date, status, category } = req.body;
 
       // Validación de los campos
       if (!id || !name || !date || !status) {
@@ -25,16 +25,22 @@ export default async (req, res) => {
 
       if (existingReport) {
         // Si el informe existe, actualízalo
-        const updatedReport = await updateMedicalReport(id, { name, date, status });
+        const updatedReport = await updateMedicalReport(id, {
+          name,
+          date,
+          status,
+          categoryId: category.id // categoryId en lugar del objeto completo category
+        });
         res.status(200).json(updatedReport);
       } else {
         // Si el informe no existe, créalo como un nuevo informe
-        const newReport = await createMedicalReport({ id, name, date, status });
+        const newReport = await createMedicalReport({ id, name, date, status, categoryId: category.id }); // categoryId en lugar del objeto completo category
         res.status(201).json(newReport);
       }
+
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error saving medical report '+error });
+      res.status(500).json({ error: 'Error saving medical report ' + error });
     }
   } else {
     res.status(405).json({ error: 'Método no permitido' });

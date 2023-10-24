@@ -40,7 +40,7 @@ const Dashboard = () => {
       console.error('Error al guardar el informe médico: ' + error.message);
     });
   };  
-  
+
   return (
     <div className='pt-3'>
       <Grid numItems={1} numItemsLg={3} className="gap-2">

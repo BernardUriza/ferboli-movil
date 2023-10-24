@@ -7,7 +7,7 @@ import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 
-const ReportForm = ({ report, categories, onClose, onSave }) => {
+const ReportForm = ({ report, categories, onClose, onSave, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
@@ -54,7 +54,7 @@ const ReportForm = ({ report, categories, onClose, onSave }) => {
               Guardar
             </Button>
 
-            <Button type="primary" className="ml-auto" onClose={onClose} onClick={() => onSave(editedReport)}>
+            <Button type="primary" className="ml-auto" onClose={onClose} onClick={() => onSend(editedReport)}>
               Enviar al cliente
             </Button>
           </div>
