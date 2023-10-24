@@ -17,7 +17,7 @@ const ReportForm = ({ report, categories, onClose, onSave }) => {
     date: new Date(),
     name: '',
     status: '',
-    category: '', 
+    category: '',
   };
 
   const [editedReport, setEditedReport] = useState(initialEditedReport);
@@ -38,7 +38,7 @@ const ReportForm = ({ report, categories, onClose, onSave }) => {
     // After successfully saving, close the patient editor modal
     closePatientEditor();
   };
-  
+
   return (
     <>
       <CustomModal
@@ -118,8 +118,16 @@ const ReportForm = ({ report, categories, onClose, onSave }) => {
           <div className="mb-4">
             <label>Categoria</label>
             <SearchSelect
-              value={editedReport.category}
-              onValueChange={(value) => setEditedReport({ ...editedReport, category: value })}
+              value={editedReport.category.id} // Debe ser el ID de la categoría, no el nombre
+              onValueChange={(value) => {
+                // Busca la categoría con el ID coincidente
+                const selectedCategory = categories.find((category) => category.id === value);
+
+                if (selectedCategory) {
+                  // Actualiza el objeto de categoría en editedReport
+                  setEditedReport({ ...editedReport, category: selectedCategory });
+                }
+              }}
             >
               {categories.map((category) => (
                 <SearchSelectItem key={category.id} value={category.id}>
