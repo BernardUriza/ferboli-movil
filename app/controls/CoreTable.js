@@ -20,15 +20,39 @@ const CoreTable = ({
   const [itemsSelected, setItemsSelected] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(filterText.toLowerCase())
-  );
+  const filteredData = data.filter((item) => {
+    const textToSearch = Object.values(item)
+      .flatMap((value) => {
+        if (typeof value === 'object') {
+          // If the value is an object, extract its properties
+          return Object.values(value);
+        } else {
+          return [value];
+        }
+      })
+      .join(' ')
+      .toLowerCase();
+  
+    return textToSearch.includes(filterText.toLowerCase());
+  });
+  
 
   const filteredDataWithColumnFilter = selectedFilter
-    ? filteredData.filter((item) =>
-      item[selectedFilter] && (item[selectedFilter] + '').toLowerCase().includes(filterText.toLowerCase())
-    )
-    : filteredData;
+  ? filteredData.filter((item) => {
+      const filterParts = selectedFilter.split('.');
+      let value = item;
+      for (const part of filterParts) {
+        if (value && value.hasOwnProperty(part)) {
+          value = value[part];
+        } else {
+          // Handle the case where the property doesn't exist
+          value = null;
+          break;
+        }
+      }
+      return value && (value + '').toLowerCase().includes(filterText.toLowerCase());
+    })
+  : filteredData;
 
   const sortedData = sortedColumn
     ? [...filteredDataWithColumnFilter].sort((a, b) => {

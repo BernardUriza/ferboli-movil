@@ -24,7 +24,7 @@ const FilterControls = ({
           <SelectItem value="date" icon={FilterIcon}>
             Fecha
           </SelectItem>
-          <SelectItem value="name" icon={FilterIcon}>
+          <SelectItem value="patient.name" icon={FilterIcon}>
             Nombre
           </SelectItem>
           <SelectItem value="status" icon={FilterIcon}>
@@ -34,7 +34,7 @@ const FilterControls = ({
       </div>
       <TextInputWithIcon
         value={filterText}
-        onChange={(e) => setFilterText(e.target.value)}
+        onChange={(e) => setFilterText(e)}
       />
       <TableCellButtonIcon onClick={() => setIsFormOpen(true)} icon={<PlusIcon className="w-6 h-6" />} />
     </div>
