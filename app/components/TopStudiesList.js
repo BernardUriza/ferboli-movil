@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Title, BarList, Bold, Flex, Text } from "@tremor/react";
 
 const TopStudiesList = ({ studiesData, categories }) => {
-  debugger
   // Create a mapping of category IDs to names
   const categoryMap = categories.reduce((map, category) => {
     map[category.id] = category.name;

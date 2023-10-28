@@ -18,6 +18,10 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
       name: '',
       status: '',
       category: '',
+      patient: {
+        name: '',
+        email: ''
+      }
     });
   }, [report]);
 
@@ -28,6 +32,10 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
     name: '',
     status: '',
     category: '',
+    patient: {
+      name: '',
+      email: ''
+    }
   });
 
   const editPatient = (patient) => {
@@ -51,7 +59,7 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
     <>
       <CustomModal
         title={report ? 'Administrar Reporte' : 'Nuevo Reporte'}
-        visible={!!report}
+        visible={true}
         onClose={onClose}
         widthPercentage="80"
         titleClassName="text-blue-500"

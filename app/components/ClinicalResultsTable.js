@@ -47,7 +47,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
   
   const saveReport = (report) => {
     save(report)
-    setSelectedReport(report);
+    setSelectedReport(null);
     setIsFormOpen(false);
   };
 
@@ -81,7 +81,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
       <div className="md:flex justify-between items-center p-4">
         <Title className='my-2'>Lista de Resultados Clínicos
           <Badge className='mx-3' color="green" size="sm">
-            {lengthFiltered} reportes
+            {lengthFiltered} reportes {isFormOpen?"sii":"noo"}
           </Badge>
         </Title>
         <FilterControls
