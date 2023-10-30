@@ -14,13 +14,12 @@ model MedicalReport {
   id         Int       @id @default(autoincrement())
   name String
   patientId Int
-  categoryId Int
   status  String
   diagnosis  String
   date  DateTime
   createdAt  DateTime  @default(now())
   patient    Patient   @relation(fields: [patientId], references: [id])
-  category    Category?  @relation(fields: [categoryId], references: [id]) 
+  studies Study[]
   // Otros campos relevantes para tu informe médico
 }
 
@@ -40,5 +39,15 @@ model Patient {
 model Category {
   id           Int       @id @default(autoincrement())
   name         String
-  medicalReports MedicalReport[]
+  studies Study[]
+}
+
+model Study {
+  id         Int       @id @default(autoincrement())
+  categoryId Int
+  medicalReportId Int
+  createdAt  DateTime  @default(now())
+  category    Category?  @relation(fields: [categoryId], references: [id]) 
+  medicalReport    MedicalReport?  @relation(fields: [medicalReportId], references: [id]) 
+  // Otros campos relevantes para tu estudio
 }

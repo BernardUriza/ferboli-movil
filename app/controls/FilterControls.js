@@ -27,6 +27,9 @@ const FilterControls = ({
           <SelectItem value="patient.name" icon={FilterIcon}>
             Nombre del paciente
           </SelectItem>
+          <SelectItem value="patient.email" icon={FilterIcon}>
+            Email del paciente
+          </SelectItem>
           <SelectItem value="category.name" icon={FilterIcon}>
             Categoría
           </SelectItem>

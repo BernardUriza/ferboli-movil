@@ -2,13 +2,16 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Obtener todos los reportes médicos con los joins de los pacientes y categorías
 export async function getAllMedicalReports() {
   return prisma.medicalReport.findMany({
     include: {
       patient: true,
-      category: true
-    },
+      studies: {
+        include: {
+          category: true
+        }
+      }
+    }
   });
 }
 
@@ -30,7 +33,7 @@ export async function getMedicalReportById(id) {
     },
     include: {
       patient: true,
-      category: true
+      studies: true
     },
   });
 }
@@ -44,7 +47,7 @@ export async function updateMedicalReport(id, data) {
     data,
     include: {
       patient: true,
-      category: true
+      studies: true
     },
   });
 }

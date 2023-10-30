@@ -66,7 +66,9 @@ const generateMedicalReports = (count, patients, categories) => {
 
   for (let i = 0; i < count; i++) {
     const patient = faker.random.arrayElement(patients);
-    const category = faker.random.arrayElement(categories);
+
+    // Define the studies for each medical report
+    const studies = generateStudies(categories); // Implement the generateStudies function
 
     const medicalReport = {
       name: faker.lorem.words(2),
@@ -76,8 +78,8 @@ const generateMedicalReports = (count, patients, categories) => {
       patient: {
         connect: { id: patient.id },
       },
-      category: {
-        connect: { id: category.id },
+      studies: {
+        create: studies,
       },
     };
 
@@ -87,7 +89,27 @@ const generateMedicalReports = (count, patients, categories) => {
   return medicalReports;
 };
 
+// Generate random studies for each medical report
+const generateStudies = (categories) => {
+  const numStudies = faker.datatype.number({ min: 1, max: 5 }); // Random number of studies (1 to 5)
+  const studies = [];
 
+  for (let i = 0; i < numStudies; i++) {
+    const category = faker.random.arrayElement(categories);
+    const study = {
+      // Define study properties (e.g., name, result, date, etc.)
+      // You can use faker to generate random values for the study properties
+      category: {
+        connect: { id: category.id },
+      },
+      createdAt: faker.date.past(),
+    };
+
+    studies.push(study);
+  }
+
+  return studies;
+};
 
 async function main() {
   await prisma.patient.deleteMany();

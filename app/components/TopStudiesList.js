@@ -1,18 +1,19 @@
 import React from 'react';
-import { Card, Title, BarList, Bold, Flex, Text } from "@tremor/react";
+import { Card, Title, BarList } from "@tremor/react";
 
-const TopStudiesList = ({ studiesData, categories }) => {
+const TopStudiesList = ({ medicalReports }) => {
   // Create a mapping of category IDs to names
-  const categoryMap = categories.reduce((map, category) => {
-    map[category.id] = category.name;
-    return map;
-  }, {});
+  const categoryMap = {};
 
   // Group studies by categories and count the number of reports per category
-  const categoryCounts = studiesData.reduce((categoryCount, study) => {
-    const { category } = study;
-    const categoryName = categoryMap[category.id];
-    categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
+  const categoryCounts = medicalReports.reduce((categoryCount, report) => {
+    // Iterate through studies within each medical report
+    report.studies.forEach((study) => {
+      const { category } = study;
+      const categoryName = category.name;
+      categoryMap[category.id] = categoryName;
+      categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
+    });
     return categoryCount;
   }, {});
 
