@@ -6,6 +6,7 @@ import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 import StatusSelect from '../controls/StatusSelect';
+import StudieCard from '../controls/StudieCard'; // Import StudieCard component
 
 const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
@@ -17,7 +18,6 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
       date: new Date(),
       name: '',
       status: '',
-      category: '',
       patient: {
         name: '',
         email: ''
@@ -25,13 +25,11 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
     });
   }, [report]);
 
-  // Initialize the editedReport state with the report prop
   const [editedReport, setEditedReport] = useState(report || {
     id: '',
     date: new Date(),
     name: '',
     status: '',
-    category: '',
     patient: {
       name: '',
       email: ''
@@ -48,10 +46,7 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
   };
 
   const handlePatientSave = (editedPatientData) => {
-    // Send a request to update the patient data on the server
     onSavePatient(editedPatientData);
-
-    // After successfully saving, close the patient editor modal
     closePatientEditor();
   };
 
@@ -111,7 +106,6 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
                 />
               </div>
             </div>
-
           </div>
 
           <div className="mb-4">
@@ -127,44 +121,28 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
               <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
             </div>
           </div>
+          {/* Contenedor para tarjetas de estudios */}
           <div className="mb-4">
-            <label>Categoria</label>
-            <SearchSelect
-              value={editedReport.category.id} // Debe ser el ID de la categoría, no el nombre
-              onValueChange={(value) => {
-                // Busca la categoría con el ID coincidente
-                const selectedCategory = categories.find((category) => category.id === value);
-
-                if (selectedCategory) {
-                  // Actualiza el objeto de categoría en editedReport
-                  setEditedReport({ ...editedReport, category: selectedCategory });
-                }
-              }}
-            >
-              {categories.map((category) => (
-                <SearchSelectItem key={category.id} value={category.id}>
-                  {category.name}
-                </SearchSelectItem>
+            <label>Estudios</label>
+            <div className="max-h-[20vh] flex flex-wrap">
+              {editedReport.studies.map((study) => (
+                <div className="max-w-[200px] p-2" key={study.id}>
+                  <StudieCard
+                    category={study.category.name}
+                    dateCreated={study.createdAt}
+                    fileLink={study.fileLink}
+                  />
+                </div>
               ))}
-            </SearchSelect>
-          </div>
-          <div className="mb-4">
-            <label>Estudio</label>
-            <TextInput
-              type="text"
-              name="name"
-              value={editedReport.name}
-              onChange={(e) => setEditedReport({ ...editedReport, name: e.target.value })}
-            />
+            </div>
           </div>
         </form>
       </CustomModal>
-      {/* Patient Editor Modal */}
       {isPatientEditorOpen && (
         <PatientForm
           patient={selectedPatient}
           onClose={closePatientEditor}
-          onSave={handlePatientSave} // Implement this function
+          onSave={handlePatientSave}
         />
       )}
     </>
