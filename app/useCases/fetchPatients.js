@@ -1,5 +1,5 @@
 // useCases/fetchPatients.js
-import Category from '../entities/Category';
+import Patient from '../entities/Patient';
 
 export async function fetchPatients() {
     try {
