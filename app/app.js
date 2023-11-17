@@ -98,11 +98,6 @@ const Menu = ({ user, isLoading }) => {
           )}
         </div>
       </div>
-      {user ? (
-        <Tabs />
-      ) : (
-        <NotFound />
-      )}
     </div>
   );
 };
@@ -123,14 +118,6 @@ const App = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
 
-
-  useEffect(() => {
-
-    if (user) { }
-    else {
-      router.push("/api/auth/login")
-    }
-  }, [user])
 
 
   if (user)

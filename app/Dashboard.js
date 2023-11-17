@@ -70,7 +70,11 @@ const Dashboard = () => {
           {/* List of Top Studies */}
           <TopStudiesList medicalReports={studiesData} categories={categories}/>
         </Col>
-      </Grid>
+      </Grid> 
+      {/* Table of Clinical Results */}
+      <div className='pt-3'>
+        <ClinicalResultsTable reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={fecthReports}/>
+      </div>
     </div>
   );
 };
