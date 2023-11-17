@@ -50,10 +50,8 @@ const Tabs = () => {
       </TabList>
       <TabPanels className="content">
         <TabPanel when="dashboard">
-          <Dashboard />
         </TabPanel>
         <TabPanel when="users">
-          <Users />
         </TabPanel>
         <TabPanel when="results">
           <Results />
@@ -93,6 +91,13 @@ const Menu = ({ user }) => {
           )}
         </div>
       </div>
+      
+      {user ? (
+        <Tabs />
+      ) : (
+        <NotFound />
+      )}
+
     </div>
   );
 };
