@@ -64,14 +64,9 @@ const Tabs = () => {
 };
 
 
-const Menu = ({ user, isLoading }) => {
+const Menu = ({ user }) => {
   return (
     <div className="container px-1 mx-auto my-5 font-sans">
-      {isLoading && (
-        <div className="absolute inset-0 bg-gray-900 bg-opacity-100 flex items-center justify-center">
-          <div className="spinner border-t-4 border-blue-500 rounded-full h-16 w-16"></div>
-        </div>
-      )}
       <div className="flex items-center my-5 space-x-4 flex-col lg:flex-row justify-between">
         <div className="w-28">
           <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto" />
@@ -114,20 +109,37 @@ const NotFound = () => {
   );
 };
 
-const App = () => {
-  const { user, isLoading } = useUser();
+const RedirectComponent = () => {
   const router = useRouter();
 
+  // Perform the redirect
+  React.useEffect(() => {
+    router.push("/api/auth/login");
+  }, [router]);
 
-
-  if (user)
-    return (<>
-      <Menu isLoading={isLoading} user={user}></Menu>
-    </>
-    );
-  else {
-    return <></>
-  }
+  return null; // or any loading indicator if needed
 };
+
+const App = () => {
+  const { user, isLoading } = useUser();
+
+  return (
+    <>
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-900 bg-opacity-100 flex items-center justify-center">
+          <div className="spinner border-t-4 border-blue-500 rounded-full h-16 w-16"></div>
+        </div>
+      )}
+
+      {user ? (
+        <Menu isLoading={isLoading} user={user}></Menu>
+      ) : (
+        // Render the RedirectComponent only if the user is not logged in and data is not loading
+        !isLoading && <RedirectComponent />
+      )}
+    </>
+  );
+};
+
 
 export default App;
