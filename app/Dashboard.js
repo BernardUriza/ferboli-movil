@@ -71,10 +71,6 @@ const Dashboard = () => {
           <TopStudiesList medicalReports={studiesData} categories={categories}/>
         </Col>
       </Grid>
-      {/* Table of Clinical Results */}
-      <div className='pt-3'>
-        <ClinicalResultsTable reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={fecthReports}/>
-      </div>
     </div>
   );
 };
