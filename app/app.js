@@ -52,6 +52,7 @@ const Tabs = () => {
         <TabPanel when="dashboard">
         </TabPanel>
         <TabPanel when="users">
+          <Users />
         </TabPanel>
         <TabPanel when="results">
           <Results />
