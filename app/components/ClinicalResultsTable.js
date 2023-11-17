@@ -51,8 +51,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
     setIsFormOpen(false);
   };
 
-  const renderCell = (columnKey, item) => {
-   if (columnKey === 'date') {
+  const renderCell = (columnKey, item) => { if (columnKey === 'date') {
       // Render the 'date' column in the desired format with slashes
       const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
       const formattedDate = new Date(item.date).toLocaleDateString('es-AR', dateOptions).replace(/de /g, '');
@@ -88,17 +87,6 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
           setIsFormOpen={setIsFormOpen}
         />
       </div>
-      <CoreTable
-        data={studiesData}
-        columns={columns}
-        filterText={filterText}
-        selectedFilter={selectedFilter}
-        itemsPerPage={itemsPerPage}
-        pageNumber={pageNumber}
-        openForm={openForm}
-        renderCell={renderCell}
-        onFiltered={(e)=>{setLengthFiltered(e)}}
-      />
       <Pagination
         pageNumber={pageNumber}
         setPageNumber={setPageNumber}
