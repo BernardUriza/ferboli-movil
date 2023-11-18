@@ -69,6 +69,7 @@ const CoreTable = ({
     : filteredDataWithColumnFilter;
 
   const handleDataFiltering = () => {
+    debugger
     // Update the currentItems state when the pagination or filtered data changes
     const start = (pageNumber - 1) * itemsPerPage;
     const end = start + itemsPerPage;
@@ -78,7 +79,7 @@ const CoreTable = ({
     //setSelectAll(false);
     onFiltered(filteredDataWithColumnFilter.length)
   }
-  
+
   useEffect(handleDataFiltering, [pageNumber, filterText, selectedFilter, key]);
 
   const handleSortColumn = (column) => {
