@@ -50,6 +50,7 @@ const Tabs = () => {
       </TabList>
       <TabPanels className="content">
         <TabPanel when="dashboard">
+          <Dashboard />
         </TabPanel>
         <TabPanel when="users">
           <Users />

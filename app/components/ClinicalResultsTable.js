@@ -92,17 +92,6 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
           setIsFormOpen={setIsFormOpen}
         />
       </div>
-      <CoreTable
-        data={studiesData}
-        columns={columns}
-        filterText={filterText}
-        selectedFilter={selectedFilter}
-        itemsPerPage={itemsPerPage}
-        pageNumber={pageNumber}
-        openForm={openForm}
-        renderCell={renderCell}
-        onFiltered={(e)=>{setLengthFiltered(e)}}
-      />
       <Pagination
         pageNumber={pageNumber}
         setPageNumber={setPageNumber}
