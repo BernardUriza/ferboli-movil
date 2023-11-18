@@ -13,7 +13,8 @@ const CoreTable = ({
   pageNumber,
   renderCell,
   openForm,
-  onFiltered
+  onFiltered,
+  key
 }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [sortedColumn, setSortedColumn] = useState(null);
@@ -33,13 +34,13 @@ const CoreTable = ({
       })
       .join(' ')
       .toLowerCase();
-  
+
     return textToSearch.includes(filterText.toLowerCase());
   });
-  
+
 
   const filteredDataWithColumnFilter = selectedFilter
-  ? filteredData.filter((item) => {
+    ? filteredData.filter((item) => {
       const filterParts = selectedFilter.split('.');
       let value = item;
       for (const part of filterParts) {
@@ -53,7 +54,7 @@ const CoreTable = ({
       }
       return value && (value + '').toLowerCase().includes(filterText.toLowerCase());
     })
-  : filteredData;
+    : filteredData;
 
   const sortedData = sortedColumn
     ? [...filteredDataWithColumnFilter].sort((a, b) => {
@@ -67,7 +68,7 @@ const CoreTable = ({
     })
     : filteredDataWithColumnFilter;
 
-  useEffect(() => {
+  const handleDataFiltering = () => {
     // Update the currentItems state when the pagination or filtered data changes
     const start = (pageNumber - 1) * itemsPerPage;
     const end = start + itemsPerPage;
@@ -75,9 +76,10 @@ const CoreTable = ({
     // Deselect all when pagination or filters change
     //setItemsSelected([]);
     //setSelectAll(false);
-    
     onFiltered(filteredDataWithColumnFilter.length)
-  }, [pageNumber, itemsPerPage, sortedData, filterText, selectedFilter]);
+  }
+  
+  useEffect(handleDataFiltering, [pageNumber, filterText, selectedFilter, key]);
 
   const handleSortColumn = (column) => {
     if (column === sortedColumn) {

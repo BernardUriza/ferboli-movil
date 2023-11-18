@@ -9,20 +9,31 @@ import { saveMedicalReports } from './useCases/saveMedicalReport';
 import { savePatient } from './useCases/savePatient';
 import { fetchCategories } from './useCases/fetchCategories';
 
-const Dashboard = () => {
+const Dashboard = ({setLoadingState}) => {
   const [studiesData, setStudiesData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [keyClinicalResultsTable, setKeyClinicalResultsTable] = useState(1);
 
-  const fecthReports = () => {
-    fetchMedicalReports()
-      .then((medicalReports) => setStudiesData(medicalReports))
-      .catch((error) => console.error(error.message));
-    fetchCategories()
-      .then((c) => setCategories(c))
-      .catch((error) => console.error(error.message));
-  }
+  const fetchReports = () => {
+    setLoadingState(true);
 
-  useEffect(fecthReports, []);  
+    // Realizar ambos fetch simultáneamente
+    Promise.all([fetchMedicalReports(), fetchCategories()])
+      .then(([medicalReports, c]) => {
+        // Establecer los estados después de que ambos fetch se completen
+        setStudiesData(medicalReports);
+        setCategories(c);
+      })
+      .catch((error) => console.error(error.message))
+      .finally(() => {
+        setLoadingState(false)
+        setKeyClinicalResultsTable(keyClinicalResultsTable+1);
+      });
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, []); 
 
   const handleSaveReport = (editedReport) => {
     saveMedicalReports(editedReport)      
@@ -73,7 +84,9 @@ const Dashboard = () => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={fecthReports}/>
+        <ClinicalResultsTable key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={() => {
+          fetchReports();
+        }}/>
       </div>
     </div>
   );

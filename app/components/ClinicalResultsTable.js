@@ -6,7 +6,7 @@ import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 
-const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh, key }) => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -102,6 +102,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
         openForm={openForm}
         renderCell={renderCell}
         onFiltered={(e)=>{setLengthFiltered(e)}}
+        key={key}
       />
       <Pagination
         pageNumber={pageNumber}

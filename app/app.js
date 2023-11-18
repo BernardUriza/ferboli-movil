@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import Dashboard from './Dashboard';
 import Users from './Users';
@@ -8,7 +8,7 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { HiOutlineArrowRightOnRectangle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
 
-const Tabs = () => {
+const Tabs = ({setLoadingState }) => {
   return (
     <TabGroup>
       <TabList className="tabs">
@@ -49,8 +49,8 @@ const Tabs = () => {
         </Tab>
       </TabList>
       <TabPanels className="content">
-        <TabPanel when="dashboard">
-          <Dashboard />
+        <TabPanel when="dashboard">          
+          <Dashboard setLoadingState={setLoadingState} />
         </TabPanel>
         <TabPanel when="users">
           <Users />
@@ -62,9 +62,7 @@ const Tabs = () => {
     </TabGroup>
   );
 };
-
-
-const Menu = ({ user }) => {
+const Menu = ({ user, setLoadingState  }) => {
   return (
     <div className="container px-1 mx-auto my-5 font-sans">
       <div className="flex items-center my-5 space-x-4 flex-col lg:flex-row justify-between">
@@ -95,7 +93,7 @@ const Menu = ({ user }) => {
       </div>
       
       {user ? (
-        <Tabs />
+        <Tabs setLoadingState={setLoadingState } />
       ) : (
         <NotFound />
       )}
@@ -129,17 +127,19 @@ const RedirectComponent = () => {
 
 const App = () => {
   const { user, isLoading } = useUser();
+  const [loadingState, setLoadingState] = useState(false); // Nuevo estado para la función setLoadingState
+
 
   return (
     <>
-      {isLoading && (
-        <div className="absolute inset-0 bg-gray-900 bg-opacity-100 flex items-center justify-center">
+      {(isLoading || loadingState) && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-100 flex items-center justify-center z-50">
           <div className="spinner border-t-4 border-blue-500 rounded-full h-16 w-16"></div>
         </div>
       )}
 
       {user ? (
-        <Menu isLoading={isLoading} user={user}></Menu>
+        <Menu isLoading={isLoading} user={user} setLoadingState={setLoadingState}></Menu>
       ) : (
         // Render the RedirectComponent only if the user is not logged in and data is not loading
         !isLoading && <RedirectComponent />
