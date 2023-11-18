@@ -52,7 +52,22 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh 
   };
 
   const renderCell = (columnKey, item) => {
-    return item[columnKey];
+    if (columnKey === 'status') {
+      // Render the StatusBadge for the 'status' column
+      return <StatusBadge status={item.status} />;
+    }
+    else if (columnKey === 'date') {
+      // Render the 'date' column in the desired format with slashes
+      const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+      const formattedDate = new Date(item.date).toLocaleDateString('es-AR', dateOptions).replace(/de /g, '');
+      return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
+    }
+    else if (columnKey === 'name') {      
+      return item.patient?.name + " - " + item.patient?.email; // Replace spaces with slashes
+    } else {
+      // Render other columns as usual
+      return item[columnKey];
+    }
   };
   const columns = [
     //{ key: 'id', title: 'ID' },

@@ -1,5 +1,6 @@
-import { Badge } from "@tremor/react";
+import React from "react";
 import { ClockIcon, UploadIcon, BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
+import { BadgeBase } from "./BadgeBase";
 
 const StatusBadge = ({ status }) => {
   let badgeColor = "green"; // Default color
@@ -27,9 +28,12 @@ const StatusBadge = ({ status }) => {
   }
 
   return (
-    <Badge color={badgeColor} size="sm" icon={badgeIcon}>
-      {status}
-    </Badge>
+    <BadgeBase
+      className="badge-base-instance"
+      icon="dot"  // You might want to use the computed badgeIcon here
+      text={status}
+      textClassName="design-component-instance-node"
+    />
   );
 };
 
