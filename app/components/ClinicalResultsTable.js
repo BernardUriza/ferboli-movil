@@ -5,6 +5,7 @@ import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
+import sendTokenByEmail from '../useCases/sendTokenByEmail';
 
 const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh, key }) => {
   const [selectedReport, setSelectedReport] = useState(null);
@@ -49,6 +50,13 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
     save(report)
     setSelectedReport(null);
     setIsFormOpen(false);
+  };
+
+  // ClinicalResultsTable.js
+  const sendTokenReportByEmail = (patient) => {
+    debugger
+    sendTokenByEmail(patient);
+    console.log('Token enviado por correo electrónico');
   };
 
   const renderCell = (columnKey, item) => {
@@ -109,7 +117,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSave={saveReport} onSavePatient={handleSavePatient} />}
+      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSavePatient={handleSavePatient} />}
     </Card>
   );
 };
