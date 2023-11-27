@@ -1,8 +1,7 @@
-// entities/Patient.js
 const jwt = require('jsonwebtoken');
 
-export default class Patient {
-  constructor(id, name, email, phone, information, dateOfBirth, gender, status) {
+class Patient {
+  constructor({id, name, email, phone, information, dateOfBirth, gender, status}) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -13,9 +12,15 @@ export default class Patient {
     this.status = status;
   }
 
-  static generateToken(patientId) {
-    return jwt.sign({ patientId }, 'tu_secreto_secreto', {
+  generateToken() {
+    if (!this.id) {
+      throw new Error('patientId is required for token generation');
+    }
+
+    return jwt.sign({ patientId: this.patientId }, 'tu_secreto_secreto', {
       expiresIn: '15d',
     });
   }
-} 
+}
+
+module.exports = Patient;
