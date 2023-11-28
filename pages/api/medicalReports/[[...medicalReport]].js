@@ -1,4 +1,4 @@
-// pages/api/medicalReport/[id].js
+// pages/api/medicalReports/[[medicalReport]].js
 import {
   getAllMedicalReports,
   createMedicalReport,
@@ -8,22 +8,25 @@ import {
 
 export default async (req, res) => {
   const { method, query } = req;
+  const { medicalReport } = query;
 
   if (method === 'GET') {
     try {
-      var { medicalReport } = query;
-      if (medicalReport) {
-        medicalReport = await getMedicalReportById(parseInt(medicalReport));
-        if (medicalReport) {
-          return res.status(200).json(medicalReport);
+      if (medicalReport && medicalReport.length > 0) {
+        // If an ID is provided, fetch the specific medical report
+        const reportId = parseInt(medicalReport[0]);
+        const report = await getMedicalReportById(reportId);
+
+        if (report) {
+          return res.status(200).json(report);
         } else {
           return res.status(404).json({ error: 'Medical report not found' });
         }
+      } else {
+        // If no ID is provided, fetch all medical reports
+        const medicalReports = await getAllMedicalReports();
+        return res.status(200).json(medicalReports);
       }
-
-      // If no ID is provided, fetch all medical reports
-      const medicalReports = await getAllMedicalReports();
-      return res.status(200).json(medicalReports);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Error fetching medical reports' });
