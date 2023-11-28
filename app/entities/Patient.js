@@ -22,7 +22,7 @@ class Patient {
     });
 
     // Agregar el token a la URL de la aplicación
-    const url = `${process.env.APP_URL}/token/${token}`;
+    const url = `${process.env.NEXT_PUBLIC_APP_URL}/token/${token}`;
 
     debugger
     return { token, url };
