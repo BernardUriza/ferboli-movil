@@ -102,29 +102,42 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
             </div>
 
             <div className="flex-1">
-              <div className="mb-4 w-50">
-                <label className="block text-sm font-medium text-gray-700">Status</label>
+              <div className="mb-4 w-48">
+                <label className="block text-sm font-medium mb-1 text-gray-700">Status</label>
                 <StatusSelect
                   value={editedReport.status}
                   onValueChange={(value) => setEditedReport({ ...editedReport, status: value })}
-                  className="mt-1 p-2 border rounded-md"
                 />
               </div>
             </div>
           </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Paciente</label>
-            <div className="flex">
-              <TextInput
-                type="text"
-                name="name"
-                readOnly={true}
-                value={editedReport.patient.name}
-                onChange={(e) => setEditedReport({ ...editedReport, name: e.target.value })}
-                className="mt-1 p-2 border rounded-md flex-1"
-              />
-              <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
+          <div className='flex'>
+            <div className="flex-1 mb-4">
+              <label className="block text-sm font-medium text-gray-700">Nombre</label>
+              <div className="flex">
+                <TextInput
+                  type="text"
+                  name="name"
+                  readOnly={true}
+                  value={editedReport.patient.name}
+                  onChange={(e) => setEditedReport({ ...editedReport, name: e.target.value })}
+                  className="mt-1 border rounded-md flex-1"
+                />
+                <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
+              </div>
+            </div>
+            <div className="flex-1 pr-3">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Folio / ID</label>
+                <TextInput
+                  type="text"
+                  name="id"
+                  disabled={true}
+                  value={editedReport.id}
+                  onChange={(e) => setEditedReport({ ...editedReport, id: e.target.value })}
+                  className="mt-1 border rounded-md"
+                />
+              </div>
             </div>
           </div>
           {/* Contenedor para tarjetas de estudios */}
