@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Title, Badge } from "@tremor/react";
-import ReportForm from './ReportForm';
+import ClinicalResultForm from './ClinicalResultForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
@@ -116,7 +116,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <ReportForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSavePatient={handleSavePatient} />}
+      {isFormOpen && <ClinicalResultForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSavePatient={handleSavePatient} />}
     </Card>
   );
 };

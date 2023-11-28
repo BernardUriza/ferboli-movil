@@ -8,7 +8,7 @@ import PatientForm from './PatientForm';
 import StatusSelect from '../controls/StatusSelect';
 import StudieCard from '../controls/StudieCard'; // Import StudieCard component
 
-const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
+const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
@@ -53,7 +53,7 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
   return (
     <>
       <CustomModal
-        title={report ? 'Administrar Reporte' : 'Nuevo Reporte'}
+        title={report ? 'Resultados Clinicos' : 'Nuevo Reporte'}
         visible={true}
         onClose={onClose}
         widthPercentage="80"
@@ -73,43 +73,48 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
       >
         <form>
           <div className="flex">
-            <div className="flex-1 pr-3">
-              <div className="mb-4">
-                <label>ID</label>
-                <TextInput
-                  type="text"
-                  name="id"
-                  disabled={true}
-                  value={editedReport.id}
-                  onChange={(e) => setEditedReport({ ...editedReport, id: e.target.value })}
-                />
+            <div className="flex-1 flex">
+              <div className="flex-1 pr-3">
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700">Folio / ID</label>
+                  <TextInput
+                    type="text"
+                    name="id"
+                    disabled={true}
+                    value={editedReport.id}
+                    onChange={(e) => setEditedReport({ ...editedReport, id: e.target.value })}
+                    className="mt-1 border rounded-md"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex-1 pr-3">
-              <div className="mb-4">
-                <label>Fecha</label>
-                <DatePicker
-                  name="date"
-                  value={new Date(editedReport.date)}
-                  enableClear={false}
-                  onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
-                />
+              <div className="flex-1 pr-3">
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700">Fecha</label>
+                  <DatePicker
+                    name="date"
+                    value={new Date(editedReport.date)}
+                    enableClear={false}
+                    onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
+                    className="mt-1 rounded-md"
+                  />
+                </div>
               </div>
             </div>
 
             <div className="flex-1">
-              <div className="mb-4">
-                <label>Status</label>
+              <div className="mb-4 w-50">
+                <label className="block text-sm font-medium text-gray-700">Status</label>
                 <StatusSelect
                   value={editedReport.status}
                   onValueChange={(value) => setEditedReport({ ...editedReport, status: value })}
+                  className="mt-1 p-2 border rounded-md"
                 />
               </div>
             </div>
           </div>
 
           <div className="mb-4">
-            <label>Paciente</label>
+            <label className="block text-sm font-medium text-gray-700">Paciente</label>
             <div className="flex">
               <TextInput
                 type="text"
@@ -117,17 +122,19 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
                 readOnly={true}
                 value={editedReport.patient.name}
                 onChange={(e) => setEditedReport({ ...editedReport, name: e.target.value })}
+                className="mt-1 p-2 border rounded-md flex-1"
               />
               <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
             </div>
           </div>
           {/* Contenedor para tarjetas de estudios */}
           <div className="mb-4">
-            <label>Estudios</label>
+            <label className="block text-sm font-medium text-gray-700">Estudios</label>
             <div className="max-h-[20vh] flex flex-wrap">
               {editedReport.studies.map((study) => (
                 <div className="max-w-[200px] p-2" key={study.id}>
                   <StudieCard
+                    studyName={study.name}
                     category={study.category.name}
                     dateCreated={study.createdAt}
                     fileLink={study.fileLink}
@@ -149,4 +156,4 @@ const ReportForm = ({ report, categories, onClose, onSave, onSavePatient, onSend
   );
 };
 
-export default ReportForm;
+export default ClinicalResultForm;
