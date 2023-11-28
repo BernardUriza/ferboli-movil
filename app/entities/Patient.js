@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 class Patient {
-  constructor({id, name, email, phone, information, dateOfBirth, gender, status}) {
+  constructor({ id, name, email, phone, information, dateOfBirth, gender, status }) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -17,9 +17,15 @@ class Patient {
       throw new Error('patientId is required for token generation');
     }
 
-    return jwt.sign({ patientId: this.patientId }, 'tu_secreto_secreto', {
+    const token = jwt.sign({ patientId: this.id }, 'tu_secreto_secreto', {
       expiresIn: '15d',
     });
+
+    // Agregar el token a la URL de la aplicación
+    const url = `${process.env.APP_URL}/token/${token}`;
+
+    debugger
+    return { token, url };
   }
 }
 
