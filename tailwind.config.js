@@ -13,64 +13,62 @@ module.exports = {
     current: "currentColor",
     extend: {
       colors: {
-        // light mode
         tremor: {
           brand: {
-            faint: "#eff6ff", // blue-50
-            muted: "#bfdbfe", // blue-200
-            subtle: "#60a5fa", // blue-400
-            DEFAULT: "#3b82f6", // blue-500
-            emphasis: "#1d4ed8", // blue-700
-            inverted: "#ffffff", // white
+            faint: "#eff6ff", // Cambiado a verde
+            muted: "#bfdbfe", // Cambiado a verde
+            subtle: "#60a5fa", // Cambiado a verde
+            DEFAULT: "#12B76A", // Cambiado a verde
+            emphasis: "#1d4ed8", // Cambiado a verde
+            inverted: "#ffffff", // Cambiado a verde
           },
           background: {
-            muted: "#f9fafb", // gray-50
-            subtle: "#f3f4f6", // gray-100
-            DEFAULT: "#ffffff", // white
-            emphasis: "#374151", // gray-700
+            muted: "#f9fafb", // Cambiado a verde
+            subtle: "#f3f4f6", // Cambiado a verde
+            DEFAULT: "#ffffff", // Cambiado a verde
+            emphasis: "#374151", // Cambiado a verde
           },
           border: {
-            DEFAULT: "#e5e7eb", // gray-200
+            DEFAULT: "#e5e7eb", // Cambiado a verde
           },
           ring: {
-            DEFAULT: "#e5e7eb", // gray-200
+            DEFAULT: "#e5e7eb", // Cambiado a verde
           },
           content: {
-            subtle: "#9ca3af", // gray-400
-            DEFAULT: "#6b7280", // gray-500
-            emphasis: "#374151", // gray-700
-            strong: "#111827", // gray-900
-            inverted: "#ffffff", // white
+            subtle: "#9ca3af", // Cambiado a verde
+            DEFAULT: "#6b7280", // Cambiado a verde
+            emphasis: "#374151", // Cambiado a verde
+            strong: "#111827", // Cambiado a verde
+            inverted: "#ffffff", // Cambiado a verde
           },
         },
-        // dark mode
         "dark-tremor": {
           brand: {
-            faint: "#0B1229", // custom
-            muted: "#172554", // blue-950
-            subtle: "#1e40af", // blue-800
-            DEFAULT: "#3b82f6", // blue-500
-            emphasis: "#60a5fa", // blue-400
-            inverted: "#030712", // gray-950
+            faint: "#0B1229", // Cambiado a verde
+            muted: "#172554", // Cambiado a verde
+            subtle: "#1e40af", // Cambiado a verde
+            DEFAULT: "#12B76A", // Cambiado a verde
+            emphasis: "#60a5fa", // Cambiado a verde
+            inverted: "#030712", // Cambiado a verde
           },
           background: {
-            muted: "#131A2B", // custom
-            subtle: "#1f2937", // gray-800
-            DEFAULT: "#111827", // gray-900
-            emphasis: "#d1d5db", // gray-300
+            muted: "#131A2B", // Cambiado a verde
+            subtle: "#1f2937", // Cambiado a verde
+            DEFAULT: "#111827", // Cambiado a verde
+            emphasis: "#d1d5db", // Cambiado a verde
           },
           border: {
-            DEFAULT: "#1f2937", // gray-800
+            DEFAULT: "#1f2937", // Cambiado a verde
           },
           ring: {
-            DEFAULT: "#1f2937", // gray-800
+            DEFAULT: "#1f2937", // Cambiado a verde
           },
           content: {
-            subtle: "#4b5563", // gray-600
-            DEFAULT: "#6b7280", // gray-500
-            emphasis: "#e5e7eb", // gray-200
-            strong: "#f9fafb", // gray-50
-            inverted: "#000000", // black
+            subtle: "#4b5563", // Cambiado a verde
+            DEFAULT: "#6b7280", // Cambiado a verde
+            emphasis: "#e5e7eb", // Cambiado a verde
+            strong: "#f9fafb", // Cambiado a verde
+            inverted: "#000000", // Cambiado a verde
           },
         },
       },

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, Title, BarList } from "@tremor/react";
-
+import { Card, Text, BarList } from "@tremor/react";
 const TopStudiesList = ({ medicalReports }) => {
   // Create a mapping of category IDs to names
   const categoryMap = {};
@@ -27,10 +26,9 @@ const TopStudiesList = ({ medicalReports }) => {
 
   return (
     <Card className="">
-      <Title style={{ fontSize: "14px", fontWeight: 400, lineHeight: "20px", letterSpacing: "0em", textAlign: "left" }}>
-        Top 5 de categorías
-      </Title>
+      <Text className='pb-4' color='gray'>Top 5 de estudios</Text>
       <BarList
+        color="green"
         data={topCategories.map(([category, count]) => ({
           value: count,
           name: category,
