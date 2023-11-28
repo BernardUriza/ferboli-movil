@@ -1,9 +1,10 @@
+// StudieCard.js
 import React from 'react';
-import { DocumentTextIcon } from '@heroicons/react/outline'; // Import the DocumentTextIcon from Heroicons
+import { DocumentTextIcon } from '@heroicons/react/outline';
 
 const StudieCard = ({ category, studyName, date, fileLink }) => {
   return (
-    <div className="bg-white rounded-lg p-4 shadow-md mb-4">
+    <div className="bg-white rounded-lg p-4 shadow-md mb-3 mr-3">
       <div className="flex justify-between items-center mb-2">
         <div>
           <h3 className="text-lg font-semibold mb-1">{category}</h3>

@@ -1,17 +1,26 @@
+// ClinicalResultForm.jsx
 import React, { useState, useEffect } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
-import { SearchSelect, SearchSelectItem } from '@tremor/react';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 import StatusSelect from '../controls/StatusSelect';
-import StudieCard from '../controls/StudieCard'; // Import StudieCard component
+import StudieCard from '../controls/StudieCard';
 
 const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
-
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
   useEffect(() => {
     setEditedReport(report || {
       id: '',
@@ -20,8 +29,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
       status: '',
       patient: {
         name: '',
-        email: ''
-      }
+        email: '',
+      },
     });
   }, [report]);
 
@@ -32,8 +41,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
     status: '',
     patient: {
       name: '',
-      email: ''
-    }
+      email: '',
+    },
   });
 
   const editPatient = (patient) => {
@@ -60,13 +69,17 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
         titleClassName="text-blue-500"
         modalClassName="p-8"
         footerElement={
-          <div className="flex">
-            <Button type="primary" className="ml-auto" onClose={onClose} onClick={() => onSave(editedReport)}>
+          <div className="flex justify-end">
+            <Button variant="light" className="ml-3" onClose={onClose} onClick={() => onSave(editedReport)}>
               Guardar
             </Button>
 
-            <Button type="primary" className="ml-auto" onClose={onClose} onClick={() => onSend(editedReport)}>
+            <Button variant="secondary" className="ml-3" onClose={onClose} onClick={() => onSend(editedReport)}>
               Enviar al cliente
+            </Button>
+            
+            <Button type="primary"  className="ml-3" onClick={() => onSend(editedReport)}>
+              Guardar
             </Button>
           </div>
         }
@@ -140,12 +153,11 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
               </div>
             </div>
           </div>
-          {/* Contenedor para tarjetas de estudios */}
-          <div className="mb-4">
+          <div className="mb-4 max-w-full ml-3">
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
-            <div className="max-h-[20vh] flex flex-wrap">
+            <Slider {...sliderSettings}>
               {editedReport.studies.map((study) => (
-                <div className="max-w-[200px] p-2" key={study.id}>
+                <div key={study.id}>
                   <StudieCard
                     studyName={study.name}
                     category={study.category.name}
@@ -154,7 +166,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
                   />
                 </div>
               ))}
-            </div>
+            </Slider>
           </div>
         </form>
       </CustomModal>
