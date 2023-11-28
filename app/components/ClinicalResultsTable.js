@@ -54,7 +54,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
 
   // ClinicalResultsTable.js
   const sendTokenReportByEmail = (report) => {
-    sendTokenByEmail(report.patient);
+    sendTokenByEmail(report);
     console.log('Token enviado por correo electrónico');
   };
 

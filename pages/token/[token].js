@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import jwt from 'jsonwebtoken';
+import MedicalReportDetails from '@/app/MedicalReportDetails';
 
 const TokenPage = () => {
   const router = useRouter();
@@ -31,17 +32,7 @@ const TokenPage = () => {
   }
 
   return (
-    <div>
-      <h1>Token Page</h1>
-      <p>Token: {token}</p>
-      {decodedToken && (
-        <div>
-          <p>Contenido decodificado:</p>
-          <pre>{JSON.stringify(decodedToken, null, 2)}</pre>
-          <p>patientId: {decodedToken.patientId}</p>
-        </div>
-      )}
-    </div>
+    <MedicalReportDetails medicalReportId={decodedToken.medicalReportId} />
   );
 };
 
