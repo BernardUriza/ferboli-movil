@@ -8,7 +8,7 @@ const sendTokenByEmail = (patientData) => {
   const subject = 'Token para acceder a informes médicos';
   const text = `Este es su token para acceder a sus informes médicos: ${token}`;
   const to = patient.email;
-
+  
   sendEmail({to, subject, text});
 
   console.log('Token enviado por correo electrónico:', token);
