@@ -71,9 +71,7 @@ const Dashboard = ({setLoadingState}) => {
   };
   
   function handleOpenForm (){
-    debugger
     setOpenForm(true)
-    StateHasChanged();
   }
 
   return (

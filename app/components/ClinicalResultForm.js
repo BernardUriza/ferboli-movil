@@ -156,7 +156,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
           <div className="mb-4 max-w-full ml-3">
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
             <Slider {...sliderSettings}>
-              {editedReport.studies.map((study) => (
+              {editedReport.studies?.map((study) => (
                 <div key={study.id}>
                   <StudieCard
                     studyName={study.name}
