@@ -16,7 +16,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
   const [selectedPatient, setSelectedPatient] = useState(null);
   const sliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -166,6 +166,11 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
                   />
                 </div>
               ))}
+              <div key={100000}>
+                <StudieCard
+                  newCard={true}
+                />
+              </div>
             </Slider>
           </div>
         </form>

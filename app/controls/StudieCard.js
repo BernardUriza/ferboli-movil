@@ -2,12 +2,22 @@
 import React from 'react';
 import { DocumentTextIcon } from '@heroicons/react/outline';
 
-const StudieCard = ({ category, studyName, date, fileLink }) => {
+const StudieCard = ({ category, studyName, date, fileLink, newCard }) => {
+  if (newCard) {
+    return (
+      <div className="bg-green-100 rounded-lg p-4 shadow-md mb-3 mr-3" style={{ height: '115px' }}>
+        <p className="text-green-500 text-lg font-semibold flex items-center justify-center h-full">
+          Agregar Estudio
+        </p>
+      </div>
+    );      
+  }
+
   return (
     <div className="bg-white rounded-lg p-4 shadow-md mb-3 mr-3">
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h3 className="text-lg font-semibold mb-1">{category}</h3>
+          <h3 className="text-lg font-semibold mb-1" style={{height:"50px"}}>{category}</h3>
           <p className="text-gray-600 text-sm">{studyName}</p>
         </div>
         <div className="text-blue-500 text-sm">
