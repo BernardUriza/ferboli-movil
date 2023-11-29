@@ -12,7 +12,6 @@ const generateEmailContent = (subject, text) => {
 };
 
 const handler = async (req, res) => {
-  debugger
   if (req.method === "POST") {
     const {to, subject, text} = req.body;
 

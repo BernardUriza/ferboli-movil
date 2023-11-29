@@ -22,8 +22,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
   }, [reports]);
 
   
-  useEffect(() => {
-    debugger
+  useEffect(() => {    
     setIsFormOpen(isOpenForm);
   }, [isOpenForm]);
 
