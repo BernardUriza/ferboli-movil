@@ -7,10 +7,10 @@ const NumericIndicators = ({setOpenForm}) => {
   return (
     <>
       <div className='pb-3 w-100'>
-        <Button onClick={()=> setOpenForm()}>
+        <Button onClick={()=> setOpenForm()} style={{width: "100%"}}>
           <div className='flex' style={{ height: "52px" }}>
             <DocumentAddIcon style={{ width: "20px" }}></DocumentAddIcon>
-            <span className='mx-3 my-auto'>Nuevo resultado clínico</span>
+            <span className='mx-3 my-auto' style={{fontSize: "17px"}}>Nuevo resultado clínico</span>
           </div>
         </Button>
       </div>
