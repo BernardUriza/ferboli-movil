@@ -19,7 +19,7 @@ module.exports = {
             muted: "#bfdbfe", // Cambiado a verde
             subtle: "#60a5fa", // Cambiado a verde
             DEFAULT: "#12B76A", // Cambiado a verde
-            emphasis: "#1d4ed8", // Cambiado a verde
+            emphasis: "#0d7444", // Cambiado a verde
             inverted: "#ffffff", // Cambiado a verde
           },
           background: {

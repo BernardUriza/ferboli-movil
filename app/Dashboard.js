@@ -13,6 +13,7 @@ const Dashboard = ({setLoadingState}) => {
   const [studiesData, setStudiesData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [keyClinicalResultsTable, setKeyClinicalResultsTable] = useState(1);
+  const [openForm, setOpenForm] = useState(false);
 
   const fetchReports = () => {
     setLoadingState(true);
@@ -69,13 +70,18 @@ const Dashboard = ({setLoadingState}) => {
       });
   };
   
+  function handleOpenForm (){
+    debugger
+    setOpenForm(true)
+    StateHasChanged();
+  }
 
   return (
     <div className='pt-3'>
       <Grid numItems={1} numItemsLg={3} className="gap-2">
         <Col numColSpan={1} numColSpanLg={1}>
           {/* Numeric Indicators */}
-          <NumericIndicators />
+          <NumericIndicators setOpenForm={handleOpenForm} />
         </Col>
         <Col numColSpan={1} numColSpanLg={2}>
           {/* List of Top Studies */}
@@ -84,7 +90,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={() => {
+        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={() => {
           fetchReports();
         }}/>
       </div>

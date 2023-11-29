@@ -1,29 +1,44 @@
 // NumericIndicators.js
 import React from 'react';
-import { Text, Metric, Card } from "@tremor/react";
-import { UserGroupIcon } from '@heroicons/react/outline';
+import { Text, Metric, Card, Button } from "@tremor/react";
+import { UserGroupIcon, ClipboardListIcon, DocumentAddIcon } from '@heroicons/react/solid';
 
-const NumericIndicators = () => {
+const NumericIndicators = ({setOpenForm}) => {
   return (
-    <div className="h-full">
-      <div className="h-1/2 pb-3">
+    <>
+      <div className='pb-3 w-100'>
+        <Button onClick={()=> setOpenForm()}>
+          <div className='flex' style={{ height: "52px" }}>
+            <DocumentAddIcon style={{ width: "20px" }}></DocumentAddIcon>
+            <span className='mx-3 my-auto'>Nuevo resultado clínico</span>
+          </div>
+        </Button>
+      </div>
+      <div className="pb-3" style={{ height: "104px" }}>
         <Card className="h-full">
           <div className='flex'>
             <div>
               <Text>Pacientes</Text>
               <Metric>200</Metric>
             </div>
-            <UserGroupIcon style={{width: "36px",height: "36px"}}></UserGroupIcon>
+            <p className="flex-1"></p>
+            <UserGroupIcon style={{ width: "36px", color: "#6B7280", height: "36px" }}></UserGroupIcon>
           </div>
         </Card>
       </div>
-      <div className="h-1/2">
+      <div style={{ height: "110px" }}>
         <Card className="h-full">
-          <Text>Sent by Email</Text>
-          <Metric>12</Metric>
+          <div className='flex'>
+            <div>
+              <Text>Sent by Email</Text>
+              <Metric>12</Metric>
+            </div>
+            <p className="flex-1"></p>
+            <ClipboardListIcon style={{ width: "36px", color: "#6B7280", height: "36px" }}></ClipboardListIcon>
+          </div>
         </Card>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -8,8 +8,7 @@ const FilterControls = ({
   selectedFilter,
   setSelectedFilter,
   filterText,
-  setFilterText,
-  setIsFormOpen,
+  setFilterText
 }) => {
   return (
     <div className="flex items-center">
@@ -42,7 +41,6 @@ const FilterControls = ({
         value={filterText}
         onChange={(e) => setFilterText(e)}
       />
-      <TableCellButtonIcon onClick={() => setIsFormOpen(true)} icon={<PlusIcon className="w-6 h-6" />} />
     </div>
   );
 };

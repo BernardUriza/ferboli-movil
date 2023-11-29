@@ -7,7 +7,7 @@ import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 import sendTokenByEmail from '../useCases/sendTokenByEmail';
 
-const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh, key }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh, key, isOpenForm }) => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -20,6 +20,12 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
   useEffect(() => {
     setStudiesData(reports);
   }, [reports]);
+
+  
+  useEffect(() => {
+    debugger
+    setIsFormOpen(isOpenForm);
+  }, [isOpenForm]);
 
   const openForm = (item) => {
     setSelectedReport(item);
@@ -96,7 +102,6 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
           setSelectedFilter={setSelectedFilter}
           filterText={filterText}
           setFilterText={setFilterText}
-          setIsFormOpen={setIsFormOpen}
         />
       </div>
       <CoreTable
