@@ -10,10 +10,13 @@ import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 import StatusSelect from '../controls/StatusSelect';
 import StudieCard from '../controls/StudieCard';
+import StudieForm from './StudieForm';
 
 const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
+  const [isStudieFormOpen, setStudieFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [selectedStudy, setSelectedStudy] = useState(null);
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -58,6 +61,16 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
     onSavePatient(editedPatientData);
     closePatientEditor();
   };
+
+  const clickToOpenStudieForm = (selectedStudie) => {
+    setSelectedStudy(selectedStudie);
+    setStudieFormOpen(true);
+  };
+
+  const closeStudieForm = () => {
+    setStudieFormOpen(false);
+  };
+
 
   return (
     <>
@@ -159,10 +172,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
               {editedReport.studies?.map((study) => (
                 <div key={study.id}>
                   <StudieCard
-                    studyName={study.name}
-                    category={study.category.name}
-                    dateCreated={study.createdAt}
-                    fileLink={study.fileLink}
+                    clickFileLink={clickToOpenStudieForm}
+                    studieData={study}
                   />
                 </div>
               ))}
@@ -179,6 +190,13 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
         <PatientForm
           patient={selectedPatient}
           onClose={closePatientEditor}
+          onSave={handlePatientSave}
+        />
+      )}
+      {isStudieFormOpen && (
+        <StudieForm
+          studie={selectedStudy}
+          onClose={closeStudieForm}
           onSave={handlePatientSave}
         />
       )}
