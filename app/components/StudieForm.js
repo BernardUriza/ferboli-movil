@@ -1,121 +1,80 @@
 import React, { useState } from 'react';
-import { Button, TextInput, DatePicker } from '@tremor/react';
+import { Button, TextInput, DatePicker, SearchSelect, SearchSelectItem } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
 import { Select, SelectItem } from "@tremor/react";
 import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 
-const StudieForm = ({ patient, onClose, onSave }) => {
-    // Set initial state based on whether patient is null
-    const initialEditedPatient = patient || {
+const StudieForm = ({ study, onClose, onSave, categories }) => {
+    // Set initial state based on whether study is null
+    const initialEditedStudy = study || {
         id: '',
         name: '',
-        email: '',
-        phone: '',
-        information: '',
-        dateOfBirth: new Date(),
-        gender: '',
-        status: '',
+        categoryId: '',
+        medicalReportId: '',
+        medicalReport: {},
+        category: {},
+        createdAt: new Date(),
     };
 
-    const [editedPatient, setEditedPatient] = useState(initialEditedPatient);
+    const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
 
     return (
         <CustomModal
-            title={patient ? 'Estudio' : 'Nuevo Estudio'}
-            visible={!!patient}
+            title={study ? 'Estudio' : 'Nuevo Estudio'}
+            visible={!!study}
             onClose={onClose}
-            widthPercentage="50"
+            widthPercentage="20"
             titleClassName="text-blue-500"
             modalClassName="p-8"
         >
             <form>
-                <div className="flex">
-                    <div className="w-1/2 pr-3">
-                        <div className="mb-4">
-                            <label>ID</label>
-                            <TextInput
-                                type="text"
-                                name="id"
-                                disabled={true}
-                                value={editedPatient.id}
-                                onChange={(e) => setEditedPatient({ ...editedPatient, id: e.target.value })}
-                            />
-                        </div>
-                    </div>
+                <div className="mb-4">
+                    <label>ID</label>
+                    <TextInput
+                        type="text"
+                        name="id"
+                        disabled={true}
+                        value={editedStudy.id}
+                        onChange={(e) => setEditedStudy({ ...editedStudy, id: e.target.value })}
+                    />
+                </div>
 
-                    <div className="w-1/2 mb-4">
-                        <label>Status</label>
-                        <Select
-                            value={editedPatient.status}
-                            onValueChange={(value) => setEditedPatient({ ...editedPatient, status: value })}
-                        >
-                            <SelectItem value="Activo" icon={CheckCircleIcon}>Activo</SelectItem>
-                            <SelectItem value="Archivado" icon={BanIcon}>Archivado</SelectItem>
-                        </Select>
-                    </div>
-                </div>
                 <div className="mb-4">
-                    <label>Nombre</label>
-                    <TextInput
-                        type="text"
-                        name="name"
-                        value={editedPatient.name}
-                        onChange={(e) => setEditedPatient({ ...editedPatient, name: e.target.value })}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label>Correo Electrónico</label>
-                    <TextInput
-                        type="email"
-                        name="email"
-                        value={editedPatient.email}
-                        onChange={(e) => setEditedPatient({ ...editedPatient, email: e.target.value })}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label>Teléfono</label>
-                    <TextInput
-                        type="tel"
-                        name="phone"
-                        value={editedPatient.phone}
-                        onChange={(e) => setEditedPatient({ ...editedPatient, phone: e.target.value })}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label>Información</label>
-                    <TextInput
-                        type="text"
-                        name="information"
-                        value={editedPatient.information}
-                        onChange={(e) => setEditedPatient({ ...editedPatient, information: e.target.value })}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label>Fecha de Nacimiento</label>
+                    <label>Fecha</label>
                     <DatePicker
                         name="dateOfBirth"
-                        value={new Date(editedPatient.dateOfBirth)}
-                        onValueChange={(e) => setEditedPatient({ ...editedPatient, dateOfBirth: e })}
+                        value={new Date(editedStudy.dateOfBirth)}
+                        onValueChange={(e) => setEditedStudy({ ...editedStudy, dateOfBirth: e })}
                     />
                 </div>
+
                 <div className="mb-4">
-                    <label>Género</label>
-                    <Select
-                        value={editedPatient.gender}
-                        onValueChange={(value) => setEditedPatient({ ...editedPatient, gender: value })}
+                    <label>Categoria</label>
+                    <SearchSelect
+                        value={editedStudy.category.id} // Debe ser el ID de la categoría, no el nombre
+                        onValueChange={(value) => {
+                            // Busca la categoría con el ID coincidente
+                            const selectedCategory = categories.find((category) => category.id === value);
+                            if (selectedCategory) {
+                                // Actualiza el objeto de categoría en editedReport
+                                setEditedStudy({ ...editedStudy, category: selectedCategory });
+                            }
+                        }}
                     >
-                        <SelectItem value="Male">Masculino</SelectItem>
-                        <SelectItem value="Female">Femenino</SelectItem>
-                        <SelectItem value="Other">Otro</SelectItem>
-                    </Select>
+                        {categories.map((category) => (
+                            <SearchSelectItem key={category.id} value={category.id}>
+                                {category.name}
+                            </SearchSelectItem>
+                        ))}
+                    </SearchSelect>
                 </div>
             </form>
             <div className="flex">
-                <Button type="primary" className='ml-auto' onClick={() => onSave(editedPatient)}>
+                <Button type="primary" className='ml-auto' onClick={() => onSave(editedStudy)}>
                     Guardar
                 </Button>
             </div>
-        </CustomModal>
+        </CustomModal >
     );
 };
 

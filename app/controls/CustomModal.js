@@ -13,9 +13,10 @@ const CustomModal = ({
   if (!visible) return null;
 
   // Define the responsive classes for modal width
-  const modalWidth = widthPercentage== "80" ? 
-  `w-full sm:w-screen md:w-4/5 lg:w-3/4 xl:w-2/3` : 'w-full sm:w-screen md:w-3/5 lg:w-2/3 xl:w-1/2'; // Custom width less than 80%
-
+  var modalWidth = widthPercentage== "80" ? 
+  `w-full sm:w-screen md:w-4/5 lg:w-3/4 xl:w-2/3` : 'w-full sm:w-screen md:w-3/5 lg:w-2/3 xl:w-1/2';
+   modalWidth = widthPercentage== "20" ? 
+  `w-full sm:w-screen md:w-2/5 lg:w-1/4 xl:w-1/5` : modalWidth;
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">

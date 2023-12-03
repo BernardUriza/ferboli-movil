@@ -195,7 +195,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
       )}
       {isStudieFormOpen && (
         <StudieForm
-          studie={selectedStudy}
+          categories={categories}
+          study={selectedStudy}
           onClose={closeStudieForm}
           onSave={handlePatientSave}
         />
