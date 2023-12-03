@@ -152,7 +152,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
                 <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
               </div>
             </div>
-            <div className="flex-1 pr-3">
+            <div className="flex-1">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Folio / ID</label>
                 <TextInput

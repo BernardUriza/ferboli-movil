@@ -102,6 +102,7 @@ const generateStudies = (categories) => {
       category: {
         connect: { id: category.id },
       },
+      name: faker.lorem.words(2),
       createdAt: faker.date.past(),
     };
 

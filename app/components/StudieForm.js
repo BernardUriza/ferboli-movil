@@ -3,6 +3,9 @@ import { Button, TextInput, DatePicker, SearchSelect, SearchSelectItem } from '@
 import CustomModal from '../controls/CustomModal';
 import { Select, SelectItem } from "@tremor/react";
 import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
+import StudieCard from '../controls/StudieCard';
+import { DocumentAddIcon } from '@heroicons/react/solid';
+import { HiDocumentArrowUp } from 'react-icons/hi2';
 
 const StudieForm = ({ study, onClose, onSave, categories }) => {
     // Set initial state based on whether study is null
@@ -26,6 +29,12 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
             widthPercentage="20"
             titleClassName="text-blue-500"
             modalClassName="p-8"
+            footerElement={
+                <div className="flex">
+                    <Button type="primary" className='ml-auto' onClick={() => onSave(editedStudy)}>
+                        Guardar
+                    </Button>
+                </div>}
         >
             <form>
                 <div className="mb-4">
@@ -35,7 +44,6 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                         name="id"
                         disabled={true}
                         value={editedStudy.id}
-                        onChange={(e) => setEditedStudy({ ...editedStudy, id: e.target.value })}
                     />
                 </div>
 
@@ -68,13 +76,30 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                         ))}
                     </SearchSelect>
                 </div>
-            </form>
-            <div className="flex">
-                <Button type="primary" className='ml-auto' onClick={() => onSave(editedStudy)}>
-                    Guardar
+                
+                <div className="mb-4">
+                    <label>Nombre</label>
+                    <TextInput
+                        type="text"
+                        name="id"
+                        value={editedStudy.name}
+                        onChange={(e) => setEditedStudy({ ...editedStudy, name: e.target.value })}
+                    />
+                </div>
+                <div className="mb-4">
+                    <StudieCard
+                        empty={true}
+                    />
+                </div>
+                
+                <Button onClick={()=> setOpenForm()} style={{width: "100%"}}>
+                <div className='flex' style={{ height: "52px" }}>
+                    <HiDocumentArrowUp style={{ width: "20px", height: "20px", marginTop: "15px" }}></HiDocumentArrowUp>
+                    <span className='mx-3 my-auto' style={{fontSize: "17px"}}>Nuevo resultado clínico</span>
+                </div>
                 </Button>
-            </div>
-        </CustomModal >
+            </form>
+        </CustomModal>
     );
 };
 
