@@ -6,8 +6,10 @@ import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 import StudieCard from '../controls/StudieCard';
 import { DocumentAddIcon } from '@heroicons/react/solid';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
+import { useEdgeStore } from '../lib/edgestore';
 
 const StudieForm = ({ study, onClose, onSave, categories }) => {
+    const { edgestore } = useEdgeStore();
     // Set initial state based on whether study is null
     const initialEditedStudy = study || {
         id: '',
@@ -20,6 +22,7 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
     };
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
+    const [file, setFile] = useState();
 
     return (
         <CustomModal
@@ -31,7 +34,24 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
             modalClassName="p-8"
             footerElement={
                 <div className="flex">
-                    <Button type="primary" className='ml-auto' onClick={() => onSave(editedStudy)}>
+                    <Button type="primary" className='ml-auto' onClick={async () =>{ 
+                            debugger
+                        if (file) {
+                            const res = await edgestore.publicFiles.upload({
+                                file,
+                                onProgressChange: (progress) => {
+                                    // you can use this to show a progress bar
+                                    console.log(progress);
+                                },
+                            });
+                            // you can run some server action or api here
+                            // to add the necessary data to your database
+                            console.log(res);
+                            debugger
+                            editedStudy.file = res;
+                        }
+                        onSave(editedStudy) 
+                    }}>
                         Guardar
                     </Button>
                 </div>}
@@ -76,7 +96,7 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                         ))}
                     </SearchSelect>
                 </div>
-                
+
                 <div className="mb-4">
                     <label>Nombre</label>
                     <TextInput
@@ -91,13 +111,21 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                         empty={true}
                     />
                 </div>
-                
-                <Button onClick={()=> setOpenForm()} style={{width: "100%"}}>
-                <div className='flex' style={{ height: "52px" }}>
-                    <HiDocumentArrowUp style={{ width: "20px", height: "20px", marginTop: "15px" }}></HiDocumentArrowUp>
-                    <span className='mx-3 my-auto' style={{fontSize: "17px"}}>Nuevo resultado clínico</span>
-                </div>
+
+                <Button onClick={() => setOpenForm()} style={{ width: "100%" }}>
+                    <div className='flex' style={{ height: "52px" }}>
+                        <HiDocumentArrowUp style={{ width: "20px", height: "20px", marginTop: "15px" }}></HiDocumentArrowUp>
+                        <span className='mx-3 my-auto' style={{ fontSize: "17px" }}>Nuevo resultado clínico</span>
+                    </div>
                 </Button>
+                <div>
+                    <input
+                        type="file"
+                        onChange={(e) => {
+                            setFile(e.target.files?.[0]);
+                        }}
+                    />
+                </div>
             </form>
         </CustomModal>
     );
