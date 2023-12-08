@@ -10,11 +10,11 @@ import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 import StatusSelect from '../controls/StatusSelect';
 import StudieCard from '../controls/StudieCard';
-import StudieForm from './StudieForm';
+import StudyForm from './StudyForm';
 
 const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
-  const [isStudieFormOpen, setStudieFormOpen] = useState(false);
+  const [isStudyFormOpen, setStudyFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const sliderSettings = {
@@ -64,11 +64,11 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
   
   const clickToOpenStudyForm = (selectedStudie) => {
     setSelectedStudy(selectedStudie);
-    setStudieFormOpen(true);
+    setStudyFormOpen(true);
   };
 
   const closeStudyForm = () => {
-    setStudieFormOpen(false);
+    setStudyFormOpen(false);
   };
   
   const handleStudySave = (editedStudy) => {
@@ -198,8 +198,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
           onSave={handlePatientSave}
         />
       )}
-      {isStudieFormOpen && (
-        <StudieForm
+      {isStudyFormOpen && (
+        <StudyForm
           categories={categories}
           study={selectedStudy}
           onClose={closeStudyForm}

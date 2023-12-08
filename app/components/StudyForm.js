@@ -8,7 +8,7 @@ import { DocumentAddIcon } from '@heroicons/react/solid';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
 import { useEdgeStore } from '../lib/edgestore';
 
-const StudieForm = ({ study, onClose, onSave, categories }) => {
+const StudyForm = ({ study, onClose, onSave, categories }) => {
     const { edgestore } = useEdgeStore();
     // Set initial state based on whether study is null
     const initialEditedStudy = study || {
@@ -23,6 +23,13 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
     const [file, setFile] = useState();
+    const fileInputRef = React.createRef(); // Create a ref for the file input
+
+    const openFileSelector = () => {
+        // Trigger the click event on the hidden file input
+        fileInputRef.current.click();
+    };
+
 
     return (
         <CustomModal
@@ -34,7 +41,7 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
             modalClassName="p-8"
             footerElement={
                 <div className="flex">
-                    <Button type="primary" className='ml-auto' onClick={async (e) =>{ 
+                    <Button type="primary" className='ml-auto' onClick={async (e) => {
                         e.preventDefault();
                         if (file) {
                             const res = await edgestore.publicFiles.upload({
@@ -49,7 +56,7 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                             console.log(res);
                             editedStudy.name = res.url;
                         }
-                        onSave(editedStudy) 
+                        onSave(editedStudy)
                     }}>
                         Guardar
                     </Button>
@@ -111,23 +118,32 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                     />
                 </div>
 
-                <Button onClick={() => setOpenForm()} style={{ width: "100%" }}>
+                {/* Add a label to visually hide the file input */}
+                <label htmlFor="fileInput" className="sr-only">File Input</label>
+                <input
+                    id="fileInput"
+                    type="file"
+                    ref={fileInputRef} // Connect the ref to the file input
+                    className="hidden"
+                    onChange={(e) => {
+                        setFile(e.target.files?.[0]);
+                    }}
+                />
+
+                {/* "Nuevo resultado clínico" button to trigger file selection */}
+                <Button onClick={async (e) => {
+                    e.preventDefault(); 
+                    openFileSelector();
+                }
+                } style={{ width: "100%" }}>
                     <div className='flex' style={{ height: "52px" }}>
                         <HiDocumentArrowUp style={{ width: "20px", height: "20px", marginTop: "15px" }}></HiDocumentArrowUp>
                         <span className='mx-3 my-auto' style={{ fontSize: "17px" }}>Nuevo resultado clínico</span>
                     </div>
                 </Button>
-                <div>
-                    <input
-                        type="file"
-                        onChange={(e) => {
-                            setFile(e.target.files?.[0]);
-                        }}
-                    />
-                </div>
             </form>
         </CustomModal>
     );
 };
 
-export default StudieForm;
+export default StudyForm;
