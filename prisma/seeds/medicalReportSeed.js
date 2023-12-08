@@ -1,149 +1,100 @@
-//npx prisma db push --force-reset   
-//node .\prisma\seeds\medicalReportSeed.js
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const { faker } = require('@faker-js/faker');
+
+const prisma = new PrismaClient();
+
 const statusOptions = ["Activo", "Enviando", "Pendiente", "No entregado"];
+
 const categoriesSeed = [
-  { "name": "Hematología" },
-  { "name": "Química sanguínea" },
-  { "name": "Microbiología" },
-  { "name": "Inmunología" },
-  { "name": "Parasitología" },
-  { "name": "Uroanálisis" },
-  { "name": "Endocrinología" },
-  { "name": "Genética" },
-  { "name": "Toxicología" },
-  { "name": "Virología" },
-  { "name": "Inmunohematología" },
-  { "name": "Serología" },
-  { "name": "Bioquímica clínica" },
-  { "name": "Análisis de orina" },
-  { "name": "Cultivo de tejidos" },
-  { "name": "Citología" },
-  { "name": "Histopatología" },
-  { "name": "Neurofisiología" },
-  { "name": "Electrofisiología" },
-  { "name": "Radiología" },
-  { "name": "Resonancia magnética" },
-  { "name": "Tomografía computarizada" },
-  { "name": "Ecografía" },
-  { "name": "Doppler" },
-  { "name": "Electrocardiografía" },
-  { "name": "Holter" },
-  { "name": "Espirometría" },
-  { "name": "Electroencefalografía" },
-  { "name": "Colonoscopía" },
-  { "name": "Endoscopía" }
+  "Hematología", "Química sanguínea", "Microbiología", "Inmunología", "Parasitología",
+  "Uroanálisis", "Endocrinología", "Genética", "Toxicología", "Virología",
+  "Inmunohematología", "Serología", "Bioquímica clínica", "Análisis de orina",
+  "Cultivo de tejidos", "Citología", "Histopatología", "Neurofisiología", "Electrofisiología",
+  "Radiología", "Resonancia magnética", "Tomografía computarizada", "Ecografía", "Doppler",
+  "Electrocardiografía", "Holter", "Espirometría", "Electroencefalografía", "Colonoscopía", "Endoscopía"
 ];
 
-// Generar datos aleatorios para pacientes
+const generateRandomElement = (array) => faker.random.arrayElement(array);
+
 const generatePatients = (count) => {
-  const patients = [];
   const genderOptions = ["Hombre", "Mujer"];
   const statusPatientOptions = ["Activo", "Archivado"];
 
-  for (let i = 0; i < count; i++) {
-    const patient = {
-      name: faker.name.findName(),
-      email: faker.internet.email(),
-      phone: faker.phone.phoneNumber(),
-      information: faker.lorem.sentence(),
-      dateOfBirth: faker.date.past(), // Fecha de nacimiento aleatoria en el pasado
-      gender: faker.random.arrayElement(genderOptions),
-      status: faker.random.arrayElement(statusPatientOptions),
-    };
-
-    patients.push(patient);
-  }
-
-  return patients;
+  return Array.from({ length: count }, () => ({
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    phone: faker.phone.phoneNumber(),
+    information: faker.lorem.sentence(),
+    dateOfBirth: faker.date.past(),
+    gender: generateRandomElement(genderOptions),
+    status: generateRandomElement(statusPatientOptions),
+  }));
 };
 
-// Generar datos aleatorios para informes médicos
-const generateMedicalReports = (count, patients, categories) => {
-  const medicalReports = [];
-
-  for (let i = 0; i < count; i++) {
-    const patient = faker.random.arrayElement(patients);
-
-    // Define the studies for each medical report
-    const studies = generateStudies(categories); // Implement the generateStudies function
-
-    const medicalReport = {
-      name: faker.lorem.words(2),
-      date: faker.date.past(),
-      status: faker.random.arrayElement(statusOptions),
-      diagnosis: faker.lorem.sentence(),
-      patient: {
-        connect: { id: patient.id },
-      },
-      studies: {
-        create: studies,
-      },
-    };
-
-    medicalReports.push(medicalReport);
-  }
-
-  return medicalReports;
+const createCategories = async (categoriesSeed) => {
+  return Promise.all(categoriesSeed.map(async (categoryName) => {
+    return prisma.category.create({
+      data: { name: categoryName },
+    });
+  }));
 };
 
-// Generate random studies for each medical report
-const generateStudies = (categories) => {
-  const numStudies = faker.datatype.number({ min: 1, max: 5 }); // Random number of studies (1 to 5)
-  const studies = [];
-
-  for (let i = 0; i < numStudies; i++) {
-    const category = faker.random.arrayElement(categories);
-    const study = {
-      // Define study properties (e.g., name, result, date, etc.)
-      // You can use faker to generate random values for the study properties
-      category: {
-        connect: { id: category.id },
-      },
-      name: faker.lorem.words(2),
-      createdAt: faker.date.past(),
-    };
-
-    studies.push(study);
-  }
-
-  return studies;
-};
-
-async function main() {
-  await prisma.patient.deleteMany();
-  await prisma.category.deleteMany();
-
-  const patientData = generatePatients(5); // Genera 5 pacientes aleatorios
-  for (const patientInfo of patientData) {
-    const patient = await prisma.patient.create({
+const createPatients = async (patientsData) => {
+  return Promise.all(patientsData.map(async (patientInfo) => {
+    return prisma.patient.create({
       data: patientInfo,
     });
-  }
+  }));
+};
 
-  for (const categoryInfo of categoriesSeed) { // Cambio de 'categories' a 'categoriesSeed'
-    await prisma.category.create({
-      data: categoryInfo,
-    });
-  }
+const generateStudies = (categories) => {
+  const numStudies = faker.datatype.number({ min: 1, max: 5 });
 
-  const patients = await prisma.patient.findMany();
-  const categories = await prisma.category.findMany();
+  return Array.from({ length: numStudies }, () => ({
+    category: {
+      connect: { id: generateRandomElement(categories).id },
+    },
+    name: faker.lorem.words(2),
+    createdAt: faker.date.past(),
+  }));
+};
 
-  const medicalReportsData = generateMedicalReports(20, patients, categories); // Genera 20 informes médicos aleatorios
-  for (const reportInfo of medicalReportsData) {
-    await prisma.medicalReport.create({
-      data: reportInfo,
-    });
-  }
-}
+const generateMedicalReports = (count, patients, categories) => {
+  return Array.from({ length: count }, () => {
+    const patient = generateRandomElement(patients);
+    const studies = generateStudies(categories);
 
-main()
-  .catch((error) => {
-    console.error(error);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
+    return {
+      name: faker.lorem.words(2),
+      date: faker.date.past(),
+      status: generateRandomElement(statusOptions),
+      diagnosis: faker.lorem.sentence(),
+      patient: { connect: { id: patient.id } },
+      studies: { create: studies },
+    };
   });
+};
+
+const main = async () => {
+  try {
+    await prisma.patient.deleteMany();
+    await prisma.category.deleteMany();
+
+    const patientsData = generatePatients(5);
+    const categories = await createCategories(categoriesSeed);
+    const patients = await createPatients(patientsData);
+
+    const medicalReportsData = generateMedicalReports(20, patients, categories);
+    await prisma.medicalReport.createMany({
+      data: medicalReportsData,
+    });
+
+    console.log('Seeding completed successfully.');
+  } catch (error) {
+    console.error('Error during seeding:', error);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+main();
