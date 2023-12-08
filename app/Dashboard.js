@@ -8,6 +8,7 @@ import { fetchMedicalReports } from './useCases/fetchMedicalReports';
 import { saveMedicalReports } from './useCases/saveMedicalReport';
 import { savePatient } from './useCases/savePatient';
 import { fetchCategories } from './useCases/fetchCategories';
+import { saveStudy } from './useCases/saveStudy';
 
 const Dashboard = ({setLoadingState}) => {
   const [studiesData, setStudiesData] = useState([]);
@@ -53,6 +54,24 @@ const Dashboard = ({setLoadingState}) => {
     });
   };  
 
+  
+  const handleSaveStudy = (editedStudy) => {
+    saveStudy(editedStudy)      
+    .then((result) => {
+      if (result.success) {
+        // Guardado exitoso, puedes realizar acciones adicionales si es necesario
+        console.log('Estudio guardado exitosamente en dashboard.');
+        fecthStudies()
+      } else {
+        // Error al guardar, puedes mostrar un mensaje de error
+        console.error('Error al guardar el informe estudio en api.');
+      }
+    })
+    .catch((error) => {
+      console.error('Error al guardar el estudio: ' + error.message);
+    });
+  };    
+
   const handleSavePatient = (editedPatient) => {
     savePatient(editedPatient)
       .then((result) => {
@@ -88,7 +107,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} savePatient={handleSavePatient} refresh={() => {
+        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={() => {
           fetchReports();
         }}/>
       </div>

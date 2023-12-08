@@ -7,7 +7,7 @@ import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 import sendTokenByEmail from '../useCases/sendTokenByEmail';
 
-const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh, key, isOpenForm }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm }) => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -120,7 +120,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, refresh,
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <ClinicalResultForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSavePatient={handleSavePatient} />}
+      {isFormOpen && <ClinicalResultForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSaveStudy={saveStudy} onSavePatient={handleSavePatient} />}
     </Card>
   );
 };

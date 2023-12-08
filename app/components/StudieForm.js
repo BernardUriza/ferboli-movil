@@ -34,8 +34,8 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
             modalClassName="p-8"
             footerElement={
                 <div className="flex">
-                    <Button type="primary" className='ml-auto' onClick={async () =>{ 
-                            debugger
+                    <Button type="primary" className='ml-auto' onClick={async (e) =>{ 
+                        e.preventDefault();
                         if (file) {
                             const res = await edgestore.publicFiles.upload({
                                 file,
@@ -47,8 +47,7 @@ const StudieForm = ({ study, onClose, onSave, categories }) => {
                             // you can run some server action or api here
                             // to add the necessary data to your database
                             console.log(res);
-                            debugger
-                            editedStudy.file = res;
+                            editedStudy.name = res.url;
                         }
                         onSave(editedStudy) 
                     }}>

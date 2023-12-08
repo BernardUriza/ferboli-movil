@@ -12,7 +12,7 @@ import StatusSelect from '../controls/StatusSelect';
 import StudieCard from '../controls/StudieCard';
 import StudieForm from './StudieForm';
 
-const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient, onSend }) => {
+const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudieFormOpen, setStudieFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -61,14 +61,19 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
     onSavePatient(editedPatientData);
     closePatientEditor();
   };
-
-  const clickToOpenStudieForm = (selectedStudie) => {
+  
+  const clickToOpenStudyForm = (selectedStudie) => {
     setSelectedStudy(selectedStudie);
     setStudieFormOpen(true);
   };
 
-  const closeStudieForm = () => {
+  const closeStudyForm = () => {
     setStudieFormOpen(false);
+  };
+  
+  const handleStudySave = (editedStudy) => {
+    onSaveStudy(editedStudy);
+    closeStudyForm();
   };
 
 
@@ -172,7 +177,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
               {editedReport.studies?.map((study) => (
                 <div key={study.id}>
                   <StudieCard
-                    clickFileLink={clickToOpenStudieForm}
+                    clickFileLink={clickToOpenStudyForm}
                     studieData={study}
                   />
                 </div>
@@ -197,8 +202,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSavePatient
         <StudieForm
           categories={categories}
           study={selectedStudy}
-          onClose={closeStudieForm}
-          onSave={handlePatientSave}
+          onClose={closeStudyForm}
+          onSave={handleStudySave}
         />
       )}
     </>
