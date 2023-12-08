@@ -39,24 +39,24 @@ model Patient {
 model Category {
   id           Int       @id @default(autoincrement())
   name         String
-  studies Study[]
+  studyTypes StudyType[]
 }
 
 model StudyType {
   id           Int       @id @default(autoincrement())
   name         String
+  categoryId Int
+  category    Category?  @relation(fields: [categoryId], references: [id]) 
   studies Study[]
 }
 
 model Study {
   id         Int       @id @default(autoincrement())
   name String
-  categoryId Int
-  studyId Int
   medicalReportId Int
   createdAt  DateTime  @default(now())
-  category    Category?  @relation(fields: [categoryId], references: [id]) 
-  type    StudyType?  @relation(fields: [studyId], references: [id]) 
+  studyTypeId Int
+  type    StudyType?  @relation(fields: [studyTypeId], references: [id]) 
   medicalReport    MedicalReport?  @relation(fields: [medicalReportId], references: [id]) 
   // Otros campos relevantes para tu estudio
 }

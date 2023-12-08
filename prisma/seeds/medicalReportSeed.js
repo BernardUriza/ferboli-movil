@@ -1,3 +1,5 @@
+//npx prisma db push --force-reset   
+//node .\prisma\seeds\medicalReportSeed.js
 const { PrismaClient } = require('@prisma/client');
 const { faker } = require('@faker-js/faker');
 
@@ -47,22 +49,38 @@ const createPatients = async (patientsData) => {
   }));
 };
 
-const generateStudies = (categories) => {
+const createStudyTypes = async (categories) => {
+  return Promise.all(categories.map(async (category) => {
+    const numStudyTypes = faker.datatype.number({ min: 1, max: 3 });
+    const studyTypeNames = Array.from({ length: numStudyTypes }, () => faker.lorem.words(1));
+    
+    return Promise.all(studyTypeNames.map(async (typeName) => {
+      return prisma.studyType.create({
+        data: {
+          name: typeName,
+          category: { connect: { id: category.id } },
+        },
+      });
+    }));
+  }));
+};
+
+const generateStudies = (studyTypes) => {
   const numStudies = faker.datatype.number({ min: 1, max: 5 });
 
   return Array.from({ length: numStudies }, () => ({
-    category: {
-      connect: { id: generateRandomElement(categories).id },
+    type: {
+      connect: { id: generateRandomElement(studyTypes).id },
     },
     name: faker.lorem.words(2),
     createdAt: faker.date.past(),
   }));
 };
 
-const generateMedicalReports = (count, patients, categories) => {
+const generateMedicalReports = (count, patients, studyTypes) => {
   return Array.from({ length: count }, () => {
     const patient = generateRandomElement(patients);
-    const studies = generateStudies(categories);
+    const studies = generateStudies(studyTypes);
 
     return {
       name: faker.lorem.words(2),
@@ -75,16 +93,19 @@ const generateMedicalReports = (count, patients, categories) => {
   });
 };
 
+
 const main = async () => {
   try {
+    await prisma.studyType.deleteMany();
     await prisma.patient.deleteMany();
     await prisma.category.deleteMany();
 
     const patientsData = generatePatients(5);
     const categories = await createCategories(categoriesSeed);
+    const studyTypes = await createStudyTypes(categories);
     const patients = await createPatients(patientsData);
 
-    const medicalReportsData = generateMedicalReports(20, patients, categories);
+    const medicalReportsData = generateMedicalReports(1, patients, studyTypes);
     await prisma.medicalReport.createMany({
       data: medicalReportsData,
     });
