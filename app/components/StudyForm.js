@@ -21,8 +21,11 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
         createdAt: new Date(),
     };
 
+    const CONST_SeleccionaUnDocumentoPDF = "Selecciona un documento PDF";
+    const CONST_HazClickParaVerPDF = "Haz click para ver el documento PDF";
+
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
-    const [file, setFile] = useState();
+    const [fileMessage, setFileMessage] = useState(CONST_SeleccionaUnDocumentoPDF);
     const fileInputRef = React.createRef(); // Create a ref for the file input
 
     const openFileSelector = () => {
@@ -43,19 +46,6 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 <div className="flex">
                     <Button type="primary" className='ml-auto' onClick={async (e) => {
                         e.preventDefault();
-                        if (file) {
-                            const res = await edgestore.publicFiles.upload({
-                                file,
-                                onProgressChange: (progress) => {
-                                    // you can use this to show a progress bar
-                                    console.log(progress);
-                                },
-                            });
-                            // you can run some server action or api here
-                            // to add the necessary data to your database
-                            console.log(res);
-                            editedStudy.name = res.url;
-                        }
                         onSave(editedStudy)
                     }}>
                         Guardar
@@ -114,7 +104,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 </div>
                 <div className="mb-4">
                     <StudieCard
-                        empty={true}
+                        empty={fileMessage}
                     />
                 </div>
 
@@ -125,8 +115,22 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                     type="file"
                     ref={fileInputRef} // Connect the ref to the file input
                     className="hidden"
-                    onChange={(e) => {
-                        setFile(e.target.files?.[0]);
+                    onChange={async (e) => {
+                        var file = (e.target.files?.[0]);
+                        if (file) {
+                            const res = await edgestore.publicFiles.upload({
+                                file,
+                                onProgressChange: (progress) => {
+                                    // you can use this to show a progress bar
+                                    console.log(progress);
+                                },
+                            });
+                            // you can run some server action or api here
+                            // to add the necessary data to your database
+                            console.log(res);
+                            editedStudy.name = res.url;
+                            setFileMessage(CONST_HazClickParaVerPDF);
+                        }
                     }}
                 />
 
@@ -138,7 +142,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 } style={{ width: "100%" }}>
                     <div className='flex' style={{ height: "52px" }}>
                         <HiDocumentArrowUp style={{ width: "20px", height: "20px", marginTop: "15px" }}></HiDocumentArrowUp>
-                        <span className='mx-3 my-auto' style={{ fontSize: "17px" }}>Nuevo resultado clínico</span>
+                        <span className='mx-3 my-auto' style={{ fontSize: "17px" }}>Subir resultado clínico</span>
                     </div>
                 </Button>
             </form>

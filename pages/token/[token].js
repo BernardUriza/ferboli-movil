@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import jwt from 'jsonwebtoken';
-import MedicalReportDetails from '@/app/MedicalReportDetails';
+import MedicalReportDetails from '../../app/MedicalReportDetails';
 
 const TokenPage = () => {
   const router = useRouter();
