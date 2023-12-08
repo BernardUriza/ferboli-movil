@@ -10,19 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model MedicalReport {
-  id         Int       @id @default(autoincrement())
-  name String
-  patientId Int
-  status  String
-  diagnosis  String
-  date  DateTime
-  createdAt  DateTime  @default(now())
-  patient    Patient   @relation(fields: [patientId], references: [id])
-  studies Study[]
-  // Otros campos relevantes para tu informe médico
-}
-
 model Patient {
   id         Int       @id @default(autoincrement())
   name       String
@@ -36,6 +23,19 @@ model Patient {
   medicalReports MedicalReport[]
   // Otros campos relevantes para el paciente
 }
+model MedicalReport {
+  id         Int       @id @default(autoincrement())
+  name String
+  status  String
+  diagnosis  String
+  date  DateTime
+  createdAt  DateTime  @default(now())
+  patientId Int
+  patient    Patient   @relation(fields: [patientId], references: [id])
+  studies Study[]
+  // Otros campos relevantes para tu informe médico
+}
+
 model Category {
   id           Int       @id @default(autoincrement())
   name         String

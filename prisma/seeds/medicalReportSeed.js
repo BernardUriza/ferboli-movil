@@ -49,11 +49,27 @@ const createPatients = async (patientsData) => {
   }));
 };
 
+const createMedicalReports = async (medicalReportsData) => {
+  return Promise.all(medicalReportsData.map(async (medicalReportInfo) => {
+    return prisma.medicalReport.create({
+      data: medicalReportInfo,
+    });
+  }));
+};
+
+const createStudies = async (studiesData) => {
+  return Promise.all(studiesData.map(async (studyInfo) => {
+    return prisma.study.create({
+      data: studyInfo,
+    });
+  }));
+};
+
 const createStudyTypes = async (categories) => {
   return Promise.all(categories.map(async (category) => {
     const numStudyTypes = faker.datatype.number({ min: 1, max: 3 });
     const studyTypeNames = Array.from({ length: numStudyTypes }, () => faker.lorem.words(1));
-    
+
     return Promise.all(studyTypeNames.map(async (typeName) => {
       return prisma.studyType.create({
         data: {
@@ -65,30 +81,34 @@ const createStudyTypes = async (categories) => {
   }));
 };
 
-const generateStudies = (studyTypes) => {
+const generateStudies = (medicalReports, studyTypes) => {
   const numStudies = faker.datatype.number({ min: 1, max: 5 });
+  
+  const medicalReport = (generateRandomElement(medicalReports));
+  console.log(medicalReport)
 
-  return Array.from({ length: numStudies }, () => ({
-    type: {
-      connect: { id: generateRandomElement(studyTypes).id },
-    },
-    name: faker.lorem.words(2),
-    createdAt: faker.date.past(),
-  }));
+  return Array.from({ length: numStudies }, () => {
+    return {
+      type: {
+        connect: { id: generateRandomElement(generateRandomElement(studyTypes)).id },
+      },
+      name: faker.lorem.words(2),
+      createdAt: faker.date.past(),
+      medicalReport: { connect: { id: medicalReport.id } },
+    };
+  });
 };
 
-const generateMedicalReports = (count, patients, studyTypes) => {
+const generateMedicalReports = (count, patients) => {
   return Array.from({ length: count }, () => {
     const patient = generateRandomElement(patients);
-    const studies = generateStudies(studyTypes);
 
     return {
       name: faker.lorem.words(2),
       date: faker.date.past(),
       status: generateRandomElement(statusOptions),
       diagnosis: faker.lorem.sentence(),
-      patient: { connect: { id: patient.id } },
-      studies: { create: studies },
+      patientId: patient.id
     };
   });
 };
@@ -96,19 +116,23 @@ const generateMedicalReports = (count, patients, studyTypes) => {
 
 const main = async () => {
   try {
+    await prisma.study.deleteMany();
     await prisma.studyType.deleteMany();
-    await prisma.patient.deleteMany();
     await prisma.category.deleteMany();
+    await prisma.medicalReport.deleteMany();
+    await prisma.patient.deleteMany();
 
-    const patientsData = generatePatients(5);
     const categories = await createCategories(categoriesSeed);
     const studyTypes = await createStudyTypes(categories);
+    
+    const patientsData = generatePatients(5);
     const patients = await createPatients(patientsData);
 
-    const medicalReportsData = generateMedicalReports(1, patients, studyTypes);
-    await prisma.medicalReport.createMany({
-      data: medicalReportsData,
-    });
+    const medicalReportsData = generateMedicalReports(18, patients);
+    const medicalReports = await createMedicalReports(medicalReportsData);
+
+    const studiesData = generateStudies(medicalReports, studyTypes);
+    await createStudies(studiesData);
 
     console.log('Seeding completed successfully.');
   } catch (error) {
