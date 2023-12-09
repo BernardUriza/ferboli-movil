@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 export async function getAllCategories() {
   return prisma.category.findMany({
     include: {
-      studyTypes: true
+      studyTypes: {
+        include: {
+          category: true
+        }
+      }
     }
   });
 }

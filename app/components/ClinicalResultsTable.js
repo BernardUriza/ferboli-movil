@@ -49,6 +49,21 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     savePatient(patient);
     refresh();
   };
+
+  const handleSaveStudy = (study) => {
+    if (selectedReport) {
+      setSelectedReport({
+        ...selectedReport,
+        studies: [
+          ...selectedReport.studies, // Spread the existing studies
+          study, // Add the new study to the array
+        ],
+      });
+    }
+  
+    // Call the saveStudy function to save the study information
+    saveStudy(study);
+  };
   
   
   const saveReport = (report) => {
@@ -120,7 +135,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <ClinicalResultForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSaveStudy={saveStudy} onSavePatient={handleSavePatient} />}
+      {isFormOpen && <ClinicalResultForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSaveStudy={handleSaveStudy} onSavePatient={handleSavePatient} />}
     </Card>
   );
 };

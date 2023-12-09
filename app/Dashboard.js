@@ -61,7 +61,7 @@ const Dashboard = ({setLoadingState}) => {
       if (result.success) {
         // Guardado exitoso, puedes realizar acciones adicionales si es necesario
         console.log('Estudio guardado exitosamente en dashboard.');
-        fecthStudies()
+        fecthReports()
       } else {
         // Error al guardar, puedes mostrar un mensaje de error
         console.error('Error al guardar el informe estudio en api.');
