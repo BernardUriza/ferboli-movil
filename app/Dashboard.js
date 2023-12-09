@@ -16,8 +16,9 @@ const Dashboard = ({setLoadingState}) => {
   const [keyClinicalResultsTable, setKeyClinicalResultsTable] = useState(1);
   const [openForm, setOpenForm] = useState(false);
 
-  const fetchReports = () => {
-    setLoadingState(true);
+  const fetchReports = (loadingStateActive=true) => {
+    if(loadingStateActive)
+      setLoadingState(true);
 
     // Realizar ambos fetch simultáneamente
     Promise.all([fetchMedicalReports(), fetchCategories()])
@@ -28,7 +29,8 @@ const Dashboard = ({setLoadingState}) => {
       })
       .catch((error) => console.error(error.message))
       .finally(() => {
-        setLoadingState(false)
+        if(loadingStateActive)
+          setLoadingState(false)
         setKeyClinicalResultsTable(keyClinicalResultsTable+1);
       });
   };
@@ -107,9 +109,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={() => {
-          fetchReports();
-        }}/>
+        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
       </div>
     </div>
   );

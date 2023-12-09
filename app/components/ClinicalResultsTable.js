@@ -34,7 +34,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   const closeForm = () => {
     setSelectedReport(null);
     setIsFormOpen(false);
-    refresh();
+    refresh(false);
   };
 
   const handleSavePatient = (patient) => {
@@ -48,7 +48,6 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   
     // Call the savePatient function to save the patient information
     savePatient(patient);
-    refresh();
   };
   
   const handleSaveStudy = (study) => {
@@ -85,7 +84,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     save(report)
     setSelectedReport(null);
     setIsFormOpen(false);
-    refresh();
+    refresh(false);
   };
 
   // ClinicalResultsTable.js
