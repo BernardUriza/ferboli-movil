@@ -80,6 +80,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   
   
   const saveReport = (report) => {
+    debugger
     save(report)
     setSelectedReport(null);
     setIsFormOpen(false);

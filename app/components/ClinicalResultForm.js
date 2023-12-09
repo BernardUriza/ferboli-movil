@@ -88,15 +88,15 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
         modalClassName="p-8"
         footerElement={
           <div className="flex justify-end">
-            <Button variant="light" className="ml-3" onClose={onClose} onClick={() => onSave(editedReport)}>
-              Guardar
+            <Button variant="light" className="ml-3" onClose={onClose} onClick={() => onClose()}>
+              Cancelar
             </Button>
 
             <Button variant="secondary" className="ml-3" onClose={onClose} onClick={() => onSend(editedReport)}>
               Enviar al cliente
             </Button>
             
-            <Button type="primary"  className="ml-3" onClick={() => onSend(editedReport)}>
+            <Button type="primary"  className="ml-3" onClick={() => onSave(editedReport)}>
               Guardar
             </Button>
           </div>
@@ -173,18 +173,14 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
             <Slider {...sliderSettings}>
               {editedReport.studies?.map((study) => (
-                <div key={study.id}>
                   <StudieCard
                     clickFileLink={clickToOpenStudyForm}
                     studieData={study}
                   />
-                </div>
               ))}
-              <div key={100000}>
-                <StudieCard
-                  newCard={true}
-                />
-              </div>
+              <StudieCard
+                newCard={true}
+              />
             </Slider>
           </div>
         </form>
