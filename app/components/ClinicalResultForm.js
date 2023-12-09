@@ -72,6 +72,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
   };
   
   const handleStudySave = (editedStudy) => {
+    editedStudy.medicalReportId = editedReport.id; 
     onSaveStudy(editedStudy);
     closeStudyForm();
   };

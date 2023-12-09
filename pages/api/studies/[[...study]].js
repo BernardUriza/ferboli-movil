@@ -28,17 +28,17 @@ export default async (req, res) => {
     }
   } else if (method === 'POST') {
     try {
-      const { id, name, type } = req.body;
+      const { id, medicalReportId, name, type } = req.body;
 
       // Validation of the fields
-      if (!id || !name || !type) {
+      if (!medicalReportId || !type) {
         return res.status(400).json({ error: 'All fields are required' });
       }
 
       // You may perform additional validations according to your needs, e.g., validate the date format or the value of the status.
 
       // Check if the study already exists by its ID
-      const existingStudy = await getStudyById(id);
+      const existingStudy = id == "" ? false : await getStudyById(id);
 
       if (existingStudy) {
         // If the study exists, update it
@@ -50,7 +50,7 @@ export default async (req, res) => {
       } else {
         // If the study does not exist, create it as a new study
         const newStudy = await createStudy({
-          id,
+          medicalReportId,
           name,
           studyTypeId: type.id, // categoryId instead of the complete category object
         });
