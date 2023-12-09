@@ -7,3 +7,7 @@
   --background-start-rgb: #F9FAFB;
   --background-end-rgb: #F9FAFB;
 }
+
+.slick-prev:before, .slick-next:before {
+  color: black;
+}

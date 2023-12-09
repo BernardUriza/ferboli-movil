@@ -7,6 +7,7 @@ import Results from './Results';
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { HiOutlineArrowRightOnRectangle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
+import "./globals.css";
 
 const Tabs = ({setLoadingState }) => {
   return (
