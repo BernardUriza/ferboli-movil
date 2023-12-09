@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 
 // Obtener todas las categorías
 export async function getAllCategories() {
-  return prisma.category.findMany();
+  return prisma.category.findMany({
+    include: {
+      studyTypes: true
+    }
+  });
 }
 
 // Crear una nueva categoría

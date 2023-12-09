@@ -35,7 +35,8 @@ const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyFor
     );
   }
 
-  var { name, category, createdAt } = studieData;
+  var {  type, createdAt } = studieData;
+  var { category, name } = type;
   return (
     <div className="bg-white rounded-lg p-4 shadow-md mb-3 mr-3">
       <div className="flex justify-between items-center mb-2">

@@ -8,7 +8,8 @@ const TopStudiesList = ({ medicalReports }) => {
   const categoryCounts = medicalReports.reduce((categoryCount, report) => {
     // Iterate through studies within each medical report
     report.studies.forEach((study) => {
-      const { category } = study;
+      const { type } = study;
+      const { category } = type;
       const categoryName = category.name;
       categoryMap[category.id] = categoryName;
       categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;

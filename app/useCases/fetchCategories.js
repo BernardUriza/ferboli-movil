@@ -7,7 +7,7 @@ export async function fetchCategories() {
     if (response.ok) {
       const data = await response.json();
       return data.map((category) =>
-        new Category(category.id, category.name)
+        new Category(category.id, category.name, category.studyTypes)
       );
     } else {
       throw new Error('Error fetching categories');

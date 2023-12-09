@@ -8,7 +8,11 @@ export async function getAllMedicalReports() {
       patient: true,
       studies: {
         include: {
-          category: true
+          type:  {
+            include: {
+              category: true
+            }
+          }
         }
       }
     }

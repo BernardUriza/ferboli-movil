@@ -29,7 +29,7 @@ export default async (req, res) => {
         res.status(200).json(updatedCategory);
       } else {
         // Si la categoría no existe, créala como una nueva categoría
-        const newCategory = await createCategory({ id, name });
+        const newCategory = await createCategory({ id, name, studyTypes });
         res.status(201).json(newCategory);
       }
     } catch (error) {

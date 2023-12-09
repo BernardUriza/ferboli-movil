@@ -26,13 +26,13 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
     const [fileMessage, setFileMessage] = useState(CONST_SeleccionaUnDocumentoPDF);
+    const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === study.type.category.id));    
     const fileInputRef = React.createRef(); // Create a ref for the file input
 
     const openFileSelector = () => {
         // Trigger the click event on the hidden file input
         fileInputRef.current.click();
     };
-
 
     return (
         <CustomModal
@@ -75,14 +75,9 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 <div className="mb-4">
                     <label>Categoria</label>
                     <SearchSelect
-                        value={editedStudy.category.id} // Debe ser el ID de la categoría, no el nombre
+                        value={selectedCategory.id} 
                         onValueChange={(value) => {
-                            // Busca la categoría con el ID coincidente
-                            const selectedCategory = categories.find((category) => category.id === value);
-                            if (selectedCategory) {
-                                // Actualiza el objeto de categoría en editedReport
-                                setEditedStudy({ ...editedStudy, category: selectedCategory });
-                            }
+                            setSelectedCategory(categories.find((category) => category.id === value));
                         }}
                     >
                         {categories.map((category) => (
@@ -94,13 +89,24 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label>Nombre</label>
-                    <TextInput
-                        type="text"
-                        name="id"
-                        value={editedStudy.name}
-                        onChange={(e) => setEditedStudy({ ...editedStudy, name: e.target.value })}
-                    />
+                    <label>Nombre (Tipo)</label>
+                    <SearchSelect
+                        value={editedStudy.type.id} 
+                        onValueChange={(value) => {
+                            // Busca la categoría con el ID coincidente
+                            const selectedType = selectedCategory.studyTypes.find((type) => type.id === value);
+                            if (selectedType) {
+                                // Actualiza el objeto de categoría en editedReport
+                                setEditedStudy({ ...editedStudy, type: selectedType });
+                            }
+                        }}
+                    >
+                        {selectedCategory.studyTypes?.map((category) => (
+                            <SearchSelectItem key={category.id} value={category.id}>
+                                {category.name}
+                            </SearchSelectItem>
+                        ))}
+                    </SearchSelect>
                 </div>
                 <div className="mb-4">
                     <StudieCard

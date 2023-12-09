@@ -33,7 +33,7 @@ export default async (req, res) => {
     }
   } else if (method === 'POST') {
     try {
-      const { id, name, date, status, category } = req.body;
+      const { id, name, date, status } = req.body;
 
       // Validación de los campos
       if (!id || !name || !date || !status) {
@@ -60,8 +60,7 @@ export default async (req, res) => {
           id,
           name,
           date,
-          status,
-          categoryId: category.id, // categoryId en lugar del objeto completo category
+          status
         });
         res.status(201).json(newReport);
       }

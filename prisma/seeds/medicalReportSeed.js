@@ -82,12 +82,10 @@ const createStudyTypes = async (categories) => {
 };
 
 const generateStudies = (medicalReports, studyTypes) => {
-  const numStudies = faker.datatype.number({ min: 1, max: 5 });
+  const numStudies = faker.datatype.number({ min: 1, max: 60 });
   
-  const medicalReport = (generateRandomElement(medicalReports));
-  console.log(medicalReport)
-
   return Array.from({ length: numStudies }, () => {
+    const medicalReport = (generateRandomElement(medicalReports));
     return {
       type: {
         connect: { id: generateRandomElement(generateRandomElement(studyTypes)).id },
