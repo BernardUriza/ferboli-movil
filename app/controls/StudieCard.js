@@ -1,6 +1,7 @@
 // StudieCard.js
 import React from 'react';
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { DocumentAddIcon, DocumentTextIcon } from '@heroicons/react/outline';
 // Add this function outside of the StudieCard component
 
@@ -41,24 +42,24 @@ const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyFor
   var { category, name } = type;
 
   // Formatea la fecha
-  const formattedDate = format(new Date(createdAt), 'dd MMMM yyyy');
+  const formattedDate = format(new Date(createdAt), 'dd MMMM yyyy', { locale: es });
 
   return (
     <div className="bg-white rounded-lg p-4 shadow-md mb-3 mr-3" key={studieData.id} style={{ height: '110px' }}>
       <div className="flex justify-between items-center mb-2">
         <div>
-          <div style={{ height: '40px' }}>
-            <p className="text-gray-600 text-sm">{category.name}</p>
+          <div style={{ height: '40px', position: 'relative' }}>
+            <p className="text-gray-600 text-sm" style={{ position: 'absolute', bottom: 0 }}>{category.name}</p>
           </div>
           <p className="text-lg font-bold">{name}</p>
-          <p className="text-gray-600 text-sm">Fecha: {formattedDate}</p>
+          <p className="text-gray-600 text-sm line-clamp-1">Fecha: {formattedDate}</p>
         </div>
           <a href={"/"} onClick={(e)=>{            
               e.preventDefault();
               clickFileLink(studieData);
-          }} rel="noopener noreferrer" className="text-green-500 text-sm">
-            <div className="bg-green-100 items-center justify-center rounded-full p-2 mx-auto" style={{width: "40px"}}>
-              <DocumentTextIcon className="w-6 h-6" />
+          }} rel="noopener noreferrer" className="text-green-500 line-clamp-1" style={{ fontSize: '13px' }}>
+            <div className="bg-green-100 items-center justify-center rounded-full p-2 mx-auto" style={{width: "35px"}}>
+              <DocumentTextIcon className="w-5 h-5" />
             </div>
             Ver documento
           </a>
