@@ -6,7 +6,7 @@ import { DocumentAddIcon, DocumentTextIcon } from '@heroicons/react/outline';
 const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyForm }) => {
   if (newCard) {
     return (
-      <div className="rounded-lg p-4 shadow-md mb-3 mr-3" style={{ height: '113px' }}>
+      <div className="rounded-lg p-4 shadow-md mb-3 mr-3" style={{ height: '110px' }}>
         <p className="text-lg font-semibold flex items-center justify-center h-full">
           <a href={clickFileLink} onClick={openNewStudyForm} rel="noopener noreferrer" className='text-green-500 flex' >
             <div className="bg-green-100 items-center justify-center rounded-full p-2 mr-2">

@@ -28,10 +28,10 @@ export default async (req, res) => {
     }
   } else if (method === 'POST') {
     try {
-      const { id, name, date, status, category } = req.body;
+      const { id, name, type } = req.body;
 
       // Validation of the fields
-      if (!id || !name || !date || !status) {
+      if (!id || !name || !type) {
         return res.status(400).json({ error: 'All fields are required' });
       }
 
@@ -44,9 +44,7 @@ export default async (req, res) => {
         // If the study exists, update it
         const updatedStudy = await updateStudy(id, {
           name,
-          date,
-          status,
-          categoryId: category.id, // categoryId instead of the complete category object
+          studyTypeId: type.id
         });
         res.status(200).json(updatedStudy);
       } else {
@@ -54,9 +52,7 @@ export default async (req, res) => {
         const newStudy = await createStudy({
           id,
           name,
-          date,
-          status,
-          categoryId: category.id, // categoryId instead of the complete category object
+          studyTypeId: type.id, // categoryId instead of the complete category object
         });
         res.status(201).json(newStudy);
       }

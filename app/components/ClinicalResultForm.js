@@ -151,7 +151,6 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
                   name="name"
                   readOnly={true}
                   value={editedReport.patient.name}
-                  onChange={(e) => setEditedReport({ ...editedReport, name: e.target.value })}
                   className="mt-1 border rounded-md flex-1"
                 />
                 <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
@@ -159,13 +158,12 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
             </div>
             <div className="flex-1">
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Folio / ID</label>
+                <label className="block text-sm font-medium text-gray-700">Email</label>
                 <TextInput
                   type="text"
                   name="id"
-                  disabled={true}
-                  value={editedReport.id}
-                  onChange={(e) => setEditedReport({ ...editedReport, id: e.target.value })}
+                  readOnly={true}
+                  value={editedReport.patient.email}
                   className="mt-1 border rounded-md"
                 />
               </div>

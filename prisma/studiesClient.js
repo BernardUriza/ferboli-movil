@@ -29,7 +29,7 @@ export async function getStudyById(id) {
       id,
     },
     include: {
-      category: true,
+      type: true,
       medicalReport: true,
     },
   });
@@ -41,11 +41,7 @@ export async function updateStudy(id, data) {
     where: {
       id,
     },
-    data,
-    include: {
-      category: true,
-      medicalReport: true,
-    },
+    data
   });
 }
 
