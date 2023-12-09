@@ -10,7 +10,7 @@ const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyFor
     return (
       <div className="rounded-lg p-4 shadow-md mb-3 mr-3" style={{ height: '110px' }} key={999999999999}>
         <p className="text-lg font-semibold flex items-center justify-center h-full">
-          <a href={clickFileLink} onClick={openNewStudyForm} rel="noopener noreferrer" className='text-green-500 flex' >
+          <a href={"/"} onClick={openNewStudyForm} rel="noopener noreferrer" className='text-green-500 flex' >
             <div className="bg-green-100 items-center justify-center rounded-full p-2 mr-2">
               <DocumentAddIcon className="w-6 h-6" />
             </div>
@@ -24,7 +24,7 @@ const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyFor
     return (
       <div className="rounded-lg p-4 shadow-md mb-3 mr-3" style={{ height: '110px' }}>
         <p className="text-sm flex items-center justify-center h-full">
-          <a href={clickFileLink} target='_blank' onClick={openNewStudyForm} rel="noopener noreferrer" className='text-green-500 flex' >
+          <a href={clickFileLink} target='_blank' rel="noopener noreferrer" className='text-green-500 flex' >
             <div className="bg-green-100 h-10 items-center justify-center rounded-full p-2 mt-2 mr-2">
               <DocumentAddIcon className="w-6 h-6" />
             </div>

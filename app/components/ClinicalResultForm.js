@@ -180,6 +180,10 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
               ))}
               <StudieCard
                 newCard={true}
+                openNewStudyForm={(e) =>{
+                    e.preventDefault();
+                    clickToOpenStudyForm(null);
+                }}
               />
             </Slider>
           </div>

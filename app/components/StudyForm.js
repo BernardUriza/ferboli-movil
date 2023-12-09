@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Button, TextInput, DatePicker, SearchSelect, SearchSelectItem } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
-import { Select, SelectItem } from "@tremor/react";
-import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 import StudieCard from '../controls/StudieCard';
-import { DocumentAddIcon } from '@heroicons/react/solid';
+import esLocale from 'date-fns/locale/es';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
 import { useEdgeStore } from '../lib/edgestore';
 
@@ -26,7 +24,9 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
         categoryId: '',
         medicalReportId: '',
         medicalReport: {},
-        category: {},
+        type: {
+            category: {}
+        },
         createdAt: new Date(),
     };
 
@@ -35,7 +35,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
     const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
-    const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === study.type.category.id));    
+    const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});    
     const fileInputRef = React.createRef(); // Create a ref for the file input
 
     const openFileSelector = () => {
@@ -46,7 +46,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
     return (
         <CustomModal
             title={study ? 'Estudio' : 'Nuevo Estudio'}
-            visible={!!study}
+            visible={true}
             onClose={onClose}
             widthPercentage="20"
             titleClassName="text-blue-500"
@@ -62,7 +62,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 </div>}
         >
             <form>
-                <div className="mb-4">
+                <div className={"mb-4 "+(study ? '' : 'hidden')}>
                     <label>ID</label>
                     <TextInput
                         type="text"
@@ -72,12 +72,13 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                     />
                 </div>
 
-                <div className="mb-4">
+                <div className={"mb-4 "+(study ? '' : 'hidden')}>
                     <label>Fecha</label>
                     <DatePicker
-                        name="dateOfBirth"
-                        value={new Date(editedStudy.dateOfBirth)}
-                        onValueChange={(e) => setEditedStudy({ ...editedStudy, dateOfBirth: e })}
+                        name="createdAt"
+                        disabled={true}
+                        value={new Date(editedStudy.createdAt)}
+                        locale={esLocale}
                     />
                 </div>
 
