@@ -8,6 +8,15 @@ import { DocumentAddIcon } from '@heroicons/react/solid';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
 import { useEdgeStore } from '../lib/edgestore';
 
+function isValidUrl(url) {
+    try {
+      new URL(url);
+      return url;
+    } catch (error) {
+      return false;
+    }
+  }
+
 const StudyForm = ({ study, onClose, onSave, categories }) => {
     const { edgestore } = useEdgeStore();
     // Set initial state based on whether study is null
@@ -25,7 +34,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
     const CONST_HazClickParaVerPDF = "Haz click para ver el documento PDF";
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
-    const [fileMessage, setFileMessage] = useState(CONST_SeleccionaUnDocumentoPDF);
+    const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
     const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === study.type.category.id));    
     const fileInputRef = React.createRef(); // Create a ref for the file input
 
@@ -111,6 +120,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                 <div className="mb-4">
                     <StudieCard
                         empty={fileMessage}
+                        clickFileLink={isValidUrl(editedStudy.name)}
                     />
                 </div>
 
@@ -133,7 +143,6 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
                             });
                             // you can run some server action or api here
                             // to add the necessary data to your database
-                            console.log(res);
                             editedStudy.name = res.url;
                             setFileMessage(CONST_HazClickParaVerPDF);
                         }
