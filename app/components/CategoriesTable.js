@@ -43,17 +43,26 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
 
   const renderCell = (columnKey, item) => {
     if (columnKey === 'studyTypes') {
-      return item.studyTypes.length; //make here a list of strings and a format elegant in html to show the list and the quantity
+      const studyTypeList = item.studyTypes.map(studyType => studyType.name).join(', ');
+      const quantity = item.studyTypes.length;
+  
+      return (
+        <div>
+          <p>Types: {studyTypeList}</p>
+          <p>Quantity: {quantity}</p>
+        </div>
+      );
     } else {
       return item[columnKey];
     }
   };
+  
 
   const columns = [
-    { key: 'name', title: 'Nombre', width: '30%' },
-    { key: 'studyTypes', title: 'Tipos de estudio', width: '30%' },
+    { isFilterColumn: true, key: 'name', title: 'Nombre', width: '30%' },
+    { isFilterColumn: true, key: 'studyTypes', title: 'Tipos de estudio', width: '30%' },
   ];
-  
+
   return (
     <Card style={{ "padding": "0px" }}>
       <div className="md:flex justify-between items-center p-4">
@@ -68,7 +77,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
           filterText={filterText}
           setFilterText={setFilterText}
           setIsFormOpen={setIsFormOpen}
-          column={columns}
+          columns={columns}
         />
       </div>
       <CoreTable

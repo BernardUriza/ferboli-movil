@@ -47,7 +47,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
     } else if (columnKey === 'email') {
       return item.email;
     } else if (columnKey === 'phone') {
-      return item.phone;
+      return item.phone.toString();
     } else if (columnKey === 'dateOfBirth') {
       // Format the dateOfBirth as needed
       return new Date(item.dateOfBirth).toLocaleDateString();
@@ -57,10 +57,10 @@ const PatientsTable = ({ patients, savePatient, key }) => {
   };
 
   const columns = [
-    { key: 'name', title: 'Nombre', width: '30%' },
-    { key: 'email', title: 'Correo Electrónico', width: '20%' },
-    { key: 'phone', title: 'Teléfono', width: '15%' },
-    { key: 'dateOfBirth', title: 'Fecha de Nacimiento', width: '15%' },
+    { isFilterColumn: true, key: 'name', title: 'Nombre', width: '30%' },
+    { isFilterColumn: true, key: 'email', title: 'Correo Electrónico', width: '20%' },
+    { isFilterColumn: true, key: 'phone', title: 'Teléfono', width: '15%' },
+    { isFilterColumn: true, key: 'dateOfBirth', title: 'Fecha de Nacimiento', width: '15%' },
   ];
   return (
     <Card style={{ "padding": "0px" }}>
