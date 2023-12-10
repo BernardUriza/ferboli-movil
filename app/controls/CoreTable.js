@@ -43,8 +43,12 @@ const CoreTable = ({
     ? filteredData.filter((item) => {
       const filterParts = selectedFilter.split('.');
       let value = item;
-      for (const part of filterParts) {
-        if (value && value.hasOwnProperty(part)) {
+      if(filterParts[1] == "*"){
+        debugger
+        let objectArray = item[filterParts[0]]; 
+        value = objectArray.map(obj => obj.name).join(' '); // que aqui solo sea una lista de nombres separadas por coma, no necesito mas que eso
+      }else for (const part of filterParts) {
+         if (value && value.hasOwnProperty(part)) {
           value = value[part];
         } else {
           // Handle the case where the property doesn't exist
@@ -52,6 +56,7 @@ const CoreTable = ({
           break;
         }
       }
+
       return value && (value + '').toLowerCase().includes(filterText.toLowerCase());
     })
     : filteredData;

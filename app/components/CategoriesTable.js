@@ -59,8 +59,8 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
   
 
   const columns = [
-    { isFilterColumn: true, key: 'name', title: 'Nombre', width: '30%' },
-    { isFilterColumn: true, key: 'studyTypes', title: 'Tipos de estudio', width: '30%' },
+    { isFilterColumn: true, key: 'name', value: 'name', title: 'Nombre', width: '30%' },
+    { isFilterColumn: true, key: 'studyTypes', value: 'studyTypes.*', title: 'Tipos de estudio', width: '30%' },
   ];
 
   return (
@@ -68,7 +68,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
       <div className="md:flex justify-between items-center p-4">
         <Title className='my-2'>Lista de Categorías
           <Badge className='mx-3' color="green" size="sm">
-            {lengthFiltered} pacientes
+            {lengthFiltered} categorías
           </Badge>
         </Title>
         <FilterControls

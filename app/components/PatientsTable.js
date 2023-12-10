@@ -57,10 +57,10 @@ const PatientsTable = ({ patients, savePatient, key }) => {
   };
 
   const columns = [
-    { isFilterColumn: true, key: 'name', title: 'Nombre', width: '30%' },
-    { isFilterColumn: true, key: 'email', title: 'Correo Electrónico', width: '20%' },
-    { isFilterColumn: true, key: 'phone', title: 'Teléfono', width: '15%' },
-    { isFilterColumn: true, key: 'dateOfBirth', title: 'Fecha de Nacimiento', width: '15%' },
+    { isFilterColumn: true, value: 'name', key: 'name', title: 'Nombre', width: '30%' },
+    { isFilterColumn: true, value: 'email', key: 'email', title: 'Correo Electrónico', width: '20%' },
+    { isFilterColumn: true, value: 'phone', key: 'phone', title: 'Teléfono', width: '15%' },
+    { isFilterColumn: true, value: 'dateOfBirth', key: 'dateOfBirth', title: 'Fecha de Nacimiento', width: '15%' },
   ];
   return (
     <Card style={{ "padding": "0px" }}>
