@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 class MedicalReport {
-  constructor({id, name, date, status, diagnosis, patient, studies}) {
+  constructor({id, date, status, diagnosis, patient, studies}) {
     this.id = id;
-    this.name = name;
+    this.name = patient?.name;
     this.date = date;
     this.status = status;
     this.diagnosis = diagnosis;

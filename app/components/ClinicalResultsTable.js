@@ -105,7 +105,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
     }
     else if (columnKey === 'name') {      
-      return item.patient?.name + " - " + item.patient?.email; // Replace spaces with slashes
+      return item.name + " - " + item.patient?.email; // Replace spaces with slashes
     } else {
       // Render other columns as usual
       return item[columnKey];
