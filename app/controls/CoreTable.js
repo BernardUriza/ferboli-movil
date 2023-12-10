@@ -79,7 +79,7 @@ const CoreTable = ({
     onFiltered(filteredDataWithColumnFilter.length)
   }
 
-  useEffect(handleDataFiltering, [pageNumber, filterText, selectedFilter, key]);
+  useEffect(handleDataFiltering, [pageNumber, sortedColumn, sortAscending, filterText, selectedFilter, key]);
 
   const handleSortColumn = (column) => {
     if (column === sortedColumn) {
