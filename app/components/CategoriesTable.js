@@ -1,56 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Title, Badge } from "@tremor/react";
-import PatientForm from './PatientForm';
+import CategoryForm from './CategoryForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 
-const PatientsTable = ({ patients, savePatient, key }) => {
-  const [selectedPatient, setSelectedPatient] = useState(null);
-  const [filteredPatients, setFilteredPatients] = useState(patients);
+const CategoriesTable = ({ categories, saveCategory, key }) => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filteredCategories, setFilteredCategories] = useState(categories);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState('');
-  const [lengthFiltered, setLengthFiltered] = useState(patients.length);
+  const [lengthFiltered, setLengthFiltered] = useState(categories.length);
   const itemsPerPage = 11;
 
   useEffect(() => {
-    setFilteredPatients(patients);
-  }, [patients]);
+    setFilteredCategories(categories);
+  }, [categories]);
 
   const openForm = (item) => {
-    setSelectedPatient(item);
+    setSelectedCategory(item);
     setIsFormOpen(true);
   };
 
   const closeForm = () => {
-    setSelectedPatient(null);
+    setSelectedCategory(null);
     setIsFormOpen(false);
   };
 
-  const handleSavePatient = (patient) => {
-    if (selectedPatient) {
-      setSelectedPatient({
-        ...selectedPatient,
-        name: patient.name, // Update the patient name
+  const handleSaveCategory = (category) => {
+    if (selectedCategory) {
+      setSelectedCategory({
+        ...selectedCategory,
+        name: category.name, // Update the category name
         // Add other properties to update here
       });
     }
-    savePatient(patient);
-    // Refresh the patient list if needed
+    saveCategory(category);
+    // Refresh the category list if needed
   };
 
   const renderCell = (columnKey, item) => {
-    if (columnKey === 'name') {
-      return item.name;
-    } else if (columnKey === 'email') {
-      return item.email;
-    } else if (columnKey === 'phone') {
-      return item.phone;
-    } else if (columnKey === 'dateOfBirth') {
-      // Format the dateOfBirth as needed
-      return new Date(item.dateOfBirth).toLocaleDateString();
+    if (columnKey === 'studyTypes') {
+      return item.studyTypes.length; //make here a list of strings and a format elegant in html to show the list and the quantity
     } else {
       return item[columnKey];
     }
@@ -58,30 +51,29 @@ const PatientsTable = ({ patients, savePatient, key }) => {
 
   const columns = [
     { key: 'name', title: 'Nombre', width: '30%' },
-    { key: 'email', title: 'Correo Electrónico', width: '20%' },
-    { key: 'phone', title: 'Teléfono', width: '15%' },
-    { key: 'dateOfBirth', title: 'Fecha de Nacimiento', width: '15%' },
+    { key: 'studyTypes', title: 'Tipos de estudio', width: '30%' },
   ];
+  
   return (
     <Card style={{ "padding": "0px" }}>
       <div className="md:flex justify-between items-center p-4">
-        <Title className='my-2'>Lista de Pacientes
+        <Title className='my-2'>Lista de Categorías
           <Badge className='mx-3' color="green" size="sm">
             {lengthFiltered} pacientes
           </Badge>
         </Title>
         <FilterControls
-          columns={columns}
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
           filterText={filterText}
           setFilterText={setFilterText}
           setIsFormOpen={setIsFormOpen}
+          column={columns}
         />
       </div>
       <CoreTable
         key={key}
-        data={filteredPatients}
+        data={filteredCategories}
         columns={columns}
         filterText={filterText}
         selectedFilter={selectedFilter}
@@ -96,9 +88,9 @@ const PatientsTable = ({ patients, savePatient, key }) => {
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <PatientForm patient={selectedPatient} onClose={closeForm} onSave={handleSavePatient} />}
+      {isFormOpen && <CategoryForm category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
     </Card>
   );
 };
 
-export default PatientsTable;
+export default CategoriesTable;

@@ -115,7 +115,10 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     //{ key: 'id', title: 'ID' },
     { key: 'name', title: 'Nombre', width: '45%' },
     { key: 'date', title: 'Fecha', width: '25%' },
-    { key: 'status', title: 'Status', width: '10%' },
+    { presentInFilter: true, key: 'status', title: 'Status', width: '10%' },
+    { presentInFilter: true, value: "patient.name", title: "Nombre del paciente" },
+    { presentInFilter: true, value: "patient.email", title: "Email del paciente" },
+    { presentInFilter: true, value: "category.name", title: "Categoría" }
   ];
 
   return (
@@ -127,6 +130,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
           </Badge>
         </Title>
         <FilterControls
+          columns={columns}
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
           filterText={filterText}

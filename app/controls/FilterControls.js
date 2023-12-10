@@ -8,8 +8,10 @@ const FilterControls = ({
   selectedFilter,
   setSelectedFilter,
   filterText,
-  setFilterText
+  setFilterText, 
+  columns
 }) => {
+  debugger
   return (
     <div className="flex items-center">
       <div className="max-w-sm mx-auto space-y-6">
@@ -20,21 +22,13 @@ const FilterControls = ({
           <SelectItem value="id" icon={FilterIcon}>
             ID
           </SelectItem>
-          <SelectItem value="date" icon={FilterIcon}>
-            Fecha
-          </SelectItem>
-          <SelectItem value="patient.name" icon={FilterIcon}>
-            Nombre del paciente
-          </SelectItem>
-          <SelectItem value="patient.email" icon={FilterIcon}>
-            Email del paciente
-          </SelectItem>
-          <SelectItem value="category.name" icon={FilterIcon}>
-            Categoría
-          </SelectItem>
-          <SelectItem value="status" icon={FilterIcon}>
-            Status
-          </SelectItem>
+          {
+            columns?.map(column => ( column.presentInFilter ?           
+              <SelectItem value={column.value} icon={FilterIcon}>
+                {column.title}
+              </SelectItem> : null
+            ))
+          }
         </Select>
       </div>
       <TextInputWithIcon

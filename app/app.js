@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import Dashboard from './Dashboard';
 import Users from './Users';
-import Results from './Results';
+import Settings from './Settings';
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { HiOutlineArrowRightOnRectangle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
@@ -35,14 +35,6 @@ const Tabs = ({setLoadingState }) => {
         <Tab>
           <div className='flex'>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 2C3.67157 2 3 2.67157 3 3.5V16.5C3 17.3284 3.67157 18 4.5 18H15.5C16.3284 18 17 17.3284 17 16.5V7.62132C17 7.2235 16.842 6.84197 16.5607 6.56066L12.4393 2.43934C12.158 2.15804 11.7765 2 11.3787 2H4.5ZM9.25 13.25C9.25 13.6642 9.58579 14 10 14C10.4142 14 10.75 13.6642 10.75 13.25V10.7045L11.6925 11.7517C11.9696 12.0596 12.4438 12.0846 12.7517 11.8075C13.0596 11.5304 13.0846 11.0562 12.8075 10.7483L10.5575 8.24828C10.4152 8.09024 10.2126 8 10 8C9.78739 8 9.58476 8.09024 9.44253 8.24828L7.19253 10.7483C6.91544 11.0562 6.94039 11.5304 7.24828 11.8075C7.55616 12.0846 8.03038 12.0596 8.30747 11.7517L9.25 10.7045V13.25Z" fill="currentColor" />
-            </svg>
-            <label className='px-3' style={{ "cursor": "pointer" }}>Resultados</label>
-          </div>
-        </Tab>
-        <Tab>
-          <div className='flex'>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M7.83922 1.80388C7.9327 1.33646 8.34312 1 8.8198 1H11.1802C11.6569 1 12.0673 1.33646 12.1608 1.80388L12.4913 3.45629C13.1956 3.72458 13.8454 4.10332 14.4196 4.57133L16.0179 4.03065C16.4694 3.8779 16.966 4.06509 17.2043 4.47791L18.3845 6.52207C18.6229 6.93489 18.5367 7.45855 18.1786 7.77322L16.9119 8.88645C16.9699 9.24909 17 9.62103 17 10C17 10.379 16.9699 10.7509 16.9119 11.1135L18.1786 12.2268C18.5367 12.5414 18.6229 13.0651 18.3845 13.4779L17.2043 15.5221C16.966 15.9349 16.4694 16.1221 16.0179 15.9693L14.4196 15.4287C13.8454 15.8967 13.1956 16.2754 12.4913 16.5437L12.1608 18.1961C12.0673 18.6635 11.6569 19 11.1802 19H8.8198C8.34312 19 7.9327 18.6635 7.83922 18.1961L7.50874 16.5437C6.80442 16.2754 6.1546 15.8967 5.58042 15.4287L3.98213 15.9694C3.53059 16.1221 3.034 15.9349 2.79566 15.5221L1.61546 13.4779C1.37712 13.0651 1.4633 12.5415 1.82136 12.2268L3.08808 11.1135C3.03011 10.7509 2.99999 10.379 2.99999 10C2.99999 9.62103 3.03011 9.2491 3.08808 8.88647L1.82136 7.77324C1.4633 7.45857 1.37712 6.93491 1.61546 6.52209L2.79566 4.47793C3.034 4.06511 3.53059 3.87791 3.98213 4.03066L5.58041 4.57134C6.15459 4.10332 6.80442 3.72459 7.50874 3.45629L7.83922 1.80388ZM9.99999 13C11.6568 13 13 11.6569 13 10C13 8.34315 11.6568 7 9.99999 7C8.34314 7 6.99999 8.34315 6.99999 10C6.99999 11.6569 8.34314 13 9.99999 13Z" fill="currentColor" />
             </svg>
             <label className='px-3' style={{ "cursor": "pointer" }}>Configuración</label>
@@ -57,7 +49,7 @@ const Tabs = ({setLoadingState }) => {
           <Users />
         </TabPanel>
         <TabPanel when="results">
-          <Results />
+          <Settings />
         </TabPanel>
       </TabPanels>
     </TabGroup>
