@@ -5,7 +5,7 @@ import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 
-const PatientsTable = ({ patients, savePatient }) => {
+const PatientsTable = ({ patients, savePatient, key }) => {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [filteredPatients, setFilteredPatients] = useState(patients);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -62,7 +62,6 @@ const PatientsTable = ({ patients, savePatient }) => {
     { key: 'phone', title: 'Teléfono', width: '15%' },
     { key: 'dateOfBirth', title: 'Fecha de Nacimiento', width: '15%' },
   ];
-
   return (
     <Card style={{ "padding": "0px" }}>
       <div className="md:flex justify-between items-center p-4">
@@ -80,6 +79,7 @@ const PatientsTable = ({ patients, savePatient }) => {
         />
       </div>
       <CoreTable
+        key={key}
         data={filteredPatients}
         columns={columns}
         filterText={filterText}

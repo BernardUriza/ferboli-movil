@@ -5,15 +5,17 @@ import { fetchPatients } from './useCases/fetchPatients';
 import { savePatient } from './useCases/savePatient';
 
 const Users = () => {
-  const [patients, setPatients] = useState([]);
+  const [patients, setPatients] = useState([]); 
+  const [key, setKey] = useState(1);
 
-  const fecthPatients = () => {
+  useEffect(() => {
     fetchPatients()
-      .then((patients) => setPatients(patients))
-      .catch((error) => console.error(error.message));
-  }
-
-  useEffect(fecthPatients, []);  
+      .then((p) => setPatients(p))
+      .catch((error) => console.error(error.message))
+      .finally(() => {
+        setKey(key+1);
+      });
+  }, []);  
 
   const handleSave = (editedPatient) => {
     savePatient(editedPatient)
@@ -37,7 +39,7 @@ const Users = () => {
     <div className='pt-3'>
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <PatientsTable patients={patients} save={handleSave}/>
+        <PatientsTable key={key} patients={patients} save={handleSave}/>
       </div>
     </div>
   );

@@ -7,16 +7,7 @@ export async function fetchPatients() {
         if (response.ok) {
             const data = await response.json();
             return data.map((patient) =>
-                new Patient(
-                    patient.id,
-                    patient.name,
-                    patient.email,
-                    patient.phone,
-                    patient.information,
-                    new Date(patient.dateOfBirth),
-                    patient.gender,
-                    patient.status
-                )
+                new Patient(patient)
             );
         } else {
             throw new Error('Error fetching patients');
