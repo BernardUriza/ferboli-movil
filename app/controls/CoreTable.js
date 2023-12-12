@@ -44,7 +44,6 @@ const CoreTable = ({
       const filterParts = selectedFilter.split('.');
       let value = item;
       if(filterParts[1] == "*"){
-        debugger
         let objectArray = item[filterParts[0]]; 
         value = objectArray.map(obj => obj.name).join(' '); // que aqui solo sea una lista de nombres separadas por coma, no necesito mas que eso
       }else for (const part of filterParts) {

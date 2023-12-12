@@ -40,8 +40,6 @@ export default async (req, res) => {
         return res.status(400).json({ error: 'Todos los campos son obligatorios' });
       }
 
-      // Debes realizar más validaciones según tus necesidades. Por ejemplo, validar el formato de la fecha o el valor del estado.
-
       // Verificar si el informe ya existe por su ID
       const existingReport = await getMedicalReportById(id);
 
@@ -50,8 +48,7 @@ export default async (req, res) => {
         const updatedReport = await updateMedicalReport(id, {
           name,
           date,
-          status,
-          categoryId: category.id, // categoryId en lugar del objeto completo category
+          status
         });
         res.status(200).json(updatedReport);
       } else {
