@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 
 // Obtener todos los pacientes
 export async function getAllPatients() {
-  return prisma.patient.findMany();
+  return prisma.patient.findMany({
+    orderBy: {
+      name: 'asc',
+    },
+  });
 }
 
 // Crear un nuevo paciente

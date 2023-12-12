@@ -15,7 +15,12 @@ export async function getAllMedicalReports() {
           }
         }
       }
-    }
+    },
+    orderBy: {
+      patient: {
+        name: 'asc',
+      },
+    },
   });
 }
 
