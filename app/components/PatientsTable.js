@@ -39,6 +39,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
     }
     savePatient(patient);
     // Refresh the patient list if needed
+    setIsFormOpen(false);
   };
 
   const renderCell = (columnKey, item) => {
@@ -47,7 +48,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
     } else if (columnKey === 'email') {
       return item.email;
     } else if (columnKey === 'phone') {
-      return item.phone.toString();
+      return item.phone;
     } else if (columnKey === 'dateOfBirth') {
       // Format the dateOfBirth as needed
       return new Date(item.dateOfBirth).toLocaleDateString();

@@ -1,6 +1,5 @@
 // Users.js
 import React, {useState, useEffect} from 'react';
-import PatientsTable from './components/PatientsTable';
 import { fetchCategories } from './useCases/fetchCategories';
 import { savePatient } from './useCases/savePatient';
 import CategoriesTable from './components/CategoriesTable';

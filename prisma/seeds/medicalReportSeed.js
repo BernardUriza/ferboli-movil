@@ -25,7 +25,7 @@ const generatePatients = (count) => {
   return Array.from({ length: count }, () => ({
     name: faker.name.findName(),
     email: faker.internet.email(),
-    phone: faker.phone.phoneNumber(),
+    phone: faker.phone.phoneNumber("(##) #### #### #####"),
     information: faker.lorem.sentence(),
     dateOfBirth: faker.date.past(),
     gender: generateRandomElement(genderOptions),

@@ -140,7 +140,7 @@ const CoreTable = ({
               onChange={handleSelectAll}
             />
           </TableHeaderCell>
-          {columns.map((column) => (
+          {columns.map((column) => (column.key ?
             <TableHeaderCell
               key={column.key}
               onClick={() => handleSortColumn(column.key)}
@@ -158,7 +158,7 @@ const CoreTable = ({
                   </span>
                 )}
               </div>
-            </TableHeaderCell>
+            </TableHeaderCell> : <></>
           ))}
           <TableHeaderCell></TableHeaderCell>
         </TableRow>
@@ -172,9 +172,9 @@ const CoreTable = ({
                 onChange={(newCheckedState) => handleSelect(item, newCheckedState)}
               />
             </TableCell>
-            {columns.map((column) => (
+            {columns.map((column) => column.key ? (
               <TableCell key={column.key}>{renderCell(column.key, item)}</TableCell>
-            ))}
+            ): null)}
             <TableCell>
               <TableCellButtonIcon text={"Remover"} icon={<TrashIcon className="w-6 h-6" />} />
               <TableCellButtonIcon onClick={() => openForm(item)} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} />
