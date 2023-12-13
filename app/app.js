@@ -7,6 +7,7 @@ import Settings from './Settings';
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { HiOutlineArrowRightOnRectangle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
+import { Watch } from  'react-loader-spinner'
 import "./globals.css";
 
 const Tabs = ({setLoadingState }) => {
@@ -126,8 +127,17 @@ const App = () => {
   return (
     <>
       {(isLoading || loadingState) && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-100 flex items-center justify-center z-50">
-          <div className="spinner border-t-4 border-blue-500 rounded-full h-16 w-16"></div>
+        <div className="fixed inset-0 bg-gray-100 bg-opacity-100 flex items-center justify-center z-50">
+          <Watch
+              height="80"
+              width="80"
+              radius="48"
+              color="#4fa94d"
+              ariaLabel="watch-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
         </div>
       )}
 

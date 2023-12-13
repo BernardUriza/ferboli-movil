@@ -22,7 +22,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
     infinite: false,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
   };
   useEffect(() => {
     setEditedReport(report || {
