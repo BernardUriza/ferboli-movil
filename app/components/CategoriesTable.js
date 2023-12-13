@@ -4,6 +4,7 @@ import CategoryForm from './CategoryForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
+import { ConfirmAlert } from '../controls/Alerts/ConfirmAlert';
 
 const CategoriesTable = ({ categories, saveCategory, key }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -13,7 +14,21 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [lengthFiltered, setLengthFiltered] = useState(categories.length);
-  const itemsPerPage = 11;
+  const [showConfirm, setShowConfirm] = useState(false);
+  const itemsPerPage = 11;  
+
+  const handleConfirm = () => {
+    // Perform additional actions or call your save logic here
+    // ...
+
+    // After handling the confirm, close the ConfirmAlert
+    setShowConfirm(false);
+  };
+
+  const handleCancel = () => {
+    // Handle cancel logic or simply close the ConfirmAlert
+    setShowConfirm(false);
+  };
 
   useEffect(() => {
     setFilteredCategories(categories);
@@ -39,6 +54,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
     }
     saveCategory(category);
     // Refresh the category list if needed
+    setShowConfirm(true);
   };
 
   const renderCell = (columnKey, item) => {
@@ -98,6 +114,14 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
       {isFormOpen && <CategoryForm category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
+      {/* Show ConfirmAlert conditionally */}
+      {showConfirm && (
+        <ConfirmAlert
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
+
     </Card>
   );
 };

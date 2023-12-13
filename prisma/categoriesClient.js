@@ -11,7 +11,10 @@ export async function getAllCategories() {
           category: true
         }
       }
-    }
+    },
+    orderBy: { 
+      name: "asc"
+     }
   });
 }
 

@@ -1,7 +1,7 @@
 // Users.js
 import React, {useState, useEffect} from 'react';
 import { fetchCategories } from './useCases/fetchCategories';
-import { savePatient } from './useCases/savePatient';
+import { saveCategory } from './useCases/saveCategory';
 import CategoriesTable from './components/CategoriesTable';
 
 const Settings = () => {
@@ -39,7 +39,7 @@ const Settings = () => {
     <div className='pt-3'>
       {/* Table of Categories */}
       <div className='pt-3'>
-        <CategoriesTable key={key} categories={categories} save={handleSave}/>
+        <CategoriesTable key={key} categories={categories} saveCategory={handleSave}/>
       </div>
     </div>
   );
