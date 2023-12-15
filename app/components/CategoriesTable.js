@@ -120,6 +120,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         open={showConfirm}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
+        text={"Estas seguro?"}
       />
 
     </Card>

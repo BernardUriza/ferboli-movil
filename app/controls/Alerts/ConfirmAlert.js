@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import { Alert, Button } from "@material-tailwind/react";
 
-export function ConfirmAlert({ open, onConfirm, onCancel }) {
+export function ConfirmAlert({ open, onConfirm, onCancel, text }) {
   return (
     <div className={open?"fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50":"d-none"}>
       <Alert
         open={open}
-        onClose={onCancel}
         animate={{
           mount: { y: 0 },
           unmount: { y: 100 },
         }}
-        variant="filled"
-        color="blue"
-        className=""
+        className="w-max"
       >
-        <div className="text-lg">Are you sure?</div>
+        <div className="text-lg">{text}</div>
         <div className="mt-4 flex justify-end">
-          <Button color="red" onClick={onCancel}>
-            Cancel
+          <Button color="red" onClick={onCancel} className="mr-4">
+            Cancelar
           </Button>
-          <Button color="blue" onClick={onConfirm}>
-            Confirm
+          <Button color="green" onClick={onConfirm}>
+            Confirmar
           </Button>
         </div>
       </Alert>
