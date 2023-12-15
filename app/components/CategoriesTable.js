@@ -4,7 +4,7 @@ import CategoryForm from './CategoryForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
-import { ConfirmAlert } from '../controls/Alerts/ConfirmAlert';
+import toast from 'react-hot-toast';
 
 const CategoriesTable = ({ categories, saveCategory, key }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -14,21 +14,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [lengthFiltered, setLengthFiltered] = useState(categories.length);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const itemsPerPage = 11;  
-
-  const handleConfirm = () => {
-    // Perform additional actions or call your save logic here
-    // ...
-
-    // After handling the confirm, close the ConfirmAlert
-    setShowConfirm(false);
-  };
-
-  const handleCancel = () => {
-    // Handle cancel logic or simply close the ConfirmAlert
-    setShowConfirm(false);
-  };
+  const itemsPerPage = 11;
 
   useEffect(() => {
     setFilteredCategories(categories);
@@ -54,15 +40,15 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
     }
     saveCategory(category);
     // Refresh the category list if needed
-    setShowConfirm(true);
-    debugger
+
+    toast('Cambios guardados con éxito');
   };
 
   const renderCell = (columnKey, item) => {
     if (columnKey === 'studyTypes') {
       const studyTypeList = item.studyTypes.map(studyType => studyType.name).join(', ');
       const quantity = item.studyTypes.length;
-  
+
       return (
         <div>
           <p>Types: {studyTypeList}</p>
@@ -73,7 +59,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
       return item[columnKey];
     }
   };
-  
+
 
   const columns = [
     { isFilterColumn: true, key: 'name', value: 'name', title: 'Nombre', width: '30%' },
@@ -115,14 +101,6 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
       {isFormOpen && <CategoryForm category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
-      {/* Show ConfirmAlert */}
-      <ConfirmAlert
-        open={showConfirm}
-        onConfirm={handleConfirm}
-        onCancel={handleCancel}
-        text={"Estas seguro?"}
-      />
-
     </Card>
   );
 };
