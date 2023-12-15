@@ -22,7 +22,7 @@ const Settings = () => {
       .then((result) => {
         if (result.success) {
           // Category data saved successfully, you can perform additional actions if needed
-          console.log('Category data saved successfully in dashboard.');
+          console.log('Category data saved successfully in settings.');
           fetchCategories(); // Refresh the list of categories
         } else {
           // Error while saving, you can display an error message

@@ -55,6 +55,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
     saveCategory(category);
     // Refresh the category list if needed
     setShowConfirm(true);
+    debugger
   };
 
   const renderCell = (columnKey, item) => {
@@ -114,13 +115,12 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
       {isFormOpen && <CategoryForm category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
-      {/* Show ConfirmAlert conditionally */}
-      {showConfirm && (
-        <ConfirmAlert
-          onConfirm={handleConfirm}
-          onCancel={handleCancel}
-        />
-      )}
+      {/* Show ConfirmAlert */}
+      <ConfirmAlert
+        open={showConfirm}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
 
     </Card>
   );
