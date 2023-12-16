@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removeMedicalReport } from '../useCases/removeMedicalReport';
 
-const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm, onClose }) => {
   const { confirm } = useConfirmationContext();
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
@@ -62,6 +62,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     setSelectedReport(null);
     setIsFormOpen(false);
     refresh(false);
+    onClose();
   };
 
   const handleSavePatient = (patient) => {
@@ -113,6 +114,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
           setSelectedReport(null);
           setIsFormOpen(false);
           refresh(false);
+          onClose();
           return `Cambios guardados con éxito.`
         },
         error: (err) => {

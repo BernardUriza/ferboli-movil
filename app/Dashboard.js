@@ -90,8 +90,12 @@ const Dashboard = ({setLoadingState}) => {
       });
   };
   
-  function handleOpenForm (){
+  const handleOpenForm = () => {
     setOpenForm(true)
+  }
+  
+  const handleCloseForm = () => {
+    setOpenForm(false)
   }
 
   return (
@@ -108,7 +112,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
+        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
       </div>
     </div>
   );
