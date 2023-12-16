@@ -50,7 +50,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
       email: '',
     },
   });
-
+  
   const editPatient = (patient) => {
     setSelectedPatient(patient);
     setPatientEditorOpen(true);
@@ -183,11 +183,12 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                 <TextInput
                   type="text"
                   name="name"
-                  readOnly={true}
+                  readOnly={report}
                   value={editedReport.patient.name}
                   className="mt-1 border rounded-md flex-1"
+                  placeholder='Nombre del paciente'
                 />
-                <TableCellButtonIcon text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
+                <TableCellButtonIcon text={"Editar detalles del paciente"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
               </div>
             </div>
             <div className="flex-1">
