@@ -44,13 +44,12 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
       myPromise,
       {
         loading: 'Cargando',
-        success: () => `Cambios guardados con éxito "${category.name}"`,
+        success: () => {
+          debugger
+          closeForm();
+          return `Cambios guardados con éxito "${category.name}"`
+        },
         error: (err) => `Error ha sucedido: ${err.toString()}`,
-      },
-      {
-        style: {
-          minWidth: '250px',
-        }
       }
     );
   };

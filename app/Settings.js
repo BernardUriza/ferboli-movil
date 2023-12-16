@@ -8,14 +8,17 @@ const Settings = () => {
   const [categories, setCategories] = useState([]); 
   const [key, setKey] = useState(1);
 
-  useEffect(() => {
+  const getCategories = () => {
     fetchCategories()
-      .then((p) => setCategories(p))
+      .then((p) => {setCategories(p); 
+        console.log('Category data refreshed.');})
       .catch((error) => console.error(error.message))
       .finally(() => {
         setKey(key+1);
       });
-  }, []);  
+  }
+
+  useEffect(getCategories, []);  
 
   const handleSave = (editedCategory) => {
     return saveCategory(editedCategory)
@@ -23,7 +26,7 @@ const Settings = () => {
         if (result.success) {
           // Category data saved successfully, you can perform additional actions if needed
           console.log('Category data saved successfully in settings.');
-          fetchCategories(); // Refresh the list of categories
+          getCategories(); // Refresh the list of categories
         } else {
           // Error while saving, you can display an error message
           console.error('Error while saving category data in the API.');

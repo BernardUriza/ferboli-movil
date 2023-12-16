@@ -12,7 +12,8 @@ export default function ToastAlert() {
                     style: {
                         background: '#52d852',
                         color: '#fff',
-                        border: '1px solid black'
+                        border: '1px solid black',
+                        opacity: .95
                     }
                 },
             }}
