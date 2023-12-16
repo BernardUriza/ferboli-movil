@@ -40,7 +40,7 @@ const Dashboard = ({setLoadingState}) => {
   }, []); 
 
   const handleSaveReport = (editedReport) => {
-    saveMedicalReports(editedReport)      
+    return saveMedicalReports(editedReport)      
     .then((result) => {
       if (result.success) {
         // Guardado exitoso, puedes realizar acciones adicionales si es necesario
@@ -58,7 +58,7 @@ const Dashboard = ({setLoadingState}) => {
 
   
   const handleSaveStudy = (editedStudy) => {
-    saveStudy(editedStudy)      
+    return saveStudy(editedStudy)      
     .then((result) => {
       if (result.success) {
         // Guardado exitoso, puedes realizar acciones adicionales si es necesario

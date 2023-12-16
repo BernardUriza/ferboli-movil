@@ -23,8 +23,8 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     setStudiesData(reports);
   }, [reports]);
 
-  
-  useEffect(() => {    
+
+  useEffect(() => {
     setIsFormOpen(isOpenForm);
   }, [isOpenForm]);
 
@@ -50,29 +50,29 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     // Call the savePatient function to save the patient information
     savePatient(patient);
   };
-  
+
   const handleSaveStudy = (study) => {
     if (selectedReport) {
       // Check if the study with the same id already exists in selectedReport.studies
       const studyIndex = selectedReport.studies.findIndex((existingStudy) => existingStudy.id === study.id);
-  
+
       // If study with the same id is found, replace it; otherwise, add the new study
       const updatedStudies = studyIndex !== -1
         ? [
-            ...selectedReport.studies.slice(0, studyIndex), // Studies before the updated study
-            study, // Updated study
-            ...selectedReport.studies.slice(studyIndex + 1), // Studies after the updated study
-          ]
+          ...selectedReport.studies.slice(0, studyIndex), // Studies before the updated study
+          study, // Updated study
+          ...selectedReport.studies.slice(studyIndex + 1), // Studies after the updated study
+        ]
         : [
-            ...selectedReport.studies,
-            study, // Add the new study to the array
-          ];
-  
+          ...selectedReport.studies,
+          study, // Add the new study to the array
+        ];
+
       setSelectedReport({
         ...selectedReport,
         studies: updatedStudies,
       });
-    }    
+    }
     setDisableSave(true)
     var myPromise = saveStudy(study);
     toast.promise(
@@ -91,14 +91,28 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       }
     );
   };
-  
-  
-  
+
   const saveReport = (report) => {
-    save(report)
-    setSelectedReport(null);
-    setIsFormOpen(false);
-    refresh(false);
+    debugger
+    setDisableSave(true)
+    var myPromise = save(report)
+    toast.promise(
+      myPromise,
+      {
+        loading: 'Cargando',
+        success: () => {
+          setDisableSave(false)
+          setSelectedReport(null);
+          setIsFormOpen(false);
+          refresh(false);
+          return `Cambios guardados con éxito.`
+        },
+        error: (err) => {
+          setDisableSave(false)
+          return `Error ha sucedido: ${err.toString()}`
+        },
+      }
+    );
   };
 
   // ClinicalResultsTable.js
@@ -118,7 +132,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       const formattedDate = new Date(item.date).toLocaleDateString('es-AR', dateOptions).replace(/de /g, '');
       return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
     }
-    else if (columnKey === 'name') {      
+    else if (columnKey === 'name') {
       return item.name + " - " + item.patient?.email; // Replace spaces with slashes
     } else {
       // Render other columns as usual
@@ -160,7 +174,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         pageNumber={pageNumber}
         openForm={openForm}
         renderCell={renderCell}
-        onFiltered={(e)=>{setLengthFiltered(e)}}
+        onFiltered={(e) => { setLengthFiltered(e) }}
         key={key}
       />
       <Pagination
