@@ -38,10 +38,21 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         // Add other properties to update here
       });
     }
-    saveCategory(category);
+    var myPromise = saveCategory(category);
     // Refresh the category list if needed
-
-    toast('Cambios guardados con éxito');
+    toast.promise(
+      myPromise,
+      {
+        loading: 'Cargando',
+        success: () => `Cambios guardados con éxito "${category.name}"`,
+        error: (err) => `Error ha sucedido: ${err.toString()}`,
+      },
+      {
+        style: {
+          minWidth: '250px',
+        }
+      }
+    );
   };
 
   const renderCell = (columnKey, item) => {

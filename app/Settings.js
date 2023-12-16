@@ -18,7 +18,7 @@ const Settings = () => {
   }, []);  
 
   const handleSave = (editedCategory) => {
-    saveCategory(editedCategory)
+    return saveCategory(editedCategory)
       .then((result) => {
         if (result.success) {
           // Category data saved successfully, you can perform additional actions if needed
