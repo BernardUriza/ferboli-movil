@@ -4,6 +4,7 @@ import {
   createMedicalReport,
   updateMedicalReport,
   getMedicalReportById,
+  deleteMedicalReport
 } from '../../../prisma/medicalReportsClient';
 
 export default async (req, res) => {
@@ -64,6 +65,23 @@ export default async (req, res) => {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Error saving medical report ' + error });
+    }
+  } else if (method === 'DELETE') {
+    try {
+      if (!medicalReport || medicalReport.length === 0) {
+        return res.status(400).json({ error: 'ID is required for deletion' });
+      }
+
+      const reportId = parseInt(medicalReport[0]);
+      const result = await deleteMedicalReport(reportId);
+
+      if (result.success) {
+        return res.status(200).json({ success: true, message: 'Medical report deleted successfully' });
+      } else {
+        return res.status(404).json({ error: 'Medical report not found' });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: 'Error deleting medical report '+error });
     }
   } else {
     return res.status(405).json({ error: 'Método no permitido' });

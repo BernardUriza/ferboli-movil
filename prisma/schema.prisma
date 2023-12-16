@@ -57,6 +57,6 @@ model Study {
   createdAt  DateTime  @default(now())
   studyTypeId Int
   type    StudyType?  @relation(fields: [studyTypeId], references: [id]) 
-  medicalReport    MedicalReport?  @relation(fields: [medicalReportId], references: [id]) 
+  medicalReport    MedicalReport?  @relation(fields: [medicalReportId], references: [id], onDelete: Cascade) 
   // Otros campos relevantes para tu estudio
 }

@@ -82,7 +82,7 @@ const createStudyTypes = async (categories) => {
 };
 
 const generateStudies = (medicalReports, studyTypes) => {
-  const numStudies = faker.datatype.number({ min: 1, max: 60 });
+  const numStudies = faker.datatype.number({ min: 1, max: 30 });
   
   return Array.from({ length: numStudies }, () => {
     const medicalReport = (generateRandomElement(medicalReports));
@@ -126,7 +126,7 @@ const main = async () => {
     const patientsData = generatePatients(5);
     const patients = await createPatients(patientsData);
 
-    const medicalReportsData = generateMedicalReports(18, patients);
+    const medicalReportsData = generateMedicalReports(8, patients);
     const medicalReports = await createMedicalReports(medicalReportsData);
 
     const studiesData = generateStudies(medicalReports, studyTypes);

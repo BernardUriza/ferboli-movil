@@ -8,6 +8,7 @@ import StatusBadge from '../controls/StatusBadge';
 import sendTokenByEmail from '../useCases/sendTokenByEmail';
 import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
+import { removeMedicalReport } from '../useCases/removeMedicalReport';
 
 const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm }) => {
   const { confirm } = useConfirmationContext();
@@ -34,17 +35,29 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     setSelectedReport(item);
     setIsFormOpen(true);
   };
-
-  const removeItem = (item) => {
+  const removeItem = async (item) => {
     try {
-      confirm("¿Estás seguro de que quieres eliminar este registro?").then(() => {
-        console.log("Confirmado!", item);
-      });
+      await confirm("¿Estás seguro de que quieres eliminar este registro?");
+      const result = await removeMedicalReport(item.id);
+  
+      toast.promise(
+        result,
+        {
+          loading: 'Cargando',
+          success: () => {
+            refresh(false);
+            return `Registro removido con éxito.`;
+          },
+          error: (err) => {
+            return `Error ha sucedido: ${err.toString()}`;
+          },
+        }
+      );
     } catch {
       console.log("Cancelado");
     }
   };
-
+  
   const closeForm = () => {
     setSelectedReport(null);
     setIsFormOpen(false);
