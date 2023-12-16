@@ -6,6 +6,7 @@ import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 import sendTokenByEmail from '../useCases/sendTokenByEmail';
+import toast from 'react-hot-toast';
 
 const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm }) => {
   const [selectedReport, setSelectedReport] = useState(null);
@@ -15,6 +16,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(''); // State for column filtering
   const [lengthFiltered, setLengthFiltered] = useState(reports.length);
+  const [disableSave, setDisableSave] = useState(false);
   const itemsPerPage = 11; // Adjust the number of items per page
 
   useEffect(() => {
@@ -45,7 +47,6 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         patient: patient, // Update the patient property
       });
     }
-  
     // Call the savePatient function to save the patient information
     savePatient(patient);
   };
@@ -71,10 +72,24 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         ...selectedReport,
         studies: updatedStudies,
       });
-    }
-  
-    // Call the saveStudy function to save the study information
-    saveStudy(study);
+    }    
+    setDisableSave(true)
+    var myPromise = saveStudy(study);
+    toast.promise(
+      myPromise,
+      {
+        loading: 'Cargando',
+        success: () => {
+          setDisableSave(false)
+          closeForm();
+          return `Cambios guardados con éxito.`
+        },
+        error: (err) => {
+          setDisableSave(false)
+          return `Error ha sucedido: ${err.toString()}`
+        },
+      }
+    );
   };
   
   
@@ -153,7 +168,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <ClinicalResultForm categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSaveStudy={handleSaveStudy} onSavePatient={handleSavePatient} />}
+      {isFormOpen && <ClinicalResultForm disableSave={disableSave} categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSaveStudy={handleSaveStudy} onSavePatient={handleSavePatient} />}
     </Card>
   );
 };

@@ -12,10 +12,9 @@ import StatusSelect from '../controls/StatusSelect';
 import StudieCard from '../controls/StudieCard';
 import StudyForm from './StudyForm';
 
-const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend }) => {
+const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
-  const [disableSave, setDisableSave] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const sliderSettings = {
@@ -98,7 +97,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
               Enviar al cliente
             </Button>
             
-            <Button type="primary"  className="ml-3" onClick={() => onSave(editedReport)}>
+            <Button disabled={disableSave} type="primary"  className="ml-3" onClick={() => onSave(editedReport)}>
               Guardar
             </Button>
           </div>

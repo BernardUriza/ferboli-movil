@@ -75,7 +75,7 @@ const Dashboard = ({setLoadingState}) => {
   };    
 
   const handleSavePatient = (editedPatient) => {
-    savePatient(editedPatient)
+    return savePatient(editedPatient)
       .then((result) => {
         if (result.success) {
           // Patient data saved successfully, you can perform additional actions if needed
