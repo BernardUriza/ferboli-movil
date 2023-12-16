@@ -4,6 +4,7 @@ import PatientForm from './PatientForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
+import toast from 'react-hot-toast';
 
 const PatientsTable = ({ patients, savePatient, key }) => {
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -39,9 +40,22 @@ const PatientsTable = ({ patients, savePatient, key }) => {
       });
     }
     setDisableSave(true)
-    savePatient(patient);
-    // Refresh the patient list if needed
-    setIsFormOpen(false);
+    var myPromise = savePatient(patient);
+    toast.promise(
+      myPromise,
+      {
+        loading: 'Cargando',
+        success: () => {
+          setDisableSave(false)
+          closeForm();
+          return `Cambios guardados con éxito "${patient.name}"`
+        },
+        error: (err) => {
+          setDisableSave(false)
+          return `Error ha sucedido: ${err.toString()}`
+        },
+      }
+    );
   };
 
   const renderCell = (columnKey, item) => {

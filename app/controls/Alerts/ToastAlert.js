@@ -10,10 +10,9 @@ export default function ToastAlert() {
                 duration: 3000,
                 success: {
                     style: {
-                        background: '#52d852',
-                        color: '#fff',
-                        border: '1px solid black',
-                        opacity: .95
+                        background: '#d3f3df',
+                        color: '#22c55e',
+                        border: '1px solid black'
                     }
                 },
             }}

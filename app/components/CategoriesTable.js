@@ -41,7 +41,6 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
     }
     setDisableSave(true)
     var myPromise = saveCategory(category);
-    // Refresh the category list if needed
     toast.promise(
       myPromise,
       {
