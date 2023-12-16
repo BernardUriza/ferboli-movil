@@ -32,7 +32,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
       id: '',
       date: new Date(),
       name: '',
-      status: '',
+      status: 'Pendiente',
       patient: {
         name: '',
         email: '',
@@ -44,7 +44,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     id: '',
     date: new Date(),
     name: '',
-    status: '',
+    status: 'Pendiente',
     patient: {
       name: '',
       email: '',
@@ -146,6 +146,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                     type="text"
                     name="id"
                     disabled={true}
+                    placeholder='ID'
                     value={editedReport.id}
                     onChange={(e) => setEditedReport({ ...editedReport, id: e.target.value })}
                     className="mt-1 border rounded-md"
@@ -183,12 +184,13 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                 <TextInput
                   type="text"
                   name="name"
-                  readOnly={report}
+                  readOnly={!!report}
+                  placeholder={"Escribe el nombre del paciente."}
                   value={editedReport.patient.name}
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: {...editedReport.patient, name: value } })}
                   className="mt-1 border rounded-md flex-1"
-                  placeholder='Nombre del paciente'
                 />
-                <TableCellButtonIcon text={"Editar detalles del paciente"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
+                <TableCellButtonIcon visible={report} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
               </div>
             </div>
             <div className="flex-1">
@@ -197,8 +199,10 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                 <TextInput
                   type="text"
                   name="id"
-                  readOnly={true}
+                  readOnly={!!report}
+                  placeholder={"Escribe el mail del paciente."}
                   value={editedReport.patient.email}
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: {...editedReport.patient, email: value } })}
                   className="mt-1 border rounded-md"
                 />
               </div>
