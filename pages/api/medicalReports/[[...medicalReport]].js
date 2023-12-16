@@ -74,12 +74,8 @@ export default async (req, res) => {
 
       const reportId = parseInt(medicalReport[0]);
       const result = await deleteMedicalReport(reportId);
-
-      if (result.success) {
-        return res.status(200).json({ success: true, message: 'Medical report deleted successfully' });
-      } else {
-        return res.status(404).json({ error: 'Medical report not found' });
-      }
+      res.status(201).json(result);
+      
     } catch (error) {
       return res.status(500).json({ error: 'Error deleting medical report '+error });
     }

@@ -38,7 +38,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   const removeItem = async (item) => {
     try {
       await confirm("¿Estás seguro de que quieres eliminar este registro?");
-      const result = await removeMedicalReport(item.id);
+      const result =  removeMedicalReport(item.id);
   
       toast.promise(
         result,
