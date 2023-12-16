@@ -68,8 +68,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
         loading: 'Cargando',
         success: () => {
           setDisableSavePatient(false)
-          closePatientEditor();
-          refresh(false);
+          setPatientEditorOpen(false);
           return `Cambios guardados con éxito, paciente ${editedPatientData.name} modificado.`
         },
         error: (err) => {

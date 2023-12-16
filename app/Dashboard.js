@@ -73,6 +73,22 @@ const Dashboard = ({setLoadingState}) => {
       console.error('Error al guardar el estudio: ' + error.message);
     });
   };    
+
+  const handleSavePatient = (editedPatient) => {
+    return savePatient(editedPatient)
+      .then((result) => {
+        if (result.success) {
+          // Patient data saved successfully, you can perform additional actions if needed
+          console.log('Patient data saved successfully in dashboard.');
+        } else {
+          // Error while saving, you can display an error message
+          console.error('Error while saving patient data in the API.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error while saving patient data: ' + error.message);
+      });
+  };
   
   function handleOpenForm (){
     setOpenForm(true)
@@ -92,7 +108,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={savePatient} refresh={fetchReports}/>
+        <ClinicalResultsTable isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
       </div>
     </div>
   );
