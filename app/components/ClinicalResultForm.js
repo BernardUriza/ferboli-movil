@@ -15,6 +15,7 @@ import StudyForm from './StudyForm';
 const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
+  const [disableSave, setDisableSave] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const sliderSettings = {
@@ -195,6 +196,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
           patient={selectedPatient}
           onClose={closePatientEditor}
           onSave={handlePatientSave}
+          disableSave={disableSave}
         />
       )}
       {isStudyFormOpen && (

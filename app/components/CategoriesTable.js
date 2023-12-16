@@ -14,6 +14,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [lengthFiltered, setLengthFiltered] = useState(categories.length);
+  const [disableSave, setDisableSave] = useState(false);
   const itemsPerPage = 11;
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         // Add other properties to update here
       });
     }
+    setDisableSave(true)
     var myPromise = saveCategory(category);
     // Refresh the category list if needed
     toast.promise(
@@ -45,11 +47,14 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
       {
         loading: 'Cargando',
         success: () => {
-          debugger
+          setDisableSave(false)
           closeForm();
           return `Cambios guardados con éxito "${category.name}"`
         },
-        error: (err) => `Error ha sucedido: ${err.toString()}`,
+        error: (err) => {
+          setDisableSave(false)
+          return `Error ha sucedido: ${err.toString()}`
+        },
       }
     );
   };
@@ -110,7 +115,7 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <CategoryForm category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
+      {isFormOpen && <CategoryForm disableSave={disableSave} category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
     </Card>
   );
 };

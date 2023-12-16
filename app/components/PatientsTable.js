@@ -12,6 +12,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
   const [filterText, setFilterText] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState('');
+  const [disableSave, setDisableSave] = useState(false);
   const [lengthFiltered, setLengthFiltered] = useState(patients.length);
   const itemsPerPage = 11;
 
@@ -37,6 +38,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
         // Add other properties to update here
       });
     }
+    setDisableSave(true)
     savePatient(patient);
     // Refresh the patient list if needed
     setIsFormOpen(false);
@@ -97,7 +99,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <PatientForm patient={selectedPatient} onClose={closeForm} onSave={handleSavePatient} />}
+      {isFormOpen && <PatientForm patient={selectedPatient} disableSave={disableSave} onClose={closeForm} onSave={handleSavePatient} />}
     </Card>
   );
 };

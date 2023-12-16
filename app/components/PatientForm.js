@@ -4,7 +4,7 @@ import CustomModal from '../controls/CustomModal';
 import { Select, SelectItem } from "@tremor/react";
 import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 
-const PatientForm = ({ patient, onClose, onSave }) => {
+const PatientForm = ({ patient, onClose, onSave, disableSave}) => {
     // Set initial state based on whether patient is null
     const initialEditedPatient = patient || {
         id: '',
@@ -111,7 +111,7 @@ const PatientForm = ({ patient, onClose, onSave }) => {
                 </div>
             </form>
             <div className="flex">
-                <Button type="primary" className='ml-auto' onClick={() => onSave(editedPatient)}>
+                <Button type="primary" disabled={disableSave} className='ml-auto' onClick={() => onSave(editedPatient)}>
                     Guardar
                 </Button>
             </div>

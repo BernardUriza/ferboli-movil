@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 import CustomModal from '../controls/CustomModal';
 
-const CategoryForm = ({ category, onClose, onSave }) => {
+const CategoryForm = ({ category, onClose, onSave, disableSave }) => {
     // Set initial state based on whether category is null
     const initialEditedCategory = category || {
         id: '',
@@ -52,7 +52,7 @@ const CategoryForm = ({ category, onClose, onSave }) => {
                 </div>
             </form>
             <div className="flex">
-                <Button type="primary" className='ml-auto' onClick={() => onSave(editedCategory)}>
+                <Button type="primary" disabled={disableSave} className='ml-auto' onClick={() => onSave(editedCategory)}>
                     Guardar
                 </Button>
             </div>
