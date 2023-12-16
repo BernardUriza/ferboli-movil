@@ -11,12 +11,14 @@ import PatientForm from './PatientForm';
 import StatusSelect from '../controls/StatusSelect';
 import StudieCard from '../controls/StudieCard';
 import StudyForm from './StudyForm';
+import toast from 'react-hot-toast';
 
-const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
+const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStudy, setSelectedStudy] = useState(null);
+  const [disableSavePatient, setDisableSavePatient] = useState(false);
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -58,10 +60,27 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
   };
 
   const handlePatientSave = (editedPatientData) => {
-    onSavePatient(editedPatientData);
-    closePatientEditor();
+    setDisableSavePatient(true)
+    var myPromise = onSavePatient(editedPatientData)
+    toast.promise(
+      myPromise,
+      {
+        loading: 'Cargando',
+        success: () => {
+          setDisableSavePatient(false)
+          closePatientEditor();
+          refresh(false);
+          return `Cambios guardados con éxito, paciente ${editedPatientData.name} modificado.`
+        },
+        error: (err) => {
+          setDisableSavePatient(false)
+          return `Error ha sucedido: ${err.toString()}`
+        },
+      }
+    );
+
   };
-  
+
   const clickToOpenStudyForm = (selectedStudie) => {
     setSelectedStudy(selectedStudie);
     setStudyFormOpen(true);
@@ -70,9 +89,9 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
   const closeStudyForm = () => {
     setStudyFormOpen(false);
   };
-  
+
   const handleStudySave = (editedStudy) => {
-    editedStudy.medicalReportId = editedReport.id; 
+    editedStudy.medicalReportId = editedReport.id;
     onSaveStudy(editedStudy);
     closeStudyForm();
   };
@@ -96,8 +115,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
             <Button variant="secondary" className="ml-3" onClose={onClose} onClick={() => onSend(editedReport)}>
               Enviar al cliente
             </Button>
-            
-            <Button disabled={disableSave} type="primary"  className="ml-3" onClick={() => onSave(editedReport)}>
+
+            <Button disabled={disableSave} type="primary" className="ml-3" onClick={() => onSave(editedReport)}>
               Guardar
             </Button>
           </div>
@@ -174,16 +193,16 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
             <Slider {...sliderSettings}>
               {editedReport.studies?.map((study) => (
-                  <StudieCard
-                    clickFileLink={clickToOpenStudyForm}
-                    studieData={study}
-                  />
+                <StudieCard
+                  clickFileLink={clickToOpenStudyForm}
+                  studieData={study}
+                />
               ))}
               <StudieCard
                 newCard={true}
-                openNewStudyForm={(e) =>{
-                    e.preventDefault();
-                    clickToOpenStudyForm(null);
+                openNewStudyForm={(e) => {
+                  e.preventDefault();
+                  clickToOpenStudyForm(null);
                 }}
               />
             </Slider>
@@ -195,7 +214,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
           patient={selectedPatient}
           onClose={closePatientEditor}
           onSave={handlePatientSave}
-          disableSave={disableSave}
+          disableSave={disableSavePatient}
         />
       )}
       {isStudyFormOpen && (

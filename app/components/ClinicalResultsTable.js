@@ -48,7 +48,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       });
     }
     // Call the savePatient function to save the patient information
-    savePatient(patient);
+    return savePatient(patient);
   };
 
   const handleSaveStudy = (study) => {
@@ -93,7 +93,6 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   };
 
   const saveReport = (report) => {
-    debugger
     setDisableSave(true)
     var myPromise = save(report)
     toast.promise(
@@ -182,7 +181,16 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <ClinicalResultForm disableSave={disableSave} categories={categories} report={selectedReport} onClose={closeForm} onSend={sendTokenReportByEmail} onSave={saveReport} onSaveStudy={handleSaveStudy} onSavePatient={handleSavePatient} />}
+      {isFormOpen && <ClinicalResultForm
+        refresh={refresh}
+        disableSave={disableSave}
+        categories={categories}
+        report={selectedReport}
+        onClose={closeForm}
+        onSend={sendTokenReportByEmail}
+        onSave={saveReport}
+        onSaveStudy={handleSaveStudy}
+        onSavePatient={handleSavePatient} />}
     </Card>
   );
 };
