@@ -73,23 +73,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         studies: updatedStudies,
       });
     }
-    setDisableSave(true)
-    var myPromise = saveStudy(study);
-    toast.promise(
-      myPromise,
-      {
-        loading: 'Cargando',
-        success: () => {
-          setDisableSave(false)
-          closeForm();
-          return `Cambios guardados con éxito.`
-        },
-        error: (err) => {
-          setDisableSave(false)
-          return `Error ha sucedido: ${err.toString()}`
-        },
-      }
-    );
+    return saveStudy(study);
   };
 
   const saveReport = (report) => {

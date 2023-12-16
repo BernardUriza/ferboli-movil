@@ -15,7 +15,7 @@ function isValidUrl(url) {
     }
   }
 
-const StudyForm = ({ study, onClose, onSave, categories }) => {
+const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
     const { edgestore } = useEdgeStore();
     // Set initial state based on whether study is null
     const initialEditedStudy = study || {
@@ -53,7 +53,7 @@ const StudyForm = ({ study, onClose, onSave, categories }) => {
             modalClassName="p-8"
             footerElement={
                 <div className="flex">
-                    <Button type="primary" className='ml-auto' onClick={async (e) => {
+                    <Button type="primary" className='ml-auto' disabled={disabledSave} onClick={async (e) => {
                         e.preventDefault();
                         onSave(editedStudy)
                     }}>

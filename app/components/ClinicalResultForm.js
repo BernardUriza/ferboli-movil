@@ -19,6 +19,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [disableSavePatient, setDisableSavePatient] = useState(false);
+  const [disableSaveStudy, setDisableSaveStudy] = useState(false);
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -77,7 +78,6 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
         },
       }
     );
-
   };
 
   const clickToOpenStudyForm = (selectedStudie) => {
@@ -91,8 +91,23 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
 
   const handleStudySave = (editedStudy) => {
     editedStudy.medicalReportId = editedReport.id;
-    onSaveStudy(editedStudy);
-    closeStudyForm();
+    setDisableSaveStudy(true)
+    var myPromise = onSaveStudy(editedStudy)
+    toast.promise(
+      myPromise,
+      {
+        loading: 'Cargando',
+        success: () => {
+          setDisableSaveStudy(false)
+          setStudyFormOpen(false);
+          return `Cambios guardados con éxito, estudio modificado.`
+        },
+        error: (err) => {
+          setDisableSaveStudy(false)
+          return `Error ha sucedido: ${err.toString()}`
+        },
+      }
+    );
   };
 
 
@@ -222,6 +237,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
           study={selectedStudy}
           onClose={closeStudyForm}
           onSave={handleStudySave}
+          disabledSave={disableSaveStudy}
         />
       )}
     </>
