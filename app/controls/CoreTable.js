@@ -13,6 +13,7 @@ const CoreTable = ({
   pageNumber,
   renderCell,
   openForm,
+  removeItem,
   onFiltered,
   key
 }) => {
@@ -175,7 +176,7 @@ const CoreTable = ({
               <TableCell key={column.key}>{renderCell(column.key, item)}</TableCell>
             ): null)}
             <TableCell>
-              <TableCellButtonIcon text={"Remover"} icon={<TrashIcon className="w-6 h-6" />} />
+              <TableCellButtonIcon onClick={() => removeItem(item)} text={"Remover"} icon={<TrashIcon className="w-6 h-6" />} />
               <TableCellButtonIcon onClick={() => openForm(item)} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} />
             </TableCell>
           </TableRow>

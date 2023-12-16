@@ -7,8 +7,10 @@ import CoreTable from '../controls/CoreTable';
 import StatusBadge from '../controls/StatusBadge';
 import sendTokenByEmail from '../useCases/sendTokenByEmail';
 import toast from 'react-hot-toast';
+import { useConfirmationContext } from '../providers/ConfirmationContext';
 
 const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm }) => {
+  const { confirm } = useConfirmationContext();
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -31,6 +33,16 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   const openForm = (item) => {
     setSelectedReport(item);
     setIsFormOpen(true);
+  };
+
+  const removeItem = (item) => {
+    try {
+      confirm("¿Estás seguro de que quieres eliminar este registro?").then(() => {
+        console.log("Confirmado!", item);
+      });
+    } catch {
+      console.log("Cancelado");
+    }
   };
 
   const closeForm = () => {
@@ -156,6 +168,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         itemsPerPage={itemsPerPage}
         pageNumber={pageNumber}
         openForm={openForm}
+        removeItem={removeItem}
         renderCell={renderCell}
         onFiltered={(e) => { setLengthFiltered(e) }}
         key={key}
