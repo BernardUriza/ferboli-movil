@@ -1,22 +1,29 @@
 import React from "react";
-import { Alert, Button } from "@material-tailwind/react";
+import { Alert, Progress } from "@material-tailwind/react";
+import { useLoading } from "../../providers/LoadingContext";
 
-export function LoadingAlert({ open, text }) {
+export default function LoadingAlert() {
+  const { loadingState } = useLoading();
+
   return (
-    <div className={open ? "fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50" : "d-none"}>
+    <div className={loadingState?.open ? "fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50" : "d-none"}>
       <Alert
-        open={open}
+        open={loadingState?.open}
         animate={{
           mount: { y: 0 },
           unmount: { y: 100 },
         }}
-        className="w-max"
+        className="w-90"
       >
-        <div className="text-lg">{text}</div>
-        <div className="mt-4 flex justify-end">
-          <Button color="gray" disabled>
-            Loading...
-          </Button>
+        <div className="flex w-full flex-col gap-4">
+          <Progress
+            size="lg"
+            color="green"
+            value={loadingState?.progress}
+          />
+          <p>
+            Cargando...
+          </p>
         </div>
       </Alert>
     </div>

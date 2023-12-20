@@ -5,8 +5,10 @@ import Dashboard from './Dashboard';
 import Users from './Users';
 import Settings from './Settings';
 import ToastAlert from './controls/Alerts/ToastAlert';
+import LoadingAlert from './controls/Alerts/LoadingAlert';
 import ConfirmationProvider from './providers/ConfirmationContext';
 import ConfirmationWrapper from './wrappers/ConfirmationWrapper';
+import LoadingProvider from './providers/LoadingContext';
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@tremor/react";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { HiOutlineArrowRightOnRectangle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
@@ -130,28 +132,31 @@ const App = () => {
   return (
     <ConfirmationProvider>
       <ConfirmationWrapper>
-        {(isLoading || loadingState) && (
-          <div className="fixed inset-0 bg-gray-100 bg-opacity-100 flex items-center justify-center z-50">
-            <Watch
-              height="80"
-              width="80"
-              radius="48"
-              color="#4fa94d"
-              ariaLabel="watch-loading"
-              wrapperStyle={{}}
-              wrapperClassName=""
-              visible={true}
-            />
-          </div>
-        )}
+        <LoadingProvider>
+          {(isLoading || loadingState) && (
+            <div className="fixed inset-0 bg-gray-100 bg-opacity-100 flex items-center justify-center z-50">
+              <Watch
+                height="80"
+                width="80"
+                radius="48"
+                color="#4fa94d"
+                ariaLabel="watch-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            </div>
+          )}
 
-        {user ? (
-          <Menu isLoading={isLoading} user={user} setLoadingState={setLoadingState}></Menu>
-        ) : (
-          // Render the RedirectComponent only if the user is not logged in and data is not loading
-          !isLoading && <RedirectComponent />
-        )}
-        <ToastAlert />
+          {user ? (
+            <Menu isLoading={isLoading} user={user} setLoadingState={setLoadingState}></Menu>
+          ) : (
+            // Render the RedirectComponent only if the user is not logged in and data is not loading
+            !isLoading && <RedirectComponent />
+          )}
+          <ToastAlert />
+          <LoadingAlert />
+        </LoadingProvider>
       </ConfirmationWrapper>
     </ConfirmationProvider>
   );

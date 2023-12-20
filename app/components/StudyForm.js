@@ -5,18 +5,20 @@ import StudieCard from '../controls/StudieCard';
 import esLocale from 'date-fns/locale/es';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
 import { useEdgeStore } from '../lib/edgestore';
+import { useLoading } from '../providers/LoadingContext';
 
 function isValidUrl(url) {
     try {
-      new URL(url);
-      return url;
+        new URL(url);
+        return url;
     } catch (error) {
-      return false;
+        return false;
     }
-  }
+}
 
 const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
     const { edgestore } = useEdgeStore();
+    const { showLoading, hideLoading, showLoadingWithProgress  } = useLoading();
     // Set initial state based on whether study is null
     const initialEditedStudy = study || {
         id: '',
@@ -35,7 +37,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
     const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
-    const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});    
+    const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});
     const fileInputRef = React.createRef(); // Create a ref for the file input
 
     const openFileSelector = () => {
@@ -62,7 +64,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 </div>}
         >
             <form>
-                <div className={"mb-4 "+(study ? '' : 'hidden')}>
+                <div className={"mb-4 " + (study ? '' : 'hidden')}>
                     <label>ID</label>
                     <TextInput
                         type="text"
@@ -72,7 +74,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                     />
                 </div>
 
-                <div className={"mb-4 "+(study ? '' : 'hidden')}>
+                <div className={"mb-4 " + (study ? '' : 'hidden')}>
                     <label>Fecha</label>
                     <DatePicker
                         name="createdAt"
@@ -85,7 +87,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 <div className="mb-4">
                     <label>Categoria</label>
                     <SearchSelect
-                        value={selectedCategory.id} 
+                        value={selectedCategory.id}
                         onValueChange={(value) => {
                             setSelectedCategory(categories.find((category) => category.id === value));
                         }}
@@ -101,7 +103,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 <div className="mb-4">
                     <label>Nombre (Tipo)</label>
                     <SearchSelect
-                        value={editedStudy.type.id} 
+                        value={editedStudy.type.id}
                         onValueChange={(value) => {
                             // Busca la categoría con el ID coincidente
                             const selectedType = selectedCategory.studyTypes.find((type) => type.id === value);
@@ -135,13 +137,16 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                     onChange={async (e) => {
                         var file = (e.target.files?.[0]);
                         if (file) {
+                            showLoading()
                             const res = await edgestore.publicFiles.upload({
                                 file,
                                 onProgressChange: (progress) => {
                                     // you can use this to show a progress bar
                                     console.log(progress);
-                                },
+                                    showLoadingWithProgress(progress)
+                                }
                             });
+                            hideLoading()
                             // you can run some server action or api here
                             // to add the necessary data to your database
                             editedStudy.name = res.url;
@@ -152,7 +157,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
 
                 {/* "Nuevo resultado clínico" button to trigger file selection */}
                 <Button onClick={async (e) => {
-                    e.preventDefault(); 
+                    e.preventDefault();
                     openFileSelector();
                 }
                 } style={{ width: "100%" }}>
