@@ -200,9 +200,10 @@ const generatePatients = (count) => {
 
 const createCategories = async () => {
   return Promise.all(studyTypesSeed.map(async (category) => {
-    return prisma.category.create({
+    const createdCategory = await prisma.category.create({
       data: { name: category.name },
     });
+    return { ...createdCategory, studyTypes: category.estudios };
   }));
 };
 
@@ -231,8 +232,10 @@ const createStudies = async (studiesData) => {
 };
 
 const createStudyTypes = async () => {
-  return Promise.all(studyTypesSeed.map(async (category) => {
-    return Promise.all(category.estudios.map(async (typeStudy) => {
+  const categories = await createCategories();
+
+  return Promise.all(categories.map(async (category) => {
+    return Promise.all(category.studyTypes.map(async (typeStudy) => {
       return prisma.studyType.create({
         data: {
           name: typeStudy.nombre,
