@@ -231,15 +231,13 @@ const createStudies = async (studiesData) => {
   }));
 };
 
-const createStudyTypes = async () => {
-  const categories = await createCategories();
-
+const createStudyTypes = async (categories) => {
   return Promise.all(categories.map(async (category) => {
     return Promise.all(category.studyTypes.map(async (typeStudy) => {
       return prisma.studyType.create({
         data: {
           name: typeStudy.nombre,
-          description: typeStudy.nombre,
+          description: typeStudy.descripcion,
           category: { connect: { id: category.id } },
         },
       });
@@ -286,8 +284,8 @@ const main = async () => {
     await prisma.medicalReport.deleteMany();
     await prisma.patient.deleteMany();
 
-    const categories = await createCategories(studyTypesSeed);
-    const studyTypes = await createStudyTypes(studyTypesSeed);
+    const categories = await createCategories();
+    const studyTypes = await createStudyTypes(categories);
     
     const patientsData = generatePatients(5);
     const patients = await createPatients(patientsData);
