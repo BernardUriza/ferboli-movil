@@ -1,7 +1,7 @@
 const MedicalReport = require('../entities/MedicalReport');
 import { sendEmail } from "../lib/mailer";
 
-const sendTokenByEmail = (report) => {
+export default function sendTokenByEmail(report){
   const medicalReport = new MedicalReport(report);
   const { token, url } = medicalReport.generateToken(); // Call the method on the instance
   /* Lógica para enviar el correo electrónico con el token */
@@ -14,4 +14,3 @@ const sendTokenByEmail = (report) => {
   console.log('Token enviado por correo electrónico:', token);
 };
 
-module.exports = sendTokenByEmail;

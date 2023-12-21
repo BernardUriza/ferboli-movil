@@ -1,91 +1,76 @@
+// Import necessary dependencies and components
 import React, { useState, useEffect } from 'react';
 import { Card, Title, Badge } from "@tremor/react";
-import CategoryForm from './CategoryForm';
 import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import toast from 'react-hot-toast';
+import StudyTypeForm from './StudyTypeForm'; // Import the StudyTypeForm component
 
-const CategoriesTable = ({ categories, saveCategory, key }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [filteredCategories, setFilteredCategories] = useState(categories);
+const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
+  const [selectedStudyType, setSelectedStudyType] = useState(null);
+  const [filteredStudyTypes, setFilteredStudyTypes] = useState(studyTypes);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState('');
-  const [lengthFiltered, setLengthFiltered] = useState(categories.length);
+  const [lengthFiltered, setLengthFiltered] = useState(studyTypes.length);
   const [disableSave, setDisableSave] = useState(false);
   const itemsPerPage = 11;
 
   useEffect(() => {
-    setFilteredCategories(categories);
-  }, [categories]);
+    setFilteredStudyTypes(studyTypes);
+  }, [studyTypes]);
 
   const openForm = (item) => {
-    setSelectedCategory(item);
+    setSelectedStudyType(item);
     setIsFormOpen(true);
   };
 
   const closeForm = () => {
-    setSelectedCategory(null);
+    setSelectedStudyType(null);
     setIsFormOpen(false);
   };
 
-  const handleSaveCategory = (category) => {
-    if (selectedCategory) {
-      setSelectedCategory({
-        ...selectedCategory,
-        name: category.name, // Update the category name
+  const handleSaveStudyType = (studyType) => {
+    if (selectedStudyType) {
+      setSelectedStudyType({
+        ...selectedStudyType,
+        name: studyType.name, // Update the studyType name
         // Add other properties to update here
       });
     }
-    setDisableSave(true)
-    var myPromise = saveCategory(category);
+    setDisableSave(true);
+    var myPromise = saveStudyType(studyType);
     toast.promise(
       myPromise,
       {
         loading: 'Cargando',
         success: () => {
-          setDisableSave(false)
+          setDisableSave(false);
           closeForm();
-          return `Cambios guardados con éxito "${category.name}"`
+          return `Cambios guardados con éxito "${studyType.name}"`;
         },
         error: (err) => {
-          setDisableSave(false)
-          return `Error ha sucedido: ${err.toString()}`
+          setDisableSave(false);
+          return `Error ha sucedido: ${err.toString()}`;
         },
       }
     );
   };
 
-  const renderCell = (columnKey, item) => {
-    if (columnKey === 'studyTypes') {
-      const studyTypeList = item.studyTypes.map(studyType => studyType.name).join(', ');
-      const quantity = item.studyTypes.length;
-
-      return (
-        <div>
-          <p>Tipos de estudios: {studyTypeList}</p>
-          <p>Cantidades: {quantity}</p>
-        </div>
-      );
-    } else {
-      return item[columnKey];
-    }
-  };
-
-
   const columns = [
     { isFilterColumn: true, key: 'name', value: 'name', title: 'Nombre', width: '30%' },
-    { isFilterColumn: true, key: 'studyTypes', value: 'studyTypes.*', title: 'Tipos de estudio', width: '30%' },
+    { isFilterColumn: true, key: 'description', value: 'description', title: 'Descripción', width: '30%' },
+    // Add other columns as needed
   ];
 
   return (
     <Card style={{ "padding": "0px" }}>
       <div className="md:flex justify-between items-center p-4">
-        <Title className='my-2'>Lista de Categorías
+        <Title className='my-2'>Lista de Tipos de Estudio
           <Badge className='mx-3' color="green" size="sm">
-            {lengthFiltered} categorías
+            {lengthFiltered} tipos de estudio
           </Badge>
         </Title>
         <FilterControls
@@ -99,14 +84,14 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
       </div>
       <CoreTable
         key={key}
-        data={filteredCategories}
+        data={filteredStudyTypes}
         columns={columns}
         filterText={filterText}
         selectedFilter={selectedFilter}
         itemsPerPage={itemsPerPage}
         pageNumber={pageNumber}
         openForm={openForm}
-        renderCell={renderCell}
+        renderCell={(columnKey, item) => item[columnKey]} // Modify as needed
         onFiltered={(e) => { setLengthFiltered(e) }}
       />
       <Pagination
@@ -114,9 +99,9 @@ const CategoriesTable = ({ categories, saveCategory, key }) => {
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <CategoryForm disableSave={disableSave} category={selectedCategory} onClose={closeForm} onSave={handleSaveCategory} />}
+      {isFormOpen && <StudyTypeForm disableSave={disableSave} studyType={selectedStudyType} onClose={closeForm} onSave={handleSaveStudyType} />}
     </Card>
   );
 };
 
-export default CategoriesTable;
+export default StudyTypesTable;
