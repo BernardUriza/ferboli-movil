@@ -34,7 +34,7 @@ export default async (req, res) => {
     }
   } else if (method === 'POST') {
     try {
-      const { id, name, date, status } = req.body;
+      const { id, name, date, status, expirationDate } = req.body;
 
       // Validación de los campos
       if (!id || !name || !date || !status) {
@@ -49,7 +49,8 @@ export default async (req, res) => {
         const updatedReport = await updateMedicalReport(id, {
           name,
           date,
-          status
+          status,
+          expirationDate: expirationDate!==null ? expirationDate : existingReport.expirationDate
         });
         res.status(200).json(updatedReport);
       } else {

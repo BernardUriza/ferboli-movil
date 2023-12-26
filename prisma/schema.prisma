@@ -29,6 +29,7 @@ model MedicalReport {
   status  String
   diagnosis  String
   date  DateTime
+  expirationDate DateTime?
   createdAt  DateTime  @default(now())
   patientId Int
   patient    Patient   @relation(fields: [patientId], references: [id])

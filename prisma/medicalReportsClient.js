@@ -3,18 +3,20 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function getAllMedicalReports() {
-  return prisma.medicalReport.findMany({
+  const currentDate = new Date();
+
+  const medicalReports = await prisma.medicalReport.findMany({
     include: {
       patient: true,
       studies: {
         include: {
-          type:  {
+          type: {
             include: {
-              category: true
-            }
-          }
-        }
-      }
+              category: true,
+            },
+          },
+        },
+      },
     },
     orderBy: {
       patient: {
@@ -22,7 +24,26 @@ export async function getAllMedicalReports() {
       },
     },
   });
+
+  // Update the status of each medical report based on the expirationDate
+  const updatedMedicalReports = medicalReports.map((report) => {
+    const expirationDate = new Date(report.expirationDate); // Assuming there is an expirationDate column
+    const isActive = report.status == "Activo"
+
+    if (currentDate > expirationDate && isActive) {
+      // If the current date is greater than the expiration date, update the status to 'enviado'
+      return {
+        ...report,
+        status: 'Enviado',
+      };
+    }
+
+    return report; // No need to update the status
+  });
+
+  return updatedMedicalReports;
 }
+
 
 // Crear un nuevo reporte médico
 export async function createMedicalReport(data) {
