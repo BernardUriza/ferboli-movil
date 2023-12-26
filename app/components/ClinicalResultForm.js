@@ -8,7 +8,7 @@ import CustomModal from '../controls/CustomModal';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
-import StatusSelect from '../controls/StatusSelect';
+import CustomStatus from '../controls/CustomStatus';
 import StudieCard from '../controls/StudieCard';
 import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
@@ -50,7 +50,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
       email: '',
     },
   });
-  
+
   const editPatient = (patient) => {
     setSelectedPatient(patient);
     setPatientEditorOpen(true);
@@ -170,10 +170,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
             <div className="flex-1">
               <div className="mb-4 w-48">
                 <label className="block text-sm font-medium mb-1 text-gray-700">Status</label>
-                <StatusSelect
-                  value={editedReport.status}
-                  onValueChange={(value) => setEditedReport({ ...editedReport, status: value })}
-                />
+                <CustomStatus status={editedReport.status} />
               </div>
             </div>
           </div>
@@ -187,7 +184,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                   readOnly={!!report}
                   placeholder={"Escribe el nombre del paciente."}
                   value={editedReport.patient.name}
-                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: {...editedReport.patient, name: value } })}
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, name: value } })}
                   className="mt-1 border rounded-md flex-1"
                 />
                 <TableCellButtonIcon visible={report} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
@@ -202,7 +199,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                   readOnly={!!report}
                   placeholder={"Escribe el mail del paciente."}
                   value={editedReport.patient.email}
-                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: {...editedReport.patient, email: value } })}
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, email: value } })}
                   className="mt-1 border rounded-md"
                 />
               </div>

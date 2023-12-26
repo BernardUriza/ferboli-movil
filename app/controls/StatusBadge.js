@@ -11,7 +11,7 @@ const StatusBadge = ({ status }) => {
       badgeColor = "yellow";
       badgeIcon = ClockIcon;
       break;
-    case "Enviando":
+    case "Enviado":
       badgeColor = "blue";
       badgeIcon = UploadIcon;
       break;

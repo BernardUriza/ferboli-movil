@@ -11,6 +11,6 @@ export default function sendTokenByEmail(report){
 
   sendEmail({to, subject, text});
 
-  console.log('Token enviado por correo electrónico:', token);
+  return medicalReport;
 };
 

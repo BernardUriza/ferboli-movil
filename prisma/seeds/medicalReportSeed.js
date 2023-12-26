@@ -5,7 +5,7 @@ const { faker } = require('@faker-js/faker');
 
 const prisma = new PrismaClient();
 
-const statusOptions = ["Activo", "Enviando", "Pendiente", "No entregado"];
+const statusOptions = ["Activo", "Enviado", "Pendiente", "No entregado"];
 
 const estudiosCardiologicos = [
   {
