@@ -59,6 +59,27 @@ const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
     );
   };
 
+  const renderCell = (columnKey, item) => {
+    if (columnKey === 'description') {
+      // Split the description into words
+      const words = item[columnKey].split(' ');
+  
+      // Take the first 30 words and join them back into a string
+      const shortenedDescription = words.slice(0, 16).join(' ');
+  
+      // Add ellipsis (...) if the description was truncated
+      const ellipsis = words.length > 2 ? '...' : '';
+  
+      return shortenedDescription + ellipsis;
+    }
+  
+    return item[columnKey];
+  };
+  
+  useEffect(() => {
+    setPageNumber(1); // Reset the pageNumber when filterText changes
+  }, [filterText]);
+  
   const columns = [
     { isFilterColumn: true, key: 'name', value: 'name', title: 'Nombre', width: '30%' },
     { isFilterColumn: true, key: 'description', value: 'description', title: 'Descripción', width: '30%' },
@@ -91,7 +112,7 @@ const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
         itemsPerPage={itemsPerPage}
         pageNumber={pageNumber}
         openForm={openForm}
-        renderCell={(columnKey, item) => item[columnKey]} // Modify as needed
+        renderCell={renderCell} // Modify as needed
         onFiltered={(e) => { setLengthFiltered(e) }}
       />
       <Pagination
