@@ -75,7 +75,7 @@ const Settings = () => {
     <div className='pt-3'>
       {/* Table of StudyTypes */}
       <div className='pt-3'>
-        <StudyTypesTable key={key} studyTypes={studyTypes} saveStudyType={handleSaveStudyType} />
+        <StudyTypesTable key={key} categories={categories} studyTypes={studyTypes} saveStudyType={handleSaveStudyType} />
       </div>
       {/* Table of Categories */}
       <div className='pt-3'>

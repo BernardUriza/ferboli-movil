@@ -7,7 +7,7 @@ export async function fetchStudyTypes() {
     if (response.ok) {
       const data = await response.json();
       return data.map((studyType) =>
-        new StudyType(studyType.id, studyType.name, studyType.description, studyType.categoryId)
+        new StudyType(studyType.id, studyType.name, studyType.description, studyType.categoryId, studyType.category)
       );
     } else {
       throw new Error('Error fetching study types');

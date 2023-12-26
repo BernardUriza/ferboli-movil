@@ -7,7 +7,7 @@ import CoreTable from '../controls/CoreTable';
 import toast from 'react-hot-toast';
 import StudyTypeForm from './StudyTypeForm'; // Import the StudyTypeForm component
 
-const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
+const StudyTypesTable = ({ studyTypes, categories, saveStudyType, key }) => {
   const [selectedStudyType, setSelectedStudyType] = useState(null);
   const [filteredStudyTypes, setFilteredStudyTypes] = useState(studyTypes);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -65,14 +65,16 @@ const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
       const words = item[columnKey].split(' ');
   
       // Take the first 30 words and join them back into a string
-      const shortenedDescription = words.slice(0, 16).join(' ');
+      const shortenedDescription = words.slice(0, 12).join(' ');
   
       // Add ellipsis (...) if the description was truncated
       const ellipsis = words.length > 2 ? '...' : '';
   
       return shortenedDescription + ellipsis;
     }
-  
+    if (columnKey === 'category.name') {
+      return item['category'].name
+    }
     return item[columnKey];
   };
   
@@ -82,6 +84,7 @@ const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
   
   const columns = [
     { isFilterColumn: true, key: 'name', value: 'name', title: 'Nombre', width: '30%' },
+    { isFilterColumn: true, key: 'category.name', value: 'category.name', title: 'Categoría', width: '30%' },
     { isFilterColumn: true, key: 'description', value: 'description', title: 'Descripción', width: '30%' },
     // Add other columns as needed
   ];
@@ -120,7 +123,7 @@ const StudyTypesTable = ({ studyTypes, saveStudyType, key }) => {
         setPageNumber={setPageNumber}
         totalPageCount={Math.ceil(lengthFiltered / itemsPerPage)}
       />
-      {isFormOpen && <StudyTypeForm disableSave={disableSave} studyType={selectedStudyType} onClose={closeForm} onSave={handleSaveStudyType} />}
+      {isFormOpen && <StudyTypeForm categories={categories} disableSave={disableSave} studyType={selectedStudyType} onClose={closeForm} onSave={handleSaveStudyType} />}
     </Card>
   );
 };

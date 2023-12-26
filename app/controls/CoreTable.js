@@ -61,17 +61,29 @@ const CoreTable = ({
     })
     : filteredData;
 
-  const sortedData = sortedColumn
-    ? [...filteredDataWithColumnFilter].sort((a, b) => {
-      const aValue = a[sortedColumn] || '';
-      const bValue = b[sortedColumn] || '';
-      if (sortAscending) {
-        return aValue.localeCompare(bValue);
-      } else {
-        return bValue.localeCompare(aValue);
+    const extractNestedValue = (item, columnKey) => {
+      const keys = columnKey.split('.');
+      let value = item;
+      for (const key of keys) {
+        value = value[key];
+        if (value === undefined || value === null) {
+          break;
+        }
       }
-    })
-    : filteredDataWithColumnFilter;
+      return value;
+    };
+  
+    const sortedData = sortedColumn
+      ? [...filteredDataWithColumnFilter].sort((a, b) => {
+          const aValue = extractNestedValue(a, sortedColumn) || '';
+          const bValue = extractNestedValue(b, sortedColumn) || '';
+          if (sortAscending) {
+            return aValue.localeCompare(bValue);
+          } else {
+            return bValue.localeCompare(aValue);
+          }
+        })
+      : filteredDataWithColumnFilter;
 
   const handleDataFiltering = () => {
     // Update the currentItems state when the pagination or filtered data changes
