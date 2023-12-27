@@ -1,42 +1,41 @@
+// categories.js
+
+import { NextResponse } from 'next/server'; // Import NextResponse
 import { getAllCategories, createCategory, updateCategory, getCategoryById } from '../../../prisma/categoriesClient';
 
-export default async (req, res) => {
-  if (req.method === 'GET') {
-    try {
-      const categories = await getAllCategories();
-      res.status(200).json(categories);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error fetching categories' });
-    }
-  } else if (req.method === 'POST') {
-    try {
-      const { id, name } = req.body;
-
-      // Validación de los campos
-      if (!id || !name) {
-        return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-      }
-
-      // Debes realizar más validaciones según tus necesidades. Por ejemplo, validar la longitud del nombre o el formato del ID.
-
-      // Verificar si la categoría ya existe por su ID
-      const existingCategory = await getCategoryById(id);
-
-      if (existingCategory) {
-        // Si la categoría existe, actualízala
-        const updatedCategory = await updateCategory(id, { name });
-        res.status(200).json(updatedCategory);
-      } else {
-        // Si la categoría no existe, créala como una nueva categoría
-        const newCategory = await createCategory({ id, name, studyTypes });
-        res.status(201).json(newCategory);
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error saving category '+error });
-    }
-  } else {
-    res.status(405).json({ error: 'Método no permitido' });
+export async function GET(request) {
+  try {
+    const categories = await getAllCategories();
+    return NextResponse.json(categories, { status: 200 }); // Return a NextResponse
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Error fetching categories' }, { status: 500 }); // Return a NextResponse
   }
-};
+}
+
+export async function POST(request) {
+  try {
+    const { id, name } = request.body;
+
+    // Validation of fields
+    if (!id || !name) {
+      return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 }); // Return a NextResponse
+    }
+
+    // Verify if the category already exists by its ID
+    const existingCategory = await getCategoryById(id);
+
+    if (existingCategory) {
+      // If the category exists, update it
+      const updatedCategory = await updateCategory(id, { name });
+      return NextResponse.json(updatedCategory, { status: 200 }); // Return a NextResponse
+    } else {
+      // If the category does not exist, create it as a new category
+      const newCategory = await createCategory({ id, name });
+      return NextResponse.json(newCategory, { status: 201 }); // Return a NextResponse
+    }
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Error saving category ' + error }, { status: 500 }); // Return a NextResponse
+  }
+}
