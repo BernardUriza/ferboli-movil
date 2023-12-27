@@ -286,7 +286,7 @@ const main = async () => {
 
     const categories = await createCategories();
     const studyTypes = await createStudyTypes(categories);
-    
+/*
     const patientsData = generatePatients(5);
     const patients = await createPatients(patientsData);
 
@@ -295,7 +295,7 @@ const main = async () => {
 
     const studiesData = generateStudies(medicalReports, studyTypes);
     await createStudies(studiesData);
-
+*/
     console.log('Seeding completed successfully.');
   } catch (error) {
     console.error('Error during seeding:', error);
