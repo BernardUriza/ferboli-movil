@@ -36,6 +36,11 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
       patient: {
         name: '',
         email: '',
+        phone: '33',
+        information: 'information',
+        dateOfBirth: new Date(),
+        gender: "NA",
+        status: "Activo"
       },
     });
   }, [report]);
@@ -48,6 +53,11 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     patient: {
       name: '',
       email: '',
+      phone: '33',
+      information: 'information',
+      dateOfBirth: new Date(),
+      gender: "NA",
+      status: "Activo"
     },
   });
 

@@ -43,7 +43,6 @@ export default async (req, res) => {
           return res.status(200).json(updatedReport);
         } else {
           const newReport = await createMedicalReport({
-            id,
             name,
             date,
             status,
