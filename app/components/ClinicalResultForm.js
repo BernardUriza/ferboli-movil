@@ -32,24 +32,30 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     setEditedReport(report || getDefaultReport());
   }, [report]);
 
-  const getDefaultReport = () => ({
-    id: report?.id ?? '-1',
-    date: report?.date ? (report.date) : new Date(),
-    name: report?.name ?? '',
-    status: report?.status ?? 'Pendiente',
-    patient: {
-      name: report?.patient?.name ?? '',
-      email: report?.patient?.email ?? '',
-      phone: '33',
-      information: 'information',
-      dateOfBirth: report?.patient?.dateOfBirth ? (report.patient.dateOfBirth) : new Date(),
-      gender: report?.patient?.gender ?? 'NA',
-      status: report?.patient?.status ?? 'Activo',
-    },
-    studies: report?.studies ?? [],
-  });
-  
+  const getDefaultReport = () => {
+    const parseISODate = (isoDateString) => isoDateString ? new Date(isoDateString) : new Date();
+
+    return {
+      id: report?.id ?? '-1',
+      date: parseISODate(report?.date),
+      name: report?.name ?? '',
+      status: report?.status ?? 'Pendiente',
+      patient: {
+        name: report?.patient?.name ?? '',
+        email: report?.patient?.email ?? '',
+        phone: '33',
+        information: 'information',
+        dateOfBirth: parseISODate(report?.patient?.dateOfBirth),
+        gender: report?.patient?.gender ?? 'NA',
+        status: report?.patient?.status ?? 'Activo',
+      },
+      studies: report?.studies ?? [],
+    };
+  };
+
   const [editedReport, setEditedReport] = useState(getDefaultReport());
+
+  debugger
 
   const editPatient = (patient) => {
     setSelectedPatient(patient);
@@ -153,7 +159,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                   <label className="block text-sm font-medium text-gray-700">Fecha</label>
                   <DatePicker
                     name="date"
-                    value={editedReport.date}
+                    value={new Date(editedReport.date)}
                     enableClear={false}
                     onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
                     className="mt-1 rounded-md"
