@@ -25,10 +25,10 @@ export default async (req, res) => {
         }
 
       case 'POST':
-        const { id, name, date, status, expirationDate } = req.body;
+        const { id, name, date, status, expirationDate, patient } = req.body;
 
-        if (!date || !status) {
-          return res.status(400).json({ error: 'Date and status are required fields' });
+        if (!date || !status || !patient) {
+          return res.status(400).json({ error: 'Date, status, and patient are required fields' });
         }
 
         let existingReport = id ? await getMedicalReportById(id) : false;
@@ -42,7 +42,17 @@ export default async (req, res) => {
           });
           return res.status(200).json(updatedReport);
         } else {
-          const newReport = await createMedicalReport({ id, name, date, status });
+          const newReport = await createMedicalReport({
+            id,
+            name,
+            date,
+            status,
+            diagnosis: 'Default Diagnosis',
+            patient: {
+              create: patient
+            }
+          });
+          
           return res.status(201).json(newReport);
         }
 
@@ -51,15 +61,15 @@ export default async (req, res) => {
           return res.status(400).json({ error: 'ID is required for deletion' });
         }
 
-        const reportId = parseInt(medicalReport[0]);
-        const result = await deleteMedicalReport(reportId);
+        const reportIdToDelete = parseInt(medicalReport[0]);
+        const result = await deleteMedicalReport(reportIdToDelete);
         return res.status(201).json(result);
 
       default:
         return res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('API Error:', error);
+    return res.status(500).json({ error: 'Internal server error', details: error.message });
   }
 };

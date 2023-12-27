@@ -27,7 +27,7 @@ model MedicalReport {
   id         Int       @id @default(autoincrement())
   name String
   status  String
-  diagnosis  String
+  diagnosis  String?
   date  DateTime
   expirationDate DateTime?
   createdAt  DateTime  @default(now())
