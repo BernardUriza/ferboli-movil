@@ -123,6 +123,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         },
       }
     );
+    return myPromise;
   };
 
   // ClinicalResultsTable.js

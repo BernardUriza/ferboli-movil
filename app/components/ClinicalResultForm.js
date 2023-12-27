@@ -124,13 +124,13 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
             <Button variant="light" className="ml-3" onClose={onClose} onClick={onClose}>
               Cancelar
             </Button>
-
             <Button
               variant="secondary"
               className="ml-3"
               onClose={onClose}
-              onClick={() => {
-                const savedReport = report ? editedReport : onSave(editedReport);
+              onClick={async () => {
+                const savedReport = report ? editedReport : await onSave(editedReport) ;
+                debugger
                 onSend(savedReport);
               }}
             >
