@@ -103,6 +103,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   };
 
   const saveReport = (report) => {
+    debugger
     setDisableSave(true)
     var myPromise = save(report)
     toast.promise(
