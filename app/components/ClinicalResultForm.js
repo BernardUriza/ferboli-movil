@@ -129,8 +129,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
               className="ml-3"
               onClose={onClose}
               onClick={async () => {
-                const savedReport = report ? editedReport : await onSave(editedReport) ;
-                debugger
+                const savedReport = report ? editedReport : await onSave(editedReport);
                 onSend(savedReport);
               }}
             >

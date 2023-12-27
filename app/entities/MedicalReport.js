@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 class MedicalReport {
-  constructor({ id, date, status, diagnosis, patient, studies }) {
+  constructor({ id, date, status, diagnosis, patient, studies, patientId }) {
     this.id = id;
     this.name = patient?.name;
     this.date = date;
@@ -9,13 +9,10 @@ class MedicalReport {
     this.diagnosis = diagnosis;
     this.patient = patient;
     this.studies = studies;
+    this.patientId = patientId;
   }
 
   generateToken() {
-    if (!this.patient.id) {
-      throw new Error('patientId is required for token generation');
-    }
-
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 15); // Add 15 days to the current date
 

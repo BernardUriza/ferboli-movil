@@ -14,7 +14,8 @@ export function saveMedicalReports(editedReport) {
       if (response.ok) {
         const responseData = await response.json();
         // The request was successful; you can perform additional actions if necessary
-        console.log('Medical report saved successfully.');
+        responseData.patient = editedReport.patient
+        responseData.patient.id = responseData.patientId
         const savedReport = new MedicalReport(responseData);
         resolve({ success: true, data: savedReport });
       } else {

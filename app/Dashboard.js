@@ -38,15 +38,14 @@ const Dashboard = ({setLoadingState}) => {
   useEffect(() => {
     fetchReports();
   }, []); 
-  
+
   const handleSaveReport = (editedReport) => {
     return new Promise((resolve, reject) => {
       saveMedicalReports(editedReport)
         .then((result) => {
           if (result.success) {
-            console.log('Medical report saved successfully in the dashboard.');
             fetchReports(false);
-            resolve(result); // Resolve with the original result
+            resolve(result.data); // Resolve with the original result
           } else {
             console.error('Error saving the medical report in the API.');
             reject(result); // Reject with the original result
