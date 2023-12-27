@@ -41,7 +41,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
   }, [report]);
 
   const [editedReport, setEditedReport] = useState(report || {
-    id: '',
+    id: '-1',
     date: new Date(),
     name: '',
     status: 'Pendiente',
@@ -90,25 +90,38 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
   };
 
   const handleStudySave = (editedStudy) => {
-    editedStudy.medicalReportId = editedReport.id;
-    setDisableSaveStudy(true)
-    var myPromise = onSaveStudy(editedStudy)
-    toast.promise(
-      myPromise,
-      {
-        loading: 'Cargando',
-        success: () => {
-          setDisableSaveStudy(false)
-          setStudyFormOpen(false);
-          return `Cambios guardados con éxito, estudio modificado.`
-        },
-        error: (err) => {
-          setDisableSaveStudy(false)
-          return `Error ha sucedido: ${err.toString()}`
-        },
-      }
-    );
+    if (editedReport.id > 0) {
+      // Existing report, save the study to the backend
+      editedStudy.medicalReportId = editedReport.id;
+      setDisableSaveStudy(true);
+      var myPromise = onSaveStudy(editedStudy);
+      toast.promise(
+        myPromise,
+        {
+          loading: 'Cargando',
+          success: () => {
+            setDisableSaveStudy(false);
+            setStudyFormOpen(false);
+            return `Cambios guardados con éxito, estudio modificado.`;
+          },
+          error: (err) => {
+            setDisableSaveStudy(false);
+            return `Error ha sucedido: ${err.toString()}`;
+          },
+        }
+      );
+    } else {
+      // New report, update the state with the new study
+      setEditedReport((prevReport) => ({
+        ...prevReport,
+        studies: [...(prevReport.studies || []), editedStudy],
+      }));
+      setDisableSaveStudy(false);
+      setStudyFormOpen(false);
+      toast(`Cambios guardados con éxito, estudio modificado.`);
+    }
   };
+  
 
 
   return (
