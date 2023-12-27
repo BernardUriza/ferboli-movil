@@ -4,7 +4,7 @@ import {
   updateMedicalReport,
   getMedicalReportById,
   deleteMedicalReport
-} from '../../../prisma/medicalReportsClient';
+} from '../../../../prisma/medicalReportsClient';
 
 export default async (req, res) => {
   const { method, query } = req;

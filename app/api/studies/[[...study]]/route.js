@@ -1,5 +1,5 @@
 // pages/api/studies/[[study]].js
-import { getAllStudies, createStudy, updateStudy, getStudyById } from '../../../prisma/studiesClient';
+import { getAllStudies, createStudy, updateStudy, getStudyById } from '../../../../prisma/studiesClient';
 
 export default async (req, res) => {
   const { method, query } = req;

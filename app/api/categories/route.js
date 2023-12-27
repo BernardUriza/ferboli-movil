@@ -1,4 +1,4 @@
-import { getAllCategories, createCategory, updateCategory, getCategoryById } from '../../prisma/categoriesClient';
+import { getAllCategories, createCategory, updateCategory, getCategoryById } from '../../../prisma/categoriesClient';
 
 export default async (req, res) => {
   if (req.method === 'GET') {

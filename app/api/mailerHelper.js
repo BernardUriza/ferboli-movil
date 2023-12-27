@@ -1,4 +1,4 @@
-import { mailOptions, transporter } from "../../app/config/nodemailer";
+import { mailOptions, transporter } from "../config/nodemailer";
 
 const generateEmailContent = (subject, text) => {
   return {
