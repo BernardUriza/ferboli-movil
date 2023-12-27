@@ -27,39 +27,29 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     slidesToShow: 3,
     slidesToScroll: 2,
   };
+
   useEffect(() => {
-    setEditedReport(report || {
-      id: '',
-      date: new Date(),
-      name: '',
-      status: 'Pendiente',
-      patient: {
-        name: '',
-        email: '',
-        phone: '33',
-        information: 'information',
-        dateOfBirth: new Date(),
-        gender: "NA",
-        status: "Activo"
-      },
-    });
+    setEditedReport(report || getDefaultReport());
   }, [report]);
 
-  const [editedReport, setEditedReport] = useState(report || {
-    id: '-1',
-    date: new Date(),
-    name: '',
-    status: 'Pendiente',
+  const getDefaultReport = () => ({
+    id: report?.id ?? '-1',
+    date: report?.date ? (report.date) : new Date(),
+    name: report?.name ?? '',
+    status: report?.status ?? 'Pendiente',
     patient: {
-      name: '',
-      email: '',
+      name: report?.patient?.name ?? '',
+      email: report?.patient?.email ?? '',
       phone: '33',
       information: 'information',
-      dateOfBirth: new Date(),
-      gender: "NA",
-      status: "Activo"
+      dateOfBirth: report?.patient?.dateOfBirth ? (report.patient.dateOfBirth) : new Date(),
+      gender: report?.patient?.gender ?? 'NA',
+      status: report?.patient?.status ?? 'Activo',
     },
+    studies: report?.studies ?? [],
   });
+  
+  const [editedReport, setEditedReport] = useState(getDefaultReport());
 
   const editPatient = (patient) => {
     setSelectedPatient(patient);
@@ -70,24 +60,17 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     setPatientEditorOpen(false);
   };
 
-  const handlePatientSave = (editedPatientData) => {
-    setDisableSavePatient(true)
-    var myPromise = onSavePatient(editedPatientData)
-    toast.promise(
-      myPromise,
-      {
-        loading: 'Cargando',
-        success: () => {
-          setDisableSavePatient(false)
-          setPatientEditorOpen(false);
-          return `Cambios guardados con éxito, paciente ${editedPatientData.name} modificado.`
-        },
-        error: (err) => {
-          setDisableSavePatient(false)
-          return `Error ha sucedido: ${err.toString()}`
-        },
-      }
-    );
+  const handlePatientSave = async (editedPatientData) => {
+    setDisableSavePatient(true);
+    try {
+      await onSavePatient(editedPatientData);
+      setDisableSavePatient(false);
+      setPatientEditorOpen(false);
+      toast.success(`Cambios guardados con éxito, paciente ${editedPatientData.name} modificado.`);
+    } catch (err) {
+      setDisableSavePatient(false);
+      toast.error(`Error ha sucedido: ${err.toString()}`);
+    }
   };
 
   const clickToOpenStudyForm = (selectedStudie) => {
@@ -99,40 +82,29 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     setStudyFormOpen(false);
   };
 
-  const handleStudySave = (editedStudy) => {
-    if (editedReport.id > 0) {
-      // Existing report, save the study to the backend
-      editedStudy.medicalReportId = editedReport.id;
-      setDisableSaveStudy(true);
-      var myPromise = onSaveStudy(editedStudy);
-      toast.promise(
-        myPromise,
-        {
-          loading: 'Cargando',
-          success: () => {
-            setDisableSaveStudy(false);
-            setStudyFormOpen(false);
-            return `Cambios guardados con éxito, estudio modificado.`;
-          },
-          error: (err) => {
-            setDisableSaveStudy(false);
-            return `Error ha sucedido: ${err.toString()}`;
-          },
-        }
-      );
-    } else {
-      // New report, update the state with the new study
-      setEditedReport((prevReport) => ({
-        ...prevReport,
-        studies: [...(prevReport.studies || []), editedStudy],
-      }));
+  const handleStudySave = async (editedStudy) => {
+    try {
+      if (editedReport.id > 0) {
+        editedStudy.medicalReportId = editedReport.id;
+        setDisableSaveStudy(true);
+        await onSaveStudy(editedStudy);
+        setDisableSaveStudy(false);
+        setStudyFormOpen(false);
+        toast.success('Cambios guardados con éxito, estudio modificado.');
+      } else {
+        setEditedReport((prevReport) => ({
+          ...prevReport,
+          studies: [...prevReport.studies, editedStudy],
+        }));
+        setDisableSaveStudy(false);
+        setStudyFormOpen(false);
+        toast.success('Cambios guardados con éxito, estudio modificado.');
+      }
+    } catch (err) {
       setDisableSaveStudy(false);
-      setStudyFormOpen(false);
-      toast(`Cambios guardados con éxito, estudio modificado.`);
+      toast.error(`Error ha sucedido: ${err.toString()}`);
     }
   };
-  
-
 
   return (
     <>
@@ -145,7 +117,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
         modalClassName="p-8"
         footerElement={
           <div className="flex justify-end">
-            <Button variant="light" className="ml-3" onClose={onClose} onClick={() => onClose()}>
+            <Button variant="light" className="ml-3" onClose={onClose} onClick={onClose}>
               Cancelar
             </Button>
 
@@ -169,7 +141,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                     type="text"
                     name="id"
                     disabled={true}
-                    placeholder='ID'
+                    placeholder="ID"
                     value={editedReport.id}
                     onChange={(e) => setEditedReport({ ...editedReport, id: e.target.value })}
                     className="mt-1 border rounded-md"
@@ -181,7 +153,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                   <label className="block text-sm font-medium text-gray-700">Fecha</label>
                   <DatePicker
                     name="date"
-                    value={new Date(editedReport.date)}
+                    value={editedReport.date}
                     enableClear={false}
                     onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
                     className="mt-1 rounded-md"
@@ -197,7 +169,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
               </div>
             </div>
           </div>
-          <div className='flex'>
+          <div className="flex">
             <div className="flex-1 mb-4">
               <label className="block text-sm font-medium text-gray-700">Nombre</label>
               <div className="flex">
@@ -205,12 +177,12 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                   type="text"
                   name="name"
                   readOnly={!!report}
-                  placeholder={"Escribe el nombre del paciente."}
+                  placeholder="Escribe el nombre del paciente."
                   value={editedReport.patient.name}
                   onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, name: value } })}
                   className="mt-1 border rounded-md flex-1"
                 />
-                <TableCellButtonIcon visible={report} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
+                <TableCellButtonIcon visible={report} text="Editar" icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
               </div>
             </div>
             <div className="flex-1">
@@ -220,7 +192,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
                   type="text"
                   name="id"
                   readOnly={!!report}
-                  placeholder={"Escribe el mail del paciente."}
+                  placeholder="Escribe el mail del paciente."
                   value={editedReport.patient.email}
                   onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, email: value } })}
                   className="mt-1 border rounded-md"
@@ -231,11 +203,8 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
           <div className="mb-4 max-w-full ml-3">
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
             <Slider {...sliderSettings}>
-              {editedReport.studies?.map((study) => (
-                <StudieCard
-                  clickFileLink={clickToOpenStudyForm}
-                  studieData={study}
-                />
+              {editedReport.studies.map((study, index) => (
+                <StudieCard key={index} clickFileLink={clickToOpenStudyForm} studieData={study} />
               ))}
               <StudieCard
                 newCard={true}
