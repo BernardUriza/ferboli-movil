@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import {
   getAllMedicalReports,
   createMedicalReport,
@@ -7,28 +8,30 @@ import {
 } from '../../../../prisma/medicalReportsClient';
 
 // Manejador para el método GET
-export const GET = async (req, res) => {
+export async function GET(req, context) {
   const { query } = req;
-  const { medicalReport } = query;
+  const { medicalReport } = context;
 
-  if (medicalReport && medicalReport.length > 0) {
-    const reportId = parseInt(medicalReport[0]);
-    const report = await getMedicalReportById(reportId);
-    return report
-      ? res.status(200).json(report)
-      : res.status(404).json({ error: 'Medical report not found' });
-  } else {
-    const medicalReports = await getAllMedicalReports();
-    return res.status(200).json(medicalReports);
+  if (query) {
+    if (medicalReport && medicalReport.length > 0) {
+      const reportId = parseInt(medicalReport[0]);
+      const report = await getMedicalReportById(reportId);
+      return report
+        ? NextResponse.json(report, { status: 200 })
+        : NextResponse.json({ error: 'Medical report not found' }, { status: 404 });
+    }
   }
-};
+
+  const medicalReports = await getAllMedicalReports();
+  return NextResponse.json(medicalReports, { status: 200 });
+}
 
 // Manejador para el método POST
-export const POST = async (req, res) => {
+export const POST = async (req) => {
   const { id, name, date, status, expirationDate, patient, studies } = req.body;
 
   if (!date || !status || !patient) {
-    return res.status(400).json({ error: 'Date, status, and patient are required fields' });
+    return NextResponse.json({ error: 'Date, status, and patient are required fields' }, { status: 400 });
   }
 
   let existingReport = parseInt(id) > 0 ? await getMedicalReportById(id) : false;
@@ -40,7 +43,7 @@ export const POST = async (req, res) => {
       status,
       expirationDate: expirationDate !== null ? expirationDate : existingReport.expirationDate
     });
-    return res.status(200).json(updatedReport);
+    return NextResponse.json(updatedReport, { status: 200 });
   } else {
     const newReport = await createMedicalReport({
       name,
@@ -59,20 +62,20 @@ export const POST = async (req, res) => {
         }))
       }
     });
-    return res.status(201).json(newReport);
+    return NextResponse.json(newReport, { status: 201 });
   }
 };
 
 // Manejador para el método DELETE
-export const DELETE = async (req, res) => {
+export const DELETE = async (req) => {
   const { query } = req;
   const { medicalReport } = query;
 
   if (!medicalReport || medicalReport.length === 0) {
-    return res.status(400).json({ error: 'ID is required for deletion' });
+    return NextResponse.json({ error: 'ID is required for deletion' }, { status: 400 });
   }
 
   const reportIdToDelete = parseInt(medicalReport[0]);
   const result = await deleteMedicalReport(reportIdToDelete);
-  return res.status(201).json(result);
+  return NextResponse.json(result, { status: 201 });
 };
