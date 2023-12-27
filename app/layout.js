@@ -1,6 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { EdgeStoreProvider } from './api/edgestore'
+import { EdgeStoreProvider } from './lib/edgestore'
 
 const inter = Inter({ subsets: ['latin'] })
 

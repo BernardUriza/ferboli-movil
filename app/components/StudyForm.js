@@ -4,7 +4,7 @@ import CustomModal from '../controls/CustomModal';
 import StudieCard from '../controls/StudieCard';
 import esLocale from 'date-fns/locale/es';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
-import { useEdgeStore } from '../api/edgestore';
+import { useEdgeStore } from '../lib/edgestore';
 import { useLoading } from '../providers/LoadingContext';
 
 function isValidUrl(url) {
