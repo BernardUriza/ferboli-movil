@@ -25,7 +25,7 @@ export default async (req, res) => {
         }
 
       case 'POST':
-        const { id, name, date, status, expirationDate, patient } = req.body;
+        const { id, name, date, status, expirationDate, patient, studies } = req.body;
 
         if (!date || !status || !patient) {
           return res.status(400).json({ error: 'Date, status, and patient are required fields' });
@@ -42,6 +42,7 @@ export default async (req, res) => {
           });
           return res.status(200).json(updatedReport);
         } else {
+          console.log(studies)
           const newReport = await createMedicalReport({
             name,
             date,
@@ -49,9 +50,16 @@ export default async (req, res) => {
             diagnosis: 'Default Diagnosis',
             patient: {
               create: patient
+            },
+            studies: {
+              create: studies.map((study) => ({
+                name: "",
+                studyTypeId: study.type.id,
+                createdAt: study.createdAt,
+                // add other properties as needed
+              }))
             }
           });
-          
           return res.status(201).json(newReport);
         }
 
