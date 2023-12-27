@@ -36,7 +36,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     const parseISODate = (isoDateString) => isoDateString ? new Date(isoDateString) : new Date();
 
     return {
-      id: report?.id ?? '-1',
+      id: report?.id ?? '0',
       date: parseISODate(report?.date),
       name: report?.name ?? '',
       status: report?.status ?? 'Pendiente',
@@ -54,8 +54,6 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
   };
 
   const [editedReport, setEditedReport] = useState(getDefaultReport());
-
-  debugger
 
   const editPatient = (patient) => {
     setSelectedPatient(patient);

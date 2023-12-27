@@ -31,7 +31,7 @@ export default async (req, res) => {
           return res.status(400).json({ error: 'Date, status, and patient are required fields' });
         }
 
-        let existingReport = id ? await getMedicalReportById(id) : false;
+        let existingReport = parseInt(id) > 0 ? await getMedicalReportById(id) : false;
 
         if (existingReport) {
           const updatedReport = await updateMedicalReport(id, {
