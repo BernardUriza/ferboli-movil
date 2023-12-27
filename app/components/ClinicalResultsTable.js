@@ -129,9 +129,9 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   const sendTokenReportByEmail = (report) => {
     const medicalReport = sendTokenByEmail(report);
     medicalReport.status = "Activo";
-    save(medicalReport)    
-    setSelectedReport(medicalReport);
-    console.log('Token enviado por correo electrónico');
+    const savedMedicalReport = save(medicalReport)    
+    setSelectedReport(savedMedicalReport);
+    return savedMedicalReport;
   };
 
   const renderCell = (columnKey, item) => {

@@ -125,8 +125,16 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
               Cancelar
             </Button>
 
-            <Button variant="secondary" className="ml-3" onClose={onClose} onClick={() => onSend(editedReport)}>
-              Enviar al cliente
+            <Button
+              variant="secondary"
+              className="ml-3"
+              onClose={onClose}
+              onClick={() => {
+                const savedReport = report ? editedReport : onSave(editedReport);
+                onSend(savedReport);
+              }}
+            >
+              {report ? 'Enviar al cliente' : 'Guardar y enviar al cliente'}
             </Button>
 
             <Button disabled={disableSave} type="primary" className="ml-3" onClick={() => onSave(editedReport)}>
@@ -135,6 +143,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
           </div>
         }
       >
+
         <form>
           <div className="flex">
             <div className="flex-1 flex">
