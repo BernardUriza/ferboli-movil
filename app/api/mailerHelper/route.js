@@ -1,4 +1,5 @@
-import { mailOptions, transporter } from "../config/nodemailer";
+import { NextResponse } from 'next/server';
+import { mailOptions, transporter } from '../config/nodemailer';
 
 const generateEmailContent = (subject, text) => {
   return {
@@ -11,9 +12,9 @@ const generateEmailContent = (subject, text) => {
   };
 };
 
-const handler = async (req, res) => {
-  if (req.method === "POST") {
-    const {to, subject, text} = req.body;
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const { to, subject, text } = req.body;
 
     mailOptions.to = to;
     try {
@@ -23,12 +24,12 @@ const handler = async (req, res) => {
         subject: subject,
       });
 
-      return res.status(200).json({ success: true });
+      return NextResponse.json({ success: true }, { status: 200 });
     } catch (err) {
-      console.log(err);
-      return res.status(400).json({ message: err.message });
+      console.error(err);
+      return NextResponse.json({ message: err.message }, { status: 400 });
     }
   }
-  return res.status(400).json({ message: "Bad request" });
-};
-export default handler;
+
+  return NextResponse.json({ message: 'Bad request' }, { status: 400 });
+}
