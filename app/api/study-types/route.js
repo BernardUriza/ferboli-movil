@@ -1,46 +1,44 @@
+import { NextResponse } from 'next/server'; // Import NextResponse
 import {
-    getAllStudyTypes,
-    createStudyType,
-    updateStudyType,
-    getStudyTypeById,
-  } from '../../../prisma/studyTypesClient';
-  
-  export default async (req, res) => {
-    if (req.method === 'GET') {
-      try {
-        const studyTypes = await getAllStudyTypes();
-        res.status(200).json(studyTypes);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error fetching study types' });
-      }
-    } else if (req.method === 'POST') {
-      try {
-        const { id, name, description, categoryId } = req.body;
-  
-        // Validación de los campos
-        if (!id || !name || !description || !categoryId) {
-          return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-        }
-  
-        // Verificar si el tipo de estudio ya existe por su ID
-        const existingStudyType = await getStudyTypeById(id);
-  
-        if (existingStudyType) {
-          // Si el tipo de estudio existe, actualízalo
-          const updatedStudyType = await updateStudyType(id, { name, description, categoryId });
-          res.status(200).json(updatedStudyType);
-        } else {
-          // Si el tipo de estudio no existe, créalo como un nuevo tipo de estudio
-          const newStudyType = await createStudyType({ id, name, description, categoryId });
-          res.status(201).json(newStudyType);
-        }
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error saving study type ' + error });
-      }
-    } else {
-      res.status(405).json({ error: 'Método no permitido' });
+  getAllStudyTypes,
+  createStudyType,
+  updateStudyType,
+  getStudyTypeById,
+} from '../../../prisma/studyTypesClient';
+
+export async function GET(request) {
+  try {
+    const studyTypes = await getAllStudyTypes();
+    return NextResponse.json(studyTypes, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Error fetching study types' }, { status: 500 });
+  }
+}
+
+export async function POST(request) {
+  try {
+    const { id, name, description, categoryId } = request.body;
+
+    // Validation of fields
+    if (!id || !name || !description || !categoryId) {
+      return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 });
     }
-  };
-  
+
+    // Verify if the study type already exists by its ID
+    const existingStudyType = await getStudyTypeById(id);
+
+    if (existingStudyType) {
+      // If the study type exists, update it
+      const updatedStudyType = await updateStudyType(id, { name, description, categoryId });
+      return NextResponse.json(updatedStudyType, { status: 200 });
+    } else {
+      // If the study type does not exist, create it as a new study type
+      const newStudyType = await createStudyType({ id, name, description, categoryId });
+      return NextResponse.json(newStudyType, { status: 201 });
+    }
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Error saving study type ' + error }, { status: 500 });
+  }
+}

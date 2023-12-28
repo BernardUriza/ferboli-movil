@@ -131,7 +131,9 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     const medicalReport = sendTokenByEmail(report);
     medicalReport.status = "Activo";
     const savedMedicalReport = save(medicalReport)    
-    setSelectedReport(savedMedicalReport);
+    savedMedicalReport.then((res)=>{
+      setSelectedReport(res);
+    })
     return savedMedicalReport;
   };
 
