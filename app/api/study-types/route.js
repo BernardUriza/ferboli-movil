@@ -3,7 +3,7 @@ import {
     createStudyType,
     updateStudyType,
     getStudyTypeById,
-  } from '../../prisma/studyTypesClient';
+  } from '../../../prisma/studyTypesClient';
   
   export default async (req, res) => {
     if (req.method === 'GET') {
