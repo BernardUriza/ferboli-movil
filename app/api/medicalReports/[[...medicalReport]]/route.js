@@ -28,7 +28,8 @@ export async function GET(req, context) {
 
 // Manejador para el método POST
 export const POST = async (req) => {
-  const { id, name, date, status, expirationDate, patient, studies } = req.body;
+  const body = await req.json();
+  const { id, name, date, status, expirationDate, patient, studies } = body;
 
   if (!date || !status || !patient) {
     return NextResponse.json({ error: 'Date, status, and patient are required fields' }, { status: 400 });
@@ -66,16 +67,24 @@ export const POST = async (req) => {
   }
 };
 
-// Manejador para el método DELETE
 export const DELETE = async (req) => {
-  const { query } = req;
-  const { medicalReport } = query;
+  const { medicalReport } = req.query;
 
-  if (!medicalReport || medicalReport.length === 0) {
+  if (!medicalReport) {
     return NextResponse.json({ error: 'ID is required for deletion' }, { status: 400 });
   }
 
-  const reportIdToDelete = parseInt(medicalReport[0]);
-  const result = await deleteMedicalReport(reportIdToDelete);
-  return NextResponse.json(result, { status: 201 });
+  // Assuming medicalReport is a single value and not an array
+  const reportIdToDelete = parseInt(medicalReport);
+  if (isNaN(reportIdToDelete)) {
+    return NextResponse.json({ error: 'Invalid ID format' }, { status: 400 });
+  }
+
+  try {
+    const result = await deleteMedicalReport(reportIdToDelete);
+    return NextResponse.json(result, { status: 200 }); // Changed status to 200, typically used for successful DELETE operations
+  } catch (error) {
+    // Handle potential errors from deleteMedicalReport
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 };

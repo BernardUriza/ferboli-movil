@@ -52,7 +52,13 @@ const generateEmailContent = (subject, text) => {
 };
 
 export async function POST(req) {
-  const { to, subject, text } = req.body;
+  const body = await req.json();
+  const { to, subject, text } = body;
+
+  // Input validation
+  if (!to || !subject || !text) {
+    return NextResponse.json({ message: 'Missing required fields ' + to }, { status: 400 });
+  }
 
   mailOptions.to = to;
   try {

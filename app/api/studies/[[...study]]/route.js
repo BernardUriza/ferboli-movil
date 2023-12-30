@@ -32,7 +32,8 @@ export async function GET(req, context) {
 }
 export async function POST(req, context) {
   try {
-    const { id, medicalReportId, name, type } = req.body;
+    const body = await req.json();
+    const { id, medicalReportId, name, type } = body;
 
     // Validation of the fields
     if (!medicalReportId || !type) {

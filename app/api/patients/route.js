@@ -18,7 +18,8 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const { id, name, email, phone } = req.body;
+    const body = await req.json();
+    const { id, name, email, phone } = body;
 
     // Validation of fields
     if (!id || !name || !email || !phone) {

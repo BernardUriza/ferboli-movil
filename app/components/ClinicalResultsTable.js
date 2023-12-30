@@ -132,7 +132,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     medicalReport.status = "Activo";
     const savedMedicalReport = save(medicalReport)    
     savedMedicalReport.then((res)=>{
-      setSelectedReport(res);
+      //setSelectedReport(res);
     })
     return savedMedicalReport;
   };
