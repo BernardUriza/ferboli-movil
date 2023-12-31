@@ -1,4 +1,3 @@
-// Users.js
 import React, { useState, useEffect } from 'react';
 import { fetchCategories } from './useCases/fetchCategories';
 import { saveCategory } from './useCases/saveCategory';
@@ -10,30 +9,27 @@ import StudyTypesTable from './components/StudyTypesTable';
 const Settings = () => {
   const [categories, setCategories] = useState([]);
   const [studyTypes, setStudyTypes] = useState([]);
+  const [error, setError] = useState('');
   const [key, setKey] = useState(1);
 
-  const getCategories = () => {
-    fetchCategories()
-      .then((data) => {
-        setCategories(data);
-        console.log('Category data refreshed.');
-      })
-      .catch((error) => console.error(error.message))
-      .finally(() => {
-        setKey((prevKey) => prevKey + 1);
-      });
+  const getCategories = async () => {
+    try {
+      const data = await fetchCategories();
+      setCategories(data);
+    } catch (error) {
+      setError(error.message);
+    }
+    setKey((prevKey) => prevKey + 1);
   };
 
-  const getStudyTypes = () => {
-    fetchStudyTypes()
-      .then((data) => {
-        setStudyTypes(data);
-        console.log('StudyType data refreshed.');
-      })
-      .catch((error) => console.error(error.message))
-      .finally(() => {
-        setKey((prevKey) => prevKey + 1);
-      });
+  const getStudyTypes = async () => {
+    try {
+      const data = await fetchStudyTypes();
+      setStudyTypes(data);
+    } catch (error) {
+      setError(error.message);
+    }
+    setKey((prevKey) => prevKey + 1);
   };
 
   useEffect(() => {
@@ -41,43 +37,41 @@ const Settings = () => {
     getStudyTypes();
   }, []);
 
-  const handleSaveCategory = (editedCategory) => {
-    return saveCategory(editedCategory)
-      .then((result) => {
-        if (result.success) {
-          console.log('Category data saved successfully in settings.');
-          getCategories(); // Refresh the list of categories
-        } else {
-          console.error('Error while saving category data in the API.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error while saving category data: ' + error.message);
-      });
+  const handleSaveCategory = async (editedCategory) => {
+    try {
+      const result = await saveCategory(editedCategory);
+      if (result.success) {
+        getCategories(); // Refresh the list of categories
+      } else {
+        setError('Error while saving category data in the API.');
+      }
+    } catch (error) {
+      setError('Error while saving category data: ' + error.message);
+    }
   };
-
   const handleSaveStudyType = (editedStudyType) => {
     return saveStudyType(editedStudyType)
       .then((result) => {
         if (result.success) {
-          console.log('StudyType data saved successfully in settings.');
           getStudyTypes(); // Refresh the list of study types
         } else {
-          console.error('Error while saving StudyType data in the API.');
+          const errorMessage = 'Error while saving StudyType data in the API.';
+          setError(errorMessage);
+          throw new Error(errorMessage);
         }
       })
       .catch((error) => {
-        console.error('Error while saving StudyType data: ' + error.message);
+        setError('Error while saving StudyType data: ' + error.message);
       });
   };
+  
 
   return (
     <div className='pt-3'>
-      {/* Table of StudyTypes */}
+      {error && <div className="text-red-500">{error}</div>}
       <div className='pt-3'>
-        <StudyTypesTable key={key} categories={categories} studyTypes={studyTypes} saveStudyType={handleSaveStudyType} />
+        <StudyTypesTable key={key} categories={categories} studyTypes={studyTypes} saveStudyType={handleSaveStudyType} refresh={getStudyTypes} />
       </div>
-      {/* Table of Categories */}
       <div className='pt-3'>
         <CategoriesTable key={key} categories={categories} saveCategory={handleSaveCategory} />
       </div>

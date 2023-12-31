@@ -7,7 +7,7 @@ import CoreTable from '../controls/CoreTable';
 import toast from 'react-hot-toast';
 import StudyTypeForm from './StudyTypeForm'; // Import the StudyTypeForm component
 
-const StudyTypesTable = ({ studyTypes, categories, saveStudyType, key }) => {
+const StudyTypesTable = ({ studyTypes, categories, saveStudyType, key, refresh }) => {
   const [selectedStudyType, setSelectedStudyType] = useState(null);
   const [filteredStudyTypes, setFilteredStudyTypes] = useState(studyTypes);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -48,6 +48,7 @@ const StudyTypesTable = ({ studyTypes, categories, saveStudyType, key }) => {
         loading: 'Cargando',
         success: () => {
           setDisableSave(false);
+          refresh();
           closeForm();
           return `Cambios guardados con éxito "${studyType.name}"`;
         },
