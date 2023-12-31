@@ -3,7 +3,8 @@ import {
   getAllPatients,
   createPatient,
   updatePatient,
-  getPatientById
+  getPatientById,
+  deletePatient
 } from '../../../prisma/patientsClient';
 
 export async function GET(req) {
@@ -41,5 +42,35 @@ export async function POST(req) {
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Error saving patient ' + error }, { status: 500 });
+  }
+}
+
+/**
+ * DELETE method to remove a patient.
+ * 
+ * @param {NextApiRequest} req The Next.js API request object.
+ * @returns {NextApiResponse} The response to be sent back to the client.
+ */
+export async function DELETE(req) {
+  try {
+    // Extract the patient ID from the URL path
+    const patientId = req.nextUrl.pathname.split('/').pop();
+
+    if (!patientId) {
+      return NextResponse.json({ error: 'Patient ID is required for deletion' }, { status: 400 });
+    }
+
+    // Check if the patient exists
+    const existingPatient = await getPatientById(patientId);
+    if (!existingPatient) {
+      return NextResponse.json({ error: 'Patient not found' }, { status: 404 });
+    }
+
+    // Perform the deletion
+    const result = await deletePatient(patientId);
+    return NextResponse.json({ message: 'Patient successfully deleted', result }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Error deleting patient: ' + error.message }, { status: 500 });
   }
 }

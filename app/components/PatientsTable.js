@@ -5,6 +5,7 @@ import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import toast from 'react-hot-toast';
+import { removePatient } from '../useCases/removePatient';
 
 const PatientsTable = ({ patients, savePatient, key }) => {
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -72,7 +73,28 @@ const PatientsTable = ({ patients, savePatient, key }) => {
       return item[columnKey];
     }
   };
-
+  const removeItem = async (item) => {
+    try {
+      await confirm("¿Estás seguro de que quieres eliminar este registro?");
+      const result =  removePatient(item.id);
+  
+      toast.promise(
+        result,
+        {
+          loading: 'Cargando',
+          success: () => {
+            refresh(false);
+            return `Registro removido con éxito.`;
+          },
+          error: (err) => {
+            return `Error ha sucedido: ${err.toString()}`;
+          },
+        }
+      );
+    } catch {
+      console.log("Cancelado");
+    }
+  };
   const columns = [
     { isFilterColumn: true, value: 'name', key: 'name', title: 'Nombre', width: '30%' },
     { isFilterColumn: true, value: 'email', key: 'email', title: 'Correo Electrónico', width: '20%' },
@@ -106,6 +128,7 @@ const PatientsTable = ({ patients, savePatient, key }) => {
         pageNumber={pageNumber}
         openForm={openForm}
         renderCell={renderCell}
+        removeItem={removeItem}
         onFiltered={(e) => { setLengthFiltered(e) }}
       />
       <Pagination
