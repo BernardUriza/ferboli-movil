@@ -67,24 +67,30 @@ export const POST = async (req) => {
   }
 };
 
-export const DELETE = async (req) => {
-  const { medicalReport } = req.query;
+export const DELETE = async (request) => {
+  // Extract the pathname from the URL
+  const pathname = request.nextUrl.pathname;
+
+  // Split the pathname into segments and extract the medicalReport ID
+  // Assuming the URL format is /api/medicalReports/[id]
+  const segments = pathname.split('/');
+  const medicalReport = segments[segments.length - 1];
 
   if (!medicalReport) {
-    return NextResponse.json({ error: 'ID is required for deletion' }, { status: 400 });
+    return new NextResponse(JSON.stringify({ error: 'ID is required for deletion' }), { status: 400 });
   }
 
   // Assuming medicalReport is a single value and not an array
   const reportIdToDelete = parseInt(medicalReport);
   if (isNaN(reportIdToDelete)) {
-    return NextResponse.json({ error: 'Invalid ID format' }, { status: 400 });
+    return new NextResponse(JSON.stringify({ error: 'Invalid ID format' }), { status: 400 });
   }
 
   try {
     const result = await deleteMedicalReport(reportIdToDelete);
-    return NextResponse.json(result, { status: 200 }); // Changed status to 200, typically used for successful DELETE operations
+    return new NextResponse(JSON.stringify(result), { status: 200 }); // Successful DELETE operation
   } catch (error) {
     // Handle potential errors from deleteMedicalReport
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
   }
 };
