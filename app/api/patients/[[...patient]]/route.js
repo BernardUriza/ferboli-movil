@@ -5,7 +5,7 @@ import {
   updatePatient,
   getPatientById,
   deletePatient
-} from '../../../prisma/patientsClient';
+} from '../../../../prisma/patientsClient';
 
 export async function GET(req) {
   try {
@@ -54,7 +54,7 @@ export async function POST(req) {
 export async function DELETE(req) {
   try {
     // Extract the patient ID from the URL path
-    const patientId = req.nextUrl.pathname.split('/').pop();
+    const patientId = parseInt(req.nextUrl.pathname.split('/').pop());
 
     if (!patientId) {
       return NextResponse.json({ error: 'Patient ID is required for deletion' }, { status: 400 });

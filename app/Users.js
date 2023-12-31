@@ -10,8 +10,7 @@ const Users = () => {
 
   const getPatients = () => {
     fetchPatients()
-      .then((p) => {setPatients(p); 
-        console.log('Patient data refreshed.');})
+      .then((p) => {setPatients(p);})
       .catch((error) => console.error(error.message))
       .finally(() => {
         setKey(key+1);
@@ -42,7 +41,7 @@ const Users = () => {
     <div className='pt-3'>
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <PatientsTable key={key} patients={patients} savePatient={handleSave}/>
+        <PatientsTable key={key} patients={patients} savePatient={handleSave} refresh={getPatients}/>
       </div>
     </div>
   );

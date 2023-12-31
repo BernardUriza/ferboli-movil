@@ -1,9 +1,9 @@
 // useCases/removePatient.js
 
 /**
- * Removes a medical report by its ID.
+ * Removes a patient by its ID.
  * 
- * @param {string | number} id The ID of the medical report to be deleted.
+ * @param {string | number} id The ID of the patient to be deleted.
  * @returns {Promise<{success: boolean, deletedReport?: any}>} 
  *          A promise that resolves to an object indicating the success status 
  *          and the deleted report data, if successful.

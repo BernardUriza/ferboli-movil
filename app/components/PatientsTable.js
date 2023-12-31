@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removePatient } from '../useCases/removePatient';
 
-const PatientsTable = ({ patients, savePatient, key }) => {
+const PatientsTable = ({ patients, savePatient, key, refresh }) => {
   const { confirm } = useConfirmationContext();
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [filteredPatients, setFilteredPatients] = useState(patients);
