@@ -1,4 +1,4 @@
-// useCases/removeMedicalReport.js
+// useCases/removePatient.js
 
 /**
  * Removes a medical report by its ID.
@@ -9,9 +9,9 @@
  *          and the deleted report data, if successful.
  * @throws {Error} If there's an error during the deletion process.
  */
-export async function removeMedicalReport(id) {
+export async function removePatient(id) {
     try {
-        const response = await fetch(`/api/medicalReports/${id}`, {
+        const response = await fetch(`/api/patients/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,11 +22,11 @@ export async function removeMedicalReport(id) {
             const deletedReport = await response.json();
             return { success: true, deletedReport };
         } else {
-            console.error('Error removing medical report:', response.status);
-            throw new Error('Error removing medical report');
+            console.error('Error removing patient:', response.status);
+            throw new Error('Error removing patient');
         }
     } catch (error) {
-        console.error('Error removing medical report:', error.message);
+        console.error('Error removing patient:', error.message);
         throw error;
     }
 }

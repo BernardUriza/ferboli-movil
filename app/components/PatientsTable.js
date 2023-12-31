@@ -5,9 +5,11 @@ import FilterControls from '../controls/FilterControls';
 import Pagination from '../controls/Pagination';
 import CoreTable from '../controls/CoreTable';
 import toast from 'react-hot-toast';
+import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removePatient } from '../useCases/removePatient';
 
 const PatientsTable = ({ patients, savePatient, key }) => {
+  const { confirm } = useConfirmationContext();
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [filteredPatients, setFilteredPatients] = useState(patients);
   const [isFormOpen, setIsFormOpen] = useState(false);
