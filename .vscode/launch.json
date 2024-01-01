@@ -1,24 +1,28 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "pwa-node",
-        "request": "launch",
-        "name": "Debug Next.js",
-        "runtimeExecutable": "node",
-        "runtimeArgs": [
-          "--inspect",
-          "node_modules/next/dist/bin/next"
-        ],
-        "port": 3000,
-        "restart": true,
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen",
-        "env": {
-          "NODE_ENV": "development"
-        },
-        "skipFiles": ["<node_internals>/**"]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "serverReadyAction": {
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
       }
-    ]
-  }
-  
+    }
+  ]
+}

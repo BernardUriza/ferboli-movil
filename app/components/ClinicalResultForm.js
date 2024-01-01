@@ -126,7 +126,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
             </Button>
             <Button
               variant="secondary"
-              className="ml-3"
+              className="ml-3" disabled={disableSave} 
               onClose={onClose}
               onClick={async () => {
                 const savedReport = report ? editedReport : await onSave(editedReport);
