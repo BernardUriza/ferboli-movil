@@ -165,6 +165,21 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     { isFilterColumn: true, value: "category.name", title: "Categoría" }
   ];
 
+  useEffect(() => {
+    // Function to handle periodic refresh
+    const handleAutomaticRefresh = () => {
+      if (!isFormOpen) {
+        refresh(false);
+      }
+    };
+
+    // Set an interval for refreshing the data every 10 seconds
+    const refreshInterval = setInterval(handleAutomaticRefresh, 2000);
+
+    // Clear the interval when the component is unmounted or dependencies change
+    return () => clearInterval(refreshInterval);
+  }, [isFormOpen, refresh]);
+
   return (
     <Card style={{ "padding": "0px" }}>
       <div className="md:flex justify-between items-center p-4">
