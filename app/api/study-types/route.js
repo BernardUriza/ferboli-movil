@@ -6,7 +6,7 @@ import {
   getStudyTypeById,
 } from '../../../prisma/studyTypesClient';
 
-export async function GET(request) {
+export async function GET() {
   try {
     const studyTypes = await getAllStudyTypes();
     return NextResponse.json(studyTypes, { status: 200 });
@@ -16,7 +16,7 @@ export async function GET(request) {
   }
 }
 
-export async function POST(request) {
+export async function POST(req) {
   try {
     const body = await req.json();
     const { id, name, description, categoryId } = body;

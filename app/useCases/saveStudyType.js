@@ -1,14 +1,14 @@
 export async function saveStudyType(editedStudyType) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await fetch('/api/studytypes', { // Replace '/api/studytypes' with the actual API endpoint for saving study types
+        const response = await fetch('/api/study-types', { // Replace '/api/studytypes' with the actual API endpoint for saving study types
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(editedStudyType),
         });
-        
+
         if (response.ok) {
           // The request was successful, you can perform additional actions if needed
           console.log('StudyType data saved successfully.');
