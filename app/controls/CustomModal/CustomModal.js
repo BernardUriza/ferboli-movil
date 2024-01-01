@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { XCircleIcon } from '@heroicons/react/outline';
 
 const CustomModal = ({
@@ -11,6 +11,19 @@ const CustomModal = ({
   modalClassName,
   footerElement
 }) => {
+  // State to manage background opacity
+  const [backgroundOpacity, setBackgroundOpacity] = useState(0);
+
+  useEffect(() => {
+    if (visible) {
+      // When modal becomes visible, fade in the background
+      setTimeout(() => setBackgroundOpacity(0.5), 100); // Adjust timing as needed
+    } else {
+      // When modal is not visible, remove the background
+      setBackgroundOpacity(0);
+    }
+  }, [visible]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -33,12 +46,12 @@ const CustomModal = ({
   const modalClasses = `fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
 
   return (
-    <div 
+    <div
       className={modalClasses}
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      style={{ backgroundColor: `rgba(0, 0, 0, ${backgroundOpacity})`, transition: 'background-color 0.5s ease' }} // Slow transition for background
       onClick={onClose}
     >
-      <div 
+      <div
         className={`flex flex-col p-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-700 h-full md:h-auto ${modalWidth} ${modalClassName}`}
         onClick={(e) => e.stopPropagation()}
       >

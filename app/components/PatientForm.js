@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
-import CustomModal from '../controls/CustomModal';
+import CustomModal from '../controls/CustomModal/CustomModal';
 import { Select, SelectItem } from "@tremor/react";
 import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 

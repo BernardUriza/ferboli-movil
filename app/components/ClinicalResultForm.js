@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Button, TextInput, DatePicker } from '@tremor/react';
-import CustomModal from '../controls/CustomModal';
+import CustomModal from '../controls/CustomModal/CustomModal';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';

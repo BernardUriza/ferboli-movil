@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Select, TextInput, Textarea, SelectItem } from '@tremor/react';
-import CustomModal from '../controls/CustomModal';
+import CustomModal from '../controls/CustomModal/CustomModal';
 
 const StudyTypeForm = ({ studyType, onClose, onSave, disableSave, categories }) => {
   // Set initial state based on whether studyType is null

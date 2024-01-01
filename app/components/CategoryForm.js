@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
-import CustomModal from '../controls/CustomModal';
+import CustomModal from '../controls/CustomModal/CustomModal';
 
 const CategoryForm = ({ category, onClose, onSave, disableSave }) => {
     // Set initial state based on whether category is null

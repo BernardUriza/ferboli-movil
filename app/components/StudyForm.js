@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextInput, DatePicker, SearchSelect, SearchSelectItem } from '@tremor/react';
-import CustomModal from '../controls/CustomModal';
+import CustomModal from '../controls/CustomModal/CustomModal';
 import StudieCard from '../controls/StudieCard';
 import esLocale from 'date-fns/locale/es';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
