@@ -54,7 +54,8 @@ const StudyTypesTable = ({ studyTypes, categories, saveStudyType, key, refresh }
         },
         error: (err) => {
           setDisableSave(false);
-          return `Error ha sucedido: ${err.toString()}`;
+          console.log(err)
+          return `Error ha sucedido: ${err.response.statusText.toString()}`;
         },
       }
     );

@@ -49,21 +49,27 @@ const Settings = () => {
       setError('Error while saving category data: ' + error.message);
     }
   };
+  
   const handleSaveStudyType = (editedStudyType) => {
-    return saveStudyType(editedStudyType)
-      .then((result) => {
-        if (result.success) {
-          getStudyTypes(); // Refresh the list of study types
-        } else {
-          const errorMessage = 'Error while saving StudyType data in the API.';
-          setError(errorMessage);
-          throw new Error(errorMessage);
-        }
-      })
-      .catch((error) => {
-        setError('Error while saving StudyType data: ' + error.message);
-      });
+    return new Promise((resolve, reject) => {
+      saveStudyType(editedStudyType)
+        .then((result) => {
+          if (result.success) {
+            getStudyTypes(); // Refresh the list of study types
+            resolve(result);
+          } else {
+            const errorMessage = 'Error while saving StudyType data in the API.';
+            setError(errorMessage);
+            reject(new Error(errorMessage));
+          }
+        })
+        .catch((error) => {
+          setError('Error while saving StudyType data: ' + error.message);
+          reject(error);
+        });
+    });
   };
+  
   
 
   return (

@@ -8,7 +8,7 @@ export async function saveStudyType(editedStudyType) {
           },
           body: JSON.stringify(editedStudyType),
         });
-  
+        
         if (response.ok) {
           // The request was successful, you can perform additional actions if needed
           console.log('StudyType data saved successfully.');
@@ -16,7 +16,7 @@ export async function saveStudyType(editedStudyType) {
         } else {
           // The request was not successful, handle the error
           console.error('Error while saving StudyType data.');
-          resolve({ success: false });
+          reject({ response });
         }
       } catch (error) {
         console.error('Error while saving StudyType data: ' + error.message);
