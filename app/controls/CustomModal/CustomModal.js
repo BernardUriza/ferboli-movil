@@ -26,18 +26,26 @@ const CustomModal = ({
   }, [visible]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-
+    let timeoutId;
+  
     if (visible) {
-      document.addEventListener('keydown', handleKeyDown);
+      setIsClosing(false);
+      setBackgroundOpacity(0.5); // Fade in the background
+    } else {
+      setIsClosing(true); // Start fade out
+      setBackgroundOpacity(0);
+  
+      // Set a timeout before closing the modal completely
+      timeoutId = setTimeout(() => {
+        setIsClosing(false);
+        onClose(); // Call the onClose prop after the delay
+      }, 1000); // Delay of 1 second
     }
-
+  
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timeoutId); // Clear the timeout if the component unmounts
     };
-  }, [visible, onClose]);
+  }, [visible, onClose]);  
 
   const modalWidth = {
     '20': 'w-full sm:w-screen md:w-2/5 lg:w-1/3 xl:w-1/4',
@@ -48,8 +56,10 @@ const CustomModal = ({
 
   const handleCloseClick = () => {
     setIsClosing(true); // Trigger close animations
-    setTimeout(onClose, 300); // Delay the actual closing to allow animations to play
+    setTimeout(onClose, 1000); // Delay the actual closing to allow animations to play
   };
+  // Determine the appropriate animation class
+  const animationClass = isClosing ? 'animate-fadeOut' : 'animate-fadeIn';
 
   return (
     <div
@@ -57,8 +67,8 @@ const CustomModal = ({
       style={{ backgroundColor: `rgba(0, 0, 0, ${backgroundOpacity})`, transition: 'background-color 0.5s ease' }}
       onClick={handleCloseClick}
     >
-      <div
-        className={`flex flex-col p-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-700 h-full md:h-auto ${modalWidth} ${modalClassName} ${isClosing ? 'animate-modalFadeOut' : 'animate-modalFadeIn'}`}
+       <div
+        className={`flex flex-col p-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-700 h-full md:h-auto ${modalWidth} ${modalClassName} ${animationClass}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center">
