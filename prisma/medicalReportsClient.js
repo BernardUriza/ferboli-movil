@@ -63,7 +63,15 @@ export async function getMedicalReportById(id) {
     },
     include: {
       patient: true,
-      studies: true
+      studies: {
+        include: {
+          type: {
+            include: {
+              category: true
+            }
+          }
+        }
+      }
     },
   });
 }
