@@ -14,14 +14,15 @@ export const HeaderFrameClient = () => {
     </div>
   );
 };
-export const ContentCardsClient = () => {
+export const ContentCardsClient = ({data}) => {
+  console.log("patientdata ",data)
   return (
     <Card>
       <div className="div flex flex-col gap-2">
         <div className="header flex flex-col relative w-full">
           <p className="p">
             <span className="text-wrapper font-semibold">Nombre<br /></span>
-            <span className="span">Olivia Baker Steiner</span>
+            <span className="span">Olivia3 Baker Steiner</span>
           </p>
         </div>
         <div className="header flex flex-col relative w-full">
@@ -37,17 +38,12 @@ export const ContentCardsClient = () => {
           tipoEstudio="Ultrasonido"
           nombreEstudio="Doppler Carotídeo"
           fechaEstudio="Fecha. 22 Octubre 2023"
-          iconoEstudio="heroicons-outline-document-text"
-          verDocumento="Ver documento"
         />
         <CardEstudio
           tipoEstudio="Cardiológicos"
           nombreEstudio="Holter 24 Horas"
           fechaEstudio="Fecha. 22 Octubre 2023"
-          iconoEstudio="heroicons-outline-document-text"
-          verDocumento="Ver documento"
         />
-        {/* Add more CardEstudio components as needed */}
       </div>
     </Card>
   );

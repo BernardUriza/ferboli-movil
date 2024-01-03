@@ -7,14 +7,14 @@ import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 
 const MedicalReportDetails = ({ loading, medicalReportId }) => {
-  const [patientData, setPatientData] = useState(null);
+  const [data, setMedicalReportData] = useState(null);
   const [loadingPage, setLoading] = useState(loading);
 
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
         const medicalReport = await fetchMedicalReport(medicalReportId);
-        setPatientData(medicalReport);
+        setMedicalReportData(medicalReport);
       } catch (error) {
         console.error('Error fetching medical report data:', error);
       } finally {
@@ -44,7 +44,7 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
     );//change by the loader
   }
 
-  if (!patientData) {
+  if (!data) {
     return <p>No data found for the patient.</p>;
   }
 
@@ -59,7 +59,7 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
           <HiOutlineArrowRightOnRectangle className="mx-1 w-6 h-6" />
         </a>
       </div>
-      <ContentCardsClient/>
+      <ContentCardsClient data={data}/>
     </div>
   );
 };

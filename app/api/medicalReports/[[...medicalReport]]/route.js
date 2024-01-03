@@ -8,12 +8,17 @@ import {
 } from '../../../../prisma/medicalReportsClient';
 
 // Manejador para el método GET
-export async function GET(req, context) {
-  const { query } = req;
-  const { medicalReport } = context;
+export async function GET(request) {
+  // Extract the pathname from the URL
+  const pathname = request.nextUrl.pathname;
 
-  if (query) {
-    if (medicalReport && medicalReport.length > 0) {
+  // Split the pathname into segments and extract the medicalReport ID
+  // Assuming the URL format is /api/medicalReports/[id]
+  const segments = pathname.split('/');
+  const medicalReport = segments[segments.length - 1];
+
+  if (medicalReport) {
+    if (medicalReport.length > 0) {
       const reportId = parseInt(medicalReport[0]);
       const report = await getMedicalReportById(reportId);
       return report
