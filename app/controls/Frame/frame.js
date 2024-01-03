@@ -19,19 +19,19 @@ export const ContentCardsClient = () => {
     <Card>
       <div className="div flex flex-col gap-2">
         <div className="header flex flex-col relative w-full">
-          <p className="p text-tremor-content-emphasis font-bold text-base leading-7">
+          <p className="p">
             <span className="text-wrapper font-semibold">Nombre<br /></span>
-            <span className="span text-tremor-content-strong text-base leading-7">Olivia Baker Steiner</span>
+            <span className="span">Olivia Baker Steiner</span>
           </p>
         </div>
         <div className="header flex flex-col relative w-full">
-          <p className="p text-tremor-content-emphasis font-bold text-base leading-7">
+          <p className="p">
             <span className="text-wrapper font-semibold">Fecha de realización<br /></span>
-            <span className="span text-tremor-content-DEFAULT text-base leading-7">22/Octubre/2023</span>
+            <span className="span">22/Octubre/2023</span>
           </p>
         </div>
       </div>
-      <div className="text-wrapper-2 text-tremor-content-emphasis font-bold text-base leading-7">Resultados</div>
+      <div className="text-wrapper font-semibold my-3">Resultados</div>
       <div className="lista-de-estudios flex flex-col gap-4 relative w-full">
         <CardEstudio
           tipoEstudio="Ultrasonido"
