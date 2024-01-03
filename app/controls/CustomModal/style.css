@@ -56,11 +56,3 @@
     transform: translateY(0);
   }
 }
-
-.shadow-effect {
-  transition: box-shadow 0.3s ease;
-}
-
-.shadow-effect:active {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Softer shadow with blur */
-}
