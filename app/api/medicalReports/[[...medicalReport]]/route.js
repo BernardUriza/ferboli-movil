@@ -20,10 +20,12 @@ export async function GET(request) {
   if (medicalReport) {
     if (medicalReport.length > 0) {
       const reportId = parseInt(medicalReport[0]);
-      const report = await getMedicalReportById(reportId);
-      return report
-        ? NextResponse.json(report, { status: 200 })
-        : NextResponse.json({ error: 'Medical report not found' }, { status: 404 });
+      if (reportId > 0) {
+        const report = await getMedicalReportById(reportId);
+        return report
+          ? NextResponse.json(report, { status: 200 })
+          : NextResponse.json({ error: 'Medical report not found' }, { status: 404 });
+      }
     }
   }
 
