@@ -2,8 +2,9 @@
 import React from "react";
 import "./style.css";
 import { CardEstudio } from "../CardEstudio";
+import { Card } from '@tremor/react';
 
-export const Frame = () => {
+export const HeaderFrameClient = () => {
   return (
     <div className="frame">
       <p className="centro-de-diagn">
@@ -15,7 +16,7 @@ export const Frame = () => {
 };
 export const ContentCardsClient = () => {
   return (
-    <div className="frame p-6 bg-tremor-background border border-tremor-border rounded-lg flex flex-col gap-4 relative">
+    <Card>
       <div className="div flex flex-col gap-2">
         <div className="header flex flex-col relative w-full">
           <p className="p text-tremor-content-emphasis font-bold text-base leading-7">
@@ -48,6 +49,6 @@ export const ContentCardsClient = () => {
         />
         {/* Add more CardEstudio components as needed */}
       </div>
-    </div>
+    </Card>
   );
 }

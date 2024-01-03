@@ -1,10 +1,9 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { fetchMedicalReport } from './useCases/fetchMedicalReport'; 
-import { Frame, ContentCardsClient } from './controls/Frame/frame';
+import { HeaderFrameClient, ContentCardsClient } from './controls/Frame/frame';
 import { Watch } from 'react-loader-spinner'
 import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
-import { Card } from '@tremor/react';
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 
 const MedicalReportDetails = ({ loading, medicalReportId }) => {
@@ -51,7 +50,7 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
 
   return (
     <div className='container px-3'>
-      <Frame/>
+      <HeaderFrameClient/>
       <div className="flex mx-3 my-3">
         <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto pt-6" width={105.426} height={40} />
         <p className="flex-1"></p>
@@ -61,7 +60,6 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
         </a>
       </div>
       <ContentCardsClient/>
-      {/* Add more details based on your patient data structure */}
     </div>
   );
 };
