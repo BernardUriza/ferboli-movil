@@ -26,11 +26,7 @@ export default function Page({ params }) {
     }
   }, [token]);
 
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
-
   return (
-    <MedicalReportDetails medicalReportId={decodedToken?.medicalReportId} />
+    <MedicalReportDetails loading={loading} medicalReportId={decodedToken?.medicalReportId} />
   );
 };

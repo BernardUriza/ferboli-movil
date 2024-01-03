@@ -41,7 +41,7 @@ const CustomModal = ({
       {visible && (
         <div
           className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}
         >
           <AnimatePresence>
             {showModal && (

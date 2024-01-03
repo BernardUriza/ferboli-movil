@@ -13,7 +13,7 @@ export const Frame = () => {
     </div>
   );
 };
-export const Frame2 = () => {
+export const ContentCardsClient = () => {
   return (
     <div className="frame p-6 bg-tremor-background border border-tremor-border rounded-lg flex flex-col gap-4 relative">
       <div className="div flex flex-col gap-2">

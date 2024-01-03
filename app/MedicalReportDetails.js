@@ -1,14 +1,15 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { fetchMedicalReport } from './useCases/fetchMedicalReport'; 
-import { Frame, Frame2 } from './controls/Frame/frame';
+import { Frame, ContentCardsClient } from './controls/Frame/frame';
+import { Watch } from 'react-loader-spinner'
 import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 import { Card } from '@tremor/react';
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 
-const MedicalReportDetails = ({ medicalReportId }) => {
+const MedicalReportDetails = ({ loading, medicalReportId }) => {
   const [patientData, setPatientData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingPage, setLoading] = useState(loading);
 
   useEffect(() => {
     const fetchPatientData = async () => {
@@ -27,8 +28,21 @@ const MedicalReportDetails = ({ medicalReportId }) => {
     }
   }, [medicalReportId]);
 
-  if (loading) {
-    return <p>Loading patient data...</p>;
+  if (loadingPage) {
+    return (
+      <div className="fixed inset-0 bg-gray-100 bg-opacity-100 flex items-center justify-center z-50">
+        <Watch
+          height="80"
+          width="80"
+          radius="48"
+          color="#4fa94d"
+          ariaLabel="watch-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      </div>
+    );//change by the loader
   }
 
   if (!patientData) {
@@ -46,7 +60,7 @@ const MedicalReportDetails = ({ medicalReportId }) => {
           <HiOutlineArrowRightOnRectangle className="mx-1 w-6 h-6" />
         </a>
       </div>
-      <Frame2/>
+      <ContentCardsClient/>
       {/* Add more details based on your patient data structure */}
     </div>
   );

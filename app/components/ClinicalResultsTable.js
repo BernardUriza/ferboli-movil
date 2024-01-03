@@ -174,7 +174,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     };
 
     // Set an interval for refreshing the data every 10 seconds
-    const refreshInterval = setInterval(handleAutomaticRefresh, 2000);
+    const refreshInterval = setInterval(handleAutomaticRefresh, 10000);
 
     // Clear the interval when the component is unmounted or dependencies change
     return () => clearInterval(refreshInterval);
