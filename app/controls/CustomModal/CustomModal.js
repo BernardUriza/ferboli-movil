@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const animationVariants = {
   fadeInOut: {
-    hidden: { opacity: 0, scale: 0.95 },
+    hidden: { opacity: 0, scale: 0.85 },
     visible: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.95 }
+    exit: { opacity: 0, scale: 0.85 }
   },
   // Additional animation types can be defined here
 };
