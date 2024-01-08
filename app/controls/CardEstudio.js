@@ -22,7 +22,7 @@ export const CardEstudio = (props) => {
               <DocumentTextIcon className="w-5 h-5" />
             </div>
           <div className="text-wrapper-6 text-green-500 font-semibold text-xs leading-6">
-            Ver documento
+            Ver documento  {props.url}
           </div>
         </div>
       </div>

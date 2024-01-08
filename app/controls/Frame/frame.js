@@ -42,6 +42,7 @@ export const ContentCardsClient = ({ data }) => {
             key={study.id}
             tipoEstudio={study.type.category.name}
             nombreEstudio={study.type.name}
+            url={study.name}
             fechaEstudio={`Fecha. ${new Date(study.createdAt).toLocaleDateString()}`}
           />
         ))}
