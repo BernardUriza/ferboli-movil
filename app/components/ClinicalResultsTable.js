@@ -38,8 +38,8 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   const removeItem = async (item) => {
     try {
       await confirm("¿Estás seguro de que quieres eliminar este registro?");
-      const result =  removeMedicalReport(item.id);
-  
+      const result = removeMedicalReport(item.id);
+
       toast.promise(
         result,
         {
@@ -57,7 +57,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       console.log("Cancelado");
     }
   };
-  
+
   const closeForm = () => {
     setSelectedReport(null);
     setIsFormOpen(false);
@@ -126,15 +126,29 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     return myPromise;
   };
 
-  // ClinicalResultsTable.js
-  const sendTokenReportByEmail = (report) => {
-    const medicalReport = sendTokenByEmail(report);
-    medicalReport.status = "Activo";
-    const savedMedicalReport = save(medicalReport)    
-    savedMedicalReport.then((res)=>{
-      refresh(false)
-    })
-    return savedMedicalReport;
+  const sendTokenReportByEmail = async (report) => {
+    try {
+      const sentReport = sendTokenByEmail(report)
+      sentReport.status = "Activo";
+      const promise = save(sentReport);
+
+      toast.promise(
+        promise,
+        {
+          loading: 'Enviando token...',
+          success: 'Token enviado con éxito.',
+          error: 'Error al enviar token.'
+        }
+      );
+
+      promise.then(() => {
+        refresh(false);
+      });
+
+      return await promise;
+    } catch (error) {
+      console.error('Error during token sending:', error);
+    }
   };
 
   const renderCell = (columnKey, item) => {
