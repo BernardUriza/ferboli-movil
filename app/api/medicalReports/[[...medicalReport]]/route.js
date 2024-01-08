@@ -8,27 +8,18 @@ import {
 } from '../../../../prisma/medicalReportsClient';
 
 // Manejador para el método GET
-export async function GET(request) {
-  // Extract the pathname from the URL
-  const pathname = request.nextUrl.pathname;
+export async function GET(req) {
+  const reportId = parseInt(req.nextUrl.pathname.split('/').pop());
 
-  // Split the pathname into segments and extract the medicalReport ID
-  // Assuming the URL format is /api/medicalReports/[id]
-  const segments = pathname.split('/');
-  const medicalReport = segments[segments.length - 1];
-
-  if (medicalReport) {
-    if (medicalReport.length > 0) {
-      const reportId = parseInt(medicalReport[0]);
-      if (reportId > 0) {
-        const report = await getMedicalReportById(reportId);
-        return report
-          ? NextResponse.json(report, { status: 200 })
-          : NextResponse.json({ error: 'Medical report not found' }, { status: 404 });
-      }
-    }
+  if (!reportId) {
+    return NextResponse.json({ error: 'report ID is required' }, { status: 400 });
   }
-
+  if (reportId > 0) {
+    const report = await getMedicalReportById(reportId);
+    return report
+      ? NextResponse.json(report, { status: 200 })
+      : NextResponse.json({ error: 'Medical report not found: ' + reportId }, { status: 404 });
+  }
   const medicalReports = await getAllMedicalReports();
   return NextResponse.json(medicalReports, { status: 200 });
 }
