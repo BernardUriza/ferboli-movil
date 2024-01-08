@@ -11,9 +11,6 @@ import {
 export async function GET(req) {
   const reportId = parseInt(req.nextUrl.pathname.split('/').pop());
 
-  if (!reportId) {
-    return NextResponse.json({ error: 'report ID is required' }, { status: 400 });
-  }
   if (reportId > 0) {
     const report = await getMedicalReportById(reportId);
     return report
