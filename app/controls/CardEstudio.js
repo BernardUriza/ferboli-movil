@@ -1,8 +1,15 @@
 import React from "react";
 import { Card } from '@tremor/react';
 import { DocumentTextIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 
 export const CardEstudio = (props) => {
+  const router = useRouter();
+
+  const handleDocumentClick = () => {
+    router.push(props.url);
+  };
+
   return (
     <Card>
       <div className="div-2 flex gap-2 items-center relative w-full">
@@ -17,12 +24,12 @@ export const CardEstudio = (props) => {
             {props.fechaEstudio}
           </div>
         </div>
-        <div className="div-4 inline-flex flex-col gap-2 items-center relative">
+        <div className="div-4 inline-flex flex-col gap-2 items-center relative" onClick={handleDocumentClick}>
           <div className="bg-green-100 text-green-500 items-center justify-center rounded-full p-2 mx-auto" style={{width: "35px"}}>
               <DocumentTextIcon className="w-5 h-5" />
             </div>
           <div className="text-wrapper-6 text-green-500 font-semibold text-xs leading-6">
-            Ver documento  {props.url}
+            Ver documento
           </div>
         </div>
       </div>
