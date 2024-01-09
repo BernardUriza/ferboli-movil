@@ -11,11 +11,11 @@ export const CardEstudio = ({ tipoEstudio, nombreEstudio, fechaEstudio, url }) =
           <div className="text-base leading-6">{nombreEstudio}</div>
           <div className="text-xs leading-5">{fechaEstudio}</div>
         </div>
-        <a href={url} className="inline-flex flex-col gap-2 items-center">
-          <div className="rounded-full p-2 mx-auto" style={{width: "35px", backgroundColor: "#D1FAE5", color: "#10B981"}}>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex flex-col gap-2 items-center">
+          <div className="rounded-full p-2 mx-auto" style={{ width: "35px", backgroundColor: "#D1FAE5", color: "#10B981" }}>
             <DocumentTextIcon className="w-5 h-5" />
           </div>
-          <div className="font-semibold text-xs leading-6" style={{color: "#10B981"}}>
+          <div className="font-semibold text-xs leading-6" style={{ color: "#10B981" }}>
             Ver documento
           </div>
         </a>
