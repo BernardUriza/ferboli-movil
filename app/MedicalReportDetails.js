@@ -54,10 +54,6 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
       <div className="flex mx-3 my-3">
         <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto pt-6" width={105.426} height={40} />
         <p className="flex-1"></p>
-        <a href='/api/auth/logout' className="text-gray-500 hover:text-blue-700 pt-2 flex items-center focus:outline-none">
-          Salir
-          <HiOutlineArrowRightOnRectangle className="mx-1 w-6 h-6" />
-        </a>
       </div>
       <ContentCardsClient data={data}/>
     </div>
