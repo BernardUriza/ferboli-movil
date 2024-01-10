@@ -3,6 +3,15 @@ import { Card } from '@tremor/react';
 import { DocumentTextIcon } from '@heroicons/react/outline';
 
 export const CardEstudio = ({ tipoEstudio, nombreEstudio, fechaEstudio, url }) => {
+    // Función para extraer la extensión del archivo del URL
+    const obtenerExtension = (url) => {
+      const partes = url.split('.');
+      return partes[partes.length - 1];
+    };
+  
+    // Crear el nombre del archivo
+    const nombreArchivo = `${nombreEstudio.replace(/\s/g, '_')}.${obtenerExtension(url)}`;
+  
   return (
     <Card>
       <div className="flex gap-2 items-center w-full">
@@ -11,7 +20,7 @@ export const CardEstudio = ({ tipoEstudio, nombreEstudio, fechaEstudio, url }) =
           <div className="text-base leading-6">{nombreEstudio}</div>
           <div className="text-xs leading-5">{fechaEstudio}</div>
         </div>
-        <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex flex-col gap-2 items-center">
+        <a href={url} download={nombreArchivo} rel="noopener noreferrer" className="inline-flex flex-col gap-2 items-center">
           <div className="rounded-full p-2 mx-auto" style={{ width: "35px", backgroundColor: "#D1FAE5", color: "#10B981" }}>
             <DocumentTextIcon className="w-5 h-5" />
           </div>
