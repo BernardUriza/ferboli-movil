@@ -62,6 +62,9 @@ const Tabs = ({ setLoadingState }) => {
   );
 };
 const Menu = ({ user, setLoadingState }) => {
+
+  const isAdmin = user.roles && user.roles.includes('FM-Admin');
+
   return (
     <div className="container px-1 mx-auto my-5 font-sans">
       <div className="flex items-center my-5 space-x-4 flex-col lg:flex-row justify-between">
@@ -72,8 +75,18 @@ const Menu = ({ user, setLoadingState }) => {
           <div className="text-gray-700 text-xl lg:text-2xl font-normal leading-7 lg:leading-10">
             {user ? `Bienvenido, ${user.name}` : "Favor de ingresar para ver el contenido."}
           </div>
+
           <div className="text-gray-500 text-base lg:text-xl font-normal leading-5 lg:leading-7">
-            Panel de administración
+            {/* Display different content based on the user's role */}
+            {isAdmin ? (
+              <div>
+                Panel de administración
+              </div>
+            ) : (
+              <div>
+                Por favor, solicite al administrador que le asigne el rol de 'FM-Admin' para acceder a este panel.
+              </div>
+            )}
           </div>
         </div>
         <div className="w-28 lg:w-auto my-auto" style={{ alignSelf: 'flex-end' }}>
@@ -92,7 +105,7 @@ const Menu = ({ user, setLoadingState }) => {
       </div>
 
       {user ? (
-        <Tabs setLoadingState={setLoadingState} />
+        isAdmin && <Tabs setLoadingState={setLoadingState} />
       ) : (
         <NotFound />
       )}
@@ -126,6 +139,18 @@ const RedirectComponent = () => {
 
 const App = () => {
   const { user, isLoading } = useUser();
+
+  let roles = [];
+
+  if (user) {
+    // Find the key that ends with 'roles'
+    const rolesKey = Object.keys(user).find(key => key.endsWith('roles'));
+    if (rolesKey) {
+      roles = user[rolesKey];
+    }
+    user.roles = roles;
+  }
+
   const [loadingState, setLoadingState] = useState(false); // Nuevo estado para la función setLoadingState
 
 
