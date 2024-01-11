@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, Metric, Card, Button } from "@tremor/react";
 import { UserGroupIcon, ClipboardListIcon, DocumentAddIcon } from '@heroicons/react/solid';
 
-const NumericIndicators = ({setOpenForm}) => {
+const NumericIndicators = ({setOpenForm, patientsCount, reportsSentCount}) => {
   return (
     <>
       <div className='pb-3 w-100'>
@@ -19,7 +19,7 @@ const NumericIndicators = ({setOpenForm}) => {
           <div className='flex'>
             <div>
               <Text>Pacientes</Text>
-              <Metric>200</Metric>
+              <Metric>{patientsCount}</Metric>
             </div>
             <p className="flex-1"></p>
             <UserGroupIcon style={{ width: "36px", color: "#6B7280", height: "36px" }}></UserGroupIcon>
@@ -30,8 +30,8 @@ const NumericIndicators = ({setOpenForm}) => {
         <Card className="h-full">
           <div className='flex'>
             <div>
-              <Text>Sent by Email</Text>
-              <Metric>12</Metric>
+              <Text>Resultados enviados</Text>
+              <Metric>{reportsSentCount}</Metric>
             </div>
             <p className="flex-1"></p>
             <ClipboardListIcon style={{ width: "36px", color: "#6B7280", height: "36px" }}></ClipboardListIcon>

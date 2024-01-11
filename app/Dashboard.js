@@ -5,12 +5,15 @@ import NumericIndicators from './components/NumericIndicators';
 import TopStudiesList from './components/TopStudiesList';
 import ClinicalResultsTable from './components/ClinicalResultsTable';
 import { fetchMedicalReports } from './useCases/fetchMedicalReports';
+import { fetchPatients } from './useCases/fetchPatients';
 import { saveMedicalReports } from './useCases/saveMedicalReport';
 import { savePatient } from './useCases/savePatient';
 import { fetchCategories } from './useCases/fetchCategories';
 import { saveStudy } from './useCases/saveStudy';
 
 const Dashboard = ({setLoadingState}) => {
+  const [patientsCount, setPatientsCount] = useState(0);
+  const [reportsSentCount, setReportsSentCount] = useState(0);
   const [studiesData, setStudiesData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [keyClinicalResultsTable, setKeyClinicalResultsTable] = useState(1);
@@ -21,11 +24,13 @@ const Dashboard = ({setLoadingState}) => {
       setLoadingState(true);
 
     // Realizar ambos fetch simultáneamente
-    Promise.all([fetchMedicalReports(), fetchCategories()])
-      .then(([medicalReports, c]) => {
+    Promise.all([fetchMedicalReports(), fetchCategories(), fetchPatients()])
+      .then(([medicalReports, c, p]) => {
         // Establecer los estados después de que ambos fetch se completen
         setStudiesData(medicalReports);
         setCategories(c);
+        setPatientsCount(p.length)
+        setReportsSentCount(medicalReports.length)
       })
       .catch((error) => console.error(error.message))
       .finally(() => {
@@ -104,7 +109,7 @@ const Dashboard = ({setLoadingState}) => {
       <Grid numItems={1} numItemsLg={3} className="gap-2">
         <Col numColSpan={1} numColSpanLg={1}>
           {/* Numeric Indicators */}
-          <NumericIndicators setOpenForm={handleOpenForm} />
+          <NumericIndicators setOpenForm={handleOpenForm} patientsCount={patientsCount} reportsSentCount={reportsSentCount} />
         </Col>
         <Col numColSpan={1} numColSpanLg={2}>
           {/* List of Top Studies */}
