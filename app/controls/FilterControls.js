@@ -1,8 +1,7 @@
 import React from 'react';
-import { Select, SelectItem, Button } from "@tremor/react";
-import { FilterIcon, PlusIcon } from '@heroicons/react/outline';
+import { Select, SelectItem } from "@tremor/react";
+import { FilterIcon } from '@heroicons/react/outline';
 import TextInputWithIcon from './TextInputWithIcon';
-import TableCellButtonIcon from './TableCellButtonIcon';
 
 const FilterControls = ({
   selectedFilter,
