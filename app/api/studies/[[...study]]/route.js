@@ -36,7 +36,7 @@ export async function POST(req, context) {
     const { id, medicalReportId, name, type } = body;
 
     // Validation of the fields
-    if (!medicalReportId || !type) {
+    if (!medicalReportId || !type || !name)  {
       return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
     }
 

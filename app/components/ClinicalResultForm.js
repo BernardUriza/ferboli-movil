@@ -97,27 +97,30 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
 
   const handleStudySave = async (editedStudy) => {
     try {
+      setDisableSaveStudy(true); // Disable the save button immediately to prevent multiple submissions
+  
       if (editedReport.id > 0) {
         editedStudy.medicalReportId = editedReport.id;
-        setDisableSaveStudy(true);
         await onSaveStudy(editedStudy);
-        setDisableSaveStudy(false);
-        setStudyFormOpen(false);
         toast.success('Cambios guardados con éxito, estudio modificado.');
       } else {
         setEditedReport((prevReport) => ({
           ...prevReport,
           studies: [...prevReport.studies, editedStudy],
         }));
-        setDisableSaveStudy(false);
-        setStudyFormOpen(false);
         toast.success('Cambios guardados con éxito, estudio modificado.');
       }
+  
+      // Operations after successful save
+      setStudyFormOpen(false);
     } catch (err) {
-      setDisableSaveStudy(false);
+      console.error(err); // Log the error for debugging purposes
       toast.error(`Error ha sucedido: ${err.toString()}`);
+    } finally {
+      setDisableSaveStudy(false); // Re-enable the save button after operation completion
     }
   };
+  
 
   return (
     <>
