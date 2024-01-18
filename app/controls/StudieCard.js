@@ -5,7 +5,7 @@ import { es } from 'date-fns/locale';
 import { DocumentAddIcon, DocumentTextIcon } from '@heroicons/react/outline';
 // Add this function outside of the StudieCard component
 
-const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyForm }) => {
+const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, empty, openNewStudyForm }) => {
   if (newCard) {
     return (
       <div className="rounded-lg p-4 shadow-md mb-3 mr-3" style={{ height: '110px' }} key={999999999999}>
@@ -41,6 +41,14 @@ const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyFor
   var { type, createdAt } = studieData;
   var { category, name } = type;
 
+   // Function to handle opening the study link
+   const handleOpenStudy = (e) => {
+    e.preventDefault();
+    if (actionLink && studieData) {
+      actionLink(studieData);
+    }
+  };
+
   // Formatea la fecha
   const formattedDate = format(new Date(createdAt), 'dd MMMM yyyy', { locale: es });
 
@@ -53,17 +61,14 @@ const StudieCard = ({ clickFileLink, studieData, newCard, empty, openNewStudyFor
           </div>
           <div style={{ height: '55px', position: 'relative' }}>
             {/* Updated class and style for name */}
-            <p className="text-lg font-bold" title={name} style={{ maxHeight: '40px', maxWidth: '240px' }}>
+            <a href='./' onClick={handleOpenStudy} className="text-lg font-bold" title={name} style={{ maxHeight: '40px', maxWidth: '240px' }}>
               {name}
-            </p>
+            </a>
           </div>
           <p className="text-gray-600 text-sm line-clamp-1">Fecha: {formattedDate}</p>
         </div>
 
-        <a href={"/"} onClick={(e) => {
-          e.preventDefault();
-          clickFileLink(studieData);
-        }} rel="noopener noreferrer" className="text-green-500 line-clamp-1" style={{ fontSize: '13px', width: "100px !important" }}>
+        <a href={clickFileLink} target='_blank' rel="noopener noreferrer" className="text-green-500 line-clamp-1" style={{ fontSize: '13px', width: "140px !important" }}>
           <div className="bg-green-100 items-center justify-center rounded-full p-2 mx-auto" style={{ width: "35px" }}>
             <DocumentTextIcon className="w-5 h-5" />
           </div>

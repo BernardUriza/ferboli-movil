@@ -225,7 +225,7 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
             <Slider {...sliderSettings}>
               {editedReport.studies.map((study, index) => (
-                <StudieCard key={index} clickFileLink={clickToOpenStudyForm} studieData={study} />
+                <StudieCard key={index} actionLink={clickToOpenStudyForm} clickFileLink={study.name} studieData={study} />
               ))}
               <StudieCard
                 newCard={true}
