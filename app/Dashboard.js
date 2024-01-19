@@ -73,10 +73,11 @@ const Dashboard = ({setLoadingState}) => {
       } else {
         // Error al guardar, puedes mostrar un mensaje de error
         console.error('Error al guardar el informe estudio en api.');
+        throw "Error al guardar el informe estudio en api.";
       }
     })
     .catch((error) => {
-      console.error('Error al guardar el estudio: ' + error.message);
+      throw 'Error al guardar el estudio: ' + error.message;
     });
   };    
 
