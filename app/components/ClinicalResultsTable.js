@@ -78,28 +78,29 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   };
 
   const handleSaveStudy = (study) => {
-    if (selectedReport) {
-      // Check if the study with the same id already exists in selectedReport.studies
-      const studyIndex = selectedReport.studies.findIndex((existingStudy) => existingStudy.id === study.id);
-
-      // If study with the same id is found, replace it; otherwise, add the new study
-      const updatedStudies = studyIndex !== -1
-        ? [
-          ...selectedReport.studies.slice(0, studyIndex), // Studies before the updated study
-          study, // Updated study
-          ...selectedReport.studies.slice(studyIndex + 1), // Studies after the updated study
-        ]
-        : [
-          ...selectedReport.studies,
-          study, // Add the new study to the array
-        ];
-
-      setSelectedReport({
-        ...selectedReport,
-        studies: updatedStudies,
-      });
-    }
-    return saveStudy(study);
+    return saveStudy(study).then(() => {
+      if (selectedReport) {
+        // Check if the study with the same id already exists in selectedReport.studies
+        const studyIndex = selectedReport.studies.findIndex((existingStudy) => existingStudy.id === study.id);
+  
+        // If study with the same id is found, replace it; otherwise, add the new study
+        const updatedStudies = studyIndex !== -1
+          ? [
+            ...selectedReport.studies.slice(0, studyIndex), // Studies before the updated study
+            study, // Updated study
+            ...selectedReport.studies.slice(studyIndex + 1), // Studies after the updated study
+          ]
+          : [
+            ...selectedReport.studies,
+            study, // Add the new study to the array
+          ];
+  
+        setSelectedReport({
+          ...selectedReport,
+          studies: updatedStudies,
+        });
+      }
+    });
   };
 
   const saveReport = (report) => {

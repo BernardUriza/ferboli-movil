@@ -19,7 +19,6 @@ export async function saveStudy(editedStudy) {
           resolve({ success: false });
         }
       } catch (error) {
-        console.error('Error al guardar el estudio: ' + error.message);
         reject(error);
       }
     });
