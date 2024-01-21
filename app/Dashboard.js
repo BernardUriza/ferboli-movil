@@ -16,6 +16,7 @@ const Dashboard = ({setLoadingState}) => {
   const [reportsSentCount, setReportsSentCount] = useState(0);
   const [studiesData, setStudiesData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [patients, setPatients] = useState([]);
   const [keyClinicalResultsTable, setKeyClinicalResultsTable] = useState(1);
   const [openForm, setOpenForm] = useState(false);
 
@@ -29,6 +30,7 @@ const Dashboard = ({setLoadingState}) => {
         // Establecer los estados después de que ambos fetch se completen
         setStudiesData(medicalReports);
         setCategories(c);
+        setPatients(p);
         setPatientsCount(p.length)
         setReportsSentCount(medicalReports.length)
       })
@@ -119,7 +121,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
+        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} patients={patients} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
       </div>
     </div>
   );
