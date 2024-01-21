@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Button, TextInput, DatePicker } from '@tremor/react';
-import { SearchSelect, SearchSelectItem } from "@tremor/react";
 import CustomModal from '../controls/CustomModal/CustomModal';
 import TableCellButtonIcon from '../controls/TableCellButtonIcon';
 import { PencilIcon } from '@heroicons/react/outline';
@@ -14,7 +13,7 @@ import StudieCard from '../controls/StudieCard';
 import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
 
-const ClinicalResultForm = ({ refresh, report, categories, patients, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
+const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -99,7 +98,7 @@ const ClinicalResultForm = ({ refresh, report, categories, patients, onClose, on
   const handleStudySave = async (editedStudy) => {
     try {
       setDisableSaveStudy(true); // Disable the save button immediately to prevent multiple submissions
-
+  
       if (editedReport.id > 0) {
         editedStudy.medicalReportId = editedReport.id;
         await onSaveStudy(editedStudy);
@@ -111,7 +110,7 @@ const ClinicalResultForm = ({ refresh, report, categories, patients, onClose, on
         }));
         toast.success('Cambios guardados con éxito, estudio modificado.');
       }
-
+  
       // Operations after successful save
       setStudyFormOpen(false);
     } catch (err) {
@@ -121,7 +120,7 @@ const ClinicalResultForm = ({ refresh, report, categories, patients, onClose, on
       setDisableSaveStudy(false); // Re-enable the save button after operation completion
     }
   };
-
+  
 
   return (
     <>
@@ -139,7 +138,7 @@ const ClinicalResultForm = ({ refresh, report, categories, patients, onClose, on
             </Button>
             <Button
               variant="secondary"
-              className="ml-3" disabled={disableSave}
+              className="ml-3" disabled={disableSave} 
               onClose={onClose}
               onClick={async () => {
                 const savedReport = report ? editedReport : await onSave(editedReport);
@@ -198,36 +197,30 @@ const ClinicalResultForm = ({ refresh, report, categories, patients, onClose, on
             <div className="flex-1 mb-4">
               <label className="block text-sm font-medium text-gray-700">Nombre</label>
               <div className="flex">
-                <SearchSelect
-                  value={editedReport.patient.name}
-                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, name: value, email: value } })}
-                  placeholder="Escribe el nombre del paciente"
+                <TextInput
+                  type="text"
                   name="name"
                   readOnly={!!report}
-                >
-                  {patients.map((patient, index) => (
-                    <SearchSelectItem key={index} value={patient.email}>
-                      {patient.name}
-                    </SearchSelectItem>
-                  ))}
-                </SearchSelect>
+                  placeholder="Escribe el nombre del paciente."
+                  value={editedReport.patient.name}
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, name: value } })}
+                  className="mt-1 border rounded-md flex-1"
+                />
                 <TableCellButtonIcon visible={report} text="Editar" icon={<PencilIcon className="w-6 h-6" />} onClick={() => editPatient(editedReport.patient)} />
               </div>
             </div>
             <div className="flex-1">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Email</label>
-                <SearchSelect
+                <TextInput
+                  type="text"
+                  name="id"
+                  readOnly={!!report}
+                  placeholder="Escribe el mail del paciente."
                   value={editedReport.patient.email}
-                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, email: value, name: value } })}
-                  placeholder="Select or type email"
-                >
-                  {patients.map((patient, index) => (
-                    <SearchSelectItem key={index} value={patient.email}>
-                      {patient.email}
-                    </SearchSelectItem>
-                  ))}
-                </SearchSelect>
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, email: value } })}
+                  className="mt-1 border rounded-md"
+                />
               </div>
             </div>
           </div>

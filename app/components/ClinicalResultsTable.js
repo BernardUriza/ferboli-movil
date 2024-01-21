@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removeMedicalReport } from '../useCases/removeMedicalReport';
 
-const ClinicalResultsTable = ({ reports, categories, patients, save, savePatient, saveStudy, refresh, key, isOpenForm, onClose }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm, onClose }) => {
   const { confirm } = useConfirmationContext();
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
@@ -233,7 +233,6 @@ const ClinicalResultsTable = ({ reports, categories, patients, save, savePatient
         refresh={refresh}
         disableSave={disableSave}
         categories={categories}
-        patients={patients}
         report={selectedReport}
         onClose={closeForm}
         onSend={sendTokenReportByEmail}
