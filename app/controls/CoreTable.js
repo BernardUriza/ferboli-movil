@@ -44,11 +44,11 @@ const CoreTable = ({
     ? filteredData.filter((item) => {
       const filterParts = selectedFilter.split('.');
       let value = item;
-      if(filterParts[1] == "*"){
-        let objectArray = item[filterParts[0]]; 
+      if (filterParts[1] == "*") {
+        let objectArray = item[filterParts[0]];
         value = objectArray.map(obj => obj.name).join(' '); // que aqui solo sea una lista de nombres separadas por coma, no necesito mas que eso
-      }else for (const part of filterParts) {
-         if (value && value.hasOwnProperty(part)) {
+      } else for (const part of filterParts) {
+        if (value && value.hasOwnProperty(part)) {
           value = value[part];
         } else {
           // Handle the case where the property doesn't exist
@@ -61,29 +61,29 @@ const CoreTable = ({
     })
     : filteredData;
 
-    const extractNestedValue = (item, columnKey) => {
-      const keys = columnKey.split('.');
-      let value = item;
-      for (const key of keys) {
-        value = value[key];
-        if (value === undefined || value === null) {
-          break;
-        }
+  const extractNestedValue = (item, columnKey) => {
+    const keys = columnKey.split('.');
+    let value = item;
+    for (const key of keys) {
+      value = value[key];
+      if (value === undefined || value === null) {
+        break;
       }
-      return value;
-    };
-  
-    const sortedData = sortedColumn
-      ? [...filteredDataWithColumnFilter].sort((a, b) => {
-          const aValue = extractNestedValue(a, sortedColumn) || '';
-          const bValue = extractNestedValue(b, sortedColumn) || '';
-          if (sortAscending) {
-            return aValue.localeCompare(bValue);
-          } else {
-            return bValue.localeCompare(aValue);
-          }
-        })
-      : filteredDataWithColumnFilter;
+    }
+    return value;
+  };
+
+  const sortedData = sortedColumn
+    ? [...filteredDataWithColumnFilter].sort((a, b) => {
+      const aValue = extractNestedValue(a, sortedColumn) || '';
+      const bValue = extractNestedValue(b, sortedColumn) || '';
+      if (sortAscending) {
+        return aValue.localeCompare(bValue);
+      } else {
+        return bValue.localeCompare(aValue);
+      }
+    })
+    : filteredDataWithColumnFilter;
 
   const handleDataFiltering = () => {
     // Update the currentItems state when the pagination or filtered data changes
@@ -144,14 +144,14 @@ const CoreTable = ({
     <Table>
       <TableHead className="bg-slate-50">
         <TableRow>
-          <TableHeaderCell
+          {false && <TableHeaderCell
             style={{ "width": "50px" }}
           >
             <CustomCheckbox
               checked={selectAll}
               onChange={handleSelectAll}
             />
-          </TableHeaderCell>
+          </TableHeaderCell>}
           {columns.map((column) => (column.key ?
             <TableHeaderCell
               key={column.key}
@@ -178,15 +178,15 @@ const CoreTable = ({
       <TableBody>
         {currentItems.map((item) => (
           <TableRow key={item.id}>
-            <TableCell>
+            {false && <TableCell>
               <CustomCheckbox
                 checked={selectAll || itemsSelected.includes(item)}
                 onChange={(newCheckedState) => handleSelect(item, newCheckedState)}
               />
-            </TableCell>
+            </TableCell>}
             {columns.map((column) => column.key ? (
               <TableCell key={column.key}>{renderCell(column.key, item)}</TableCell>
-            ): null)}
+            ) : null)}
             <TableCell>
               <TableCellButtonIcon onClick={() => removeItem(item)} text={"Remover"} icon={<TrashIcon className="w-6 h-6" />} />
               <TableCellButtonIcon onClick={() => openForm(item)} text={"Editar"} icon={<PencilIcon className="w-6 h-6" />} />
