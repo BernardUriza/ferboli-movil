@@ -138,6 +138,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                     type="file"
                     ref={fileInputRef}
                     className="hidden"
+                    accept="application/pdf" // Restricción para solo aceptar archivos PDF                
                     onChange={async (e) => {
                         var file = (e.target.files?.[0]);
                         if (file) {
