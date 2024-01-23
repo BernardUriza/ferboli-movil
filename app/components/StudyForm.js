@@ -18,8 +18,8 @@ function isValidUrl(url) {
 
 const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
     const { edgestore } = useEdgeStore();
-    const { showLoading, hideLoading, showLoadingWithProgress  } = useLoading();
-    // Set initial state based on whether study is null
+    const { showLoading, hideLoading, showLoadingWithProgress } = useLoading();
+
     const initialEditedStudy = study || {
         id: '',
         name: '',
@@ -32,18 +32,21 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
         createdAt: new Date(),
     };
 
+
     const CONST_SeleccionaUnDocumentoPDF = "Selecciona un documento PDF";
     const CONST_HazClickParaVerPDF = "Haz click para ver el documento PDF";
 
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
-    const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
+    const [fileUploaded, setFileUploaded] = useState(isValidUrl(editedStudy.name)); const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
     const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});
-    const fileInputRef = React.createRef(); // Create a ref for the file input
+    const [selectedType, setSelectedType] = useState(null);
+    const fileInputRef = React.createRef();
 
     const openFileSelector = () => {
-        // Trigger the click event on the hidden file input
         fileInputRef.current.click();
     };
+
+    const isSaveEnabled = selectedCategory.id && selectedType && fileUploaded && !disabledSave;
 
     return (
         <CustomModal
@@ -55,9 +58,9 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
             modalClassName="p-8"
             footerElement={
                 <div className="flex">
-                    <Button type="primary" className='ml-auto' disabled={disabledSave} onClick={async (e) => {
+                    <Button type="primary" className='ml-auto' disabled={!isSaveEnabled} onClick={async (e) => {
                         e.preventDefault();
-                        onSave(editedStudy)
+                        onSave(editedStudy);
                     }}>
                         Guardar
                     </Button>
@@ -85,11 +88,14 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label>Categoria</label>
+                    <label>Categoria{!selectedCategory.id && <span style={{ color: 'red' }}>*</span>}</label>
                     <SearchSelect
                         value={selectedCategory.id}
                         onValueChange={(value) => {
-                            setSelectedCategory(categories.find((category) => category.id === value));
+                            const category = categories.find((category) => category.id === value);
+                            setSelectedCategory(category);
+                            setSelectedType(null); // Reset type selection when category changes
+                            setEditedStudy({ ...editedStudy, type: { category: category } });
                         }}
                     >
                         {categories.map((category) => (
@@ -101,7 +107,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label>Nombre (Tipo)</label>
+                    <label>Nombre (Tipo){!selectedType && <span style={{ color: 'red' }}>*</span>}</label>
                     <SearchSelect
                         value={editedStudy.type.id}
                         onValueChange={(value) => {
@@ -120,6 +126,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                         ))}
                     </SearchSelect>
                 </div>
+
                 <div className="mb-4">
                     <StudieCard
                         empty={fileMessage}
@@ -127,40 +134,33 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                     />
                 </div>
 
-                {/* Add a label to visually hide the file input */}
                 <label htmlFor="fileInput" className="sr-only">File Input</label>
                 <input
                     id="fileInput"
                     type="file"
-                    ref={fileInputRef} // Connect the ref to the file input
+                    ref={fileInputRef}
                     className="hidden"
                     onChange={async (e) => {
                         var file = (e.target.files?.[0]);
                         if (file) {
-                            showLoading()
+                            showLoading();
                             const res = await edgestore.publicFiles.upload({
                                 file,
                                 onProgressChange: (progress) => {
-                                    // you can use this to show a progress bar
-                                    console.log(progress);
-                                    showLoadingWithProgress(progress)
+                                    showLoadingWithProgress(progress);
                                 }
                             });
-                            hideLoading()
-                            // you can run some server action or api here
-                            // to add the necessary data to your database
+                            hideLoading();
                             editedStudy.name = res.url;
-                            setFileMessage(CONST_HazClickParaVerPDF);
+                            setFileUploaded(true);
                         }
                     }}
                 />
 
-                {/* "Nuevo resultado clínico" button to trigger file selection */}
                 <Button onClick={async (e) => {
                     e.preventDefault();
                     openFileSelector();
-                }
-                } style={{ width: "100%" }}>
+                }} style={{ width: "100%" }}>
                     <div className='flex' style={{ height: "52px" }}>
                         <HiDocumentArrowUp style={{ width: "20px", height: "20px", marginTop: "15px" }}></HiDocumentArrowUp>
                         <span className='mx-3 my-auto' style={{ fontSize: "17px" }}>Subir resultado clínico</span>
