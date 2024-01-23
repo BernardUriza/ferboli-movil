@@ -3,6 +3,8 @@ import React from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { DocumentAddIcon, DocumentTextIcon } from '@heroicons/react/outline';
+import { saveAs } from 'file-saver'; // Importing file-saver
+
 // Add this function outside of the StudieCard component
 
 const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, empty, openNewStudyForm }) => {
@@ -40,9 +42,8 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, empty, ope
 
   var { type, createdAt } = studieData;
   var { category, name } = type;
-
-   // Function to handle opening the study link
-   const handleOpenStudy = (e) => {
+  // Function to handle opening the study link
+  const handleOpenStudy = (e) => {
     e.preventDefault();
     if (actionLink && studieData) {
       actionLink(studieData);
@@ -52,6 +53,10 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, empty, ope
   // Formatea la fecha
   const formattedDate = format(new Date(createdAt), 'dd MMMM yyyy', { locale: es });
 
+  // Function to handle file download
+  const handleFileDownload = () => {
+    saveAs(clickFileLink, name + ".pdf"); // Using file-saver to download with a custom name
+  };
   return (
     <div className="bg-white rounded-lg p-4 shadow-md mb-3 mr-3" key={studieData.id} style={{ height: '110px' }}>
       <div className="flex justify-between items-center mb-2">
@@ -67,13 +72,12 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, empty, ope
           </div>
           <p className="text-gray-600 text-sm line-clamp-1">Fecha: {formattedDate}</p>
         </div>
-
-        <a href={clickFileLink} target='_blank' rel="noopener noreferrer" className="text-green-500 line-clamp-1" style={{ fontSize: '13px', width: "140px !important" }}>
+        <div onClick={handleFileDownload} className="text-green-500 line-clamp-1" style={{ cursor: "pointer", fontSize: '13px', width: "140px !important" }}>
           <div className="bg-green-100 items-center justify-center rounded-full p-2 mx-auto" style={{ width: "35px" }}>
             <DocumentTextIcon className="w-5 h-5" />
           </div>
           <span>Ver documento</span>
-        </a>
+        </div>
       </div>
     </div>
   );
