@@ -1,38 +1,36 @@
 import React from 'react';
 import { Card, Text, BarList } from "@tremor/react";
-const TopStudiesList = ({ medicalReports }) => {
-  // Create a mapping of category IDs to names
-  const categoryMap = {};
 
-  // Group studies by categories and count the number of reports per category
-  const categoryCounts = medicalReports.reduce((categoryCount, report) => {
+const TopStudiesList = ({ medicalReports }) => {
+  // Group studies by types and count the number of reports per type
+  const typeCounts = medicalReports.reduce((typeCount, report) => {
     // Iterate through studies within each medical report
     report.studies.forEach((study) => {
       const { type } = study;
       const { category } = type;
       const categoryName = category.name;
-      categoryMap[category.id] = categoryName;
-      categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
+      const typeName = type.name + " - " + categoryName;
+      typeCount[typeName] = (typeCount[typeName] || 0) + 1;
     });
-    return categoryCount;
+    return typeCount;
   }, {});
 
-  // Sort categories by the number of reports (descending order)
-  const sortedCategories = Object.entries(categoryCounts).sort(
+  // Sort types by the number of reports (descending order)
+  const sortedTypes = Object.entries(typeCounts).sort(
     (a, b) => b[1] - a[1]
   );
 
-  // Select the top five categories
-  const topCategories = sortedCategories.slice(0, 5);
+  // Select the top five types
+  const topTypes = sortedTypes.slice(0, 5);
 
   return (
     <Card className="">
-      <Text className='pb-4' color='gray'>Top 5 de estudios</Text>
+      <Text className='pb-4' color='gray'>Top 5 de Tipos de Estudio</Text>
       <BarList
         color="green"
-        data={topCategories.map(([category, count]) => ({
+        data={topTypes.map(([type, count]) => ({
           value: count,
-          name: category,
+          name: type,
         }))}
         valueFormatter={(value) => `${value} reportes`}
       />
