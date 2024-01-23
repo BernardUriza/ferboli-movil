@@ -39,14 +39,13 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
     const [fileUploaded, setFileUploaded] = useState(isValidUrl(editedStudy.name)); const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
     const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});
-    const [selectedType, setSelectedType] = useState(null);
     const fileInputRef = React.createRef();
 
     const openFileSelector = () => {
         fileInputRef.current.click();
     };
 
-    const isSaveEnabled = selectedCategory.id && selectedType && fileUploaded && !disabledSave;
+    const isSaveEnabled = selectedCategory?.id && editedStudy.type?.id && fileUploaded && !disabledSave;
 
     return (
         <CustomModal
@@ -94,7 +93,6 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                         onValueChange={(value) => {
                             const category = categories.find((category) => category.id === value);
                             setSelectedCategory(category);
-                            setSelectedType(null); // Reset type selection when category changes
                             setEditedStudy({ ...editedStudy, type: { category: category } });
                         }}
                     >
