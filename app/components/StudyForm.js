@@ -107,7 +107,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 </div>
 
                 <div className="mb-4">
-                    <label>Nombre (Tipo){!selectedType && <span style={{ color: 'red' }}>*</span>}</label>
+                    <label>Nombre (Tipo){!editedStudy.type.id && <span style={{ color: 'red' }}>*</span>}</label>
                     <SearchSelect
                         value={editedStudy.type.id}
                         onValueChange={(value) => {
