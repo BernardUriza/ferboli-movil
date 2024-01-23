@@ -64,7 +64,7 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, empty, ope
           <div style={{ height: '15px', position: 'relative' }}>
             <p className="text-gray-600 text-sm overflow-hidden whitespace-nowrap truncate" style={{ position: 'absolute', bottom: 0 }} title={category.name}>{category.name}</p>
           </div>
-          <div style={{ height: '55px', position: 'relative' }}>
+          <div style={{ height: '55px', position: 'relative', overflow: 'hidden', width: '200px' }}>
             {/* Updated class and style for name */}
             <a href='./' onClick={handleOpenStudy} className="text-lg font-bold" title={name} style={{ maxHeight: '40px', maxWidth: '240px' }}>
               {name}
