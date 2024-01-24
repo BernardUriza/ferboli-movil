@@ -119,15 +119,15 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                         ))}
                     </SearchSelect>
                 </div>
-
-                <div className="mb-4">
-                    <StudieCard
-                        document={editedStudy?.name}
-                        studieData={editedStudy}
-                        clickFileLink={isValidUrl(editedStudy.name)}
-                    />
-                </div>
-
+                {editedStudy?.name && 
+                    <div className="mb-4">
+                        <StudieCard
+                            document={editedStudy?.name}
+                            studieData={editedStudy}
+                            clickFileLink={isValidUrl(editedStudy.name)}
+                        />
+                    </div>
+                }
                 <label htmlFor="fileInput" className="sr-only">File Input</label>
                 <input
                     id="fileInput"
