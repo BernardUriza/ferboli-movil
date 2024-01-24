@@ -44,11 +44,11 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, document, 
     if (document) {
       return (
         <div className="rounded-lg p-4 shadow-md mb-3" style={{ height: '110px' }}>
-          <p className="text-sm flex items-center justify-center h-full">
-            <a href={clickFileLink} target='_blank' rel="noopener noreferrer" className='text-green-500 flex' >
-              <div className='p-2'>
-                <div className='font-bold'>Documento</div>
-                <div>{name}</div>
+          <p className="text-sm flex items-center justify-between h-full">
+            <a href={clickFileLink} target='_blank' rel="noopener noreferrer" className='flex' >
+              <div className='p-2' style={{maxWidth: 180}}>
+                <div className='text-gray-500'>Documento</div>
+                <div className='font-bold'>{name}.pdf</div>
               </div>
             </a>
 
