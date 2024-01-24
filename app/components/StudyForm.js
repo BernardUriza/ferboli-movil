@@ -31,13 +31,8 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
         },
         createdAt: new Date(),
     };
-
-
-    const CONST_SeleccionaUnDocumentoPDF = "Selecciona un documento PDF";
-    const CONST_HazClickParaVerPDF = "Haz click para ver el documento PDF";
-
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
-    const [fileUploaded, setFileUploaded] = useState(isValidUrl(editedStudy.name)); const [fileMessage, setFileMessage] = useState(isValidUrl(editedStudy.name) ? CONST_HazClickParaVerPDF : CONST_SeleccionaUnDocumentoPDF);
+    const [fileUploaded, setFileUploaded] = useState(isValidUrl(editedStudy.name)); 
     const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});
     const fileInputRef = React.createRef();
 
@@ -127,7 +122,8 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
 
                 <div className="mb-4">
                     <StudieCard
-                        empty={fileMessage}
+                        document={editedStudy?.name}
+                        studieData={editedStudy}
                         clickFileLink={isValidUrl(editedStudy.name)}
                     />
                 </div>
