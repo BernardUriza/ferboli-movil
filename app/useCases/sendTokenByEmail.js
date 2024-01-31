@@ -1,8 +1,8 @@
-import { MedicalReport } from '../entities/MedicalReport';
+const MedicalReport = require('../entities/MedicalReport');
 import { sendEmail } from '../lib/mailer';
-import { format } from 'date-fns'; // Assuming you are using date-fns for date formatting
+import { format } from 'date-fns'; 
 
-export async function sendTokenByEmail(report) {
+export default async function sendTokenByEmail(report) {
     try {
         const medicalReport = new MedicalReport(report);
         const url = medicalReport.generateToken(); 
