@@ -33,7 +33,8 @@ export async function POST(req) {
     return NextResponse.json({ message: 'Missing required fields ' + to }, { status: 400 });
   }
 
-  const htmlFilePath = path.join(__dirname, 'template.html');
+  // Find the absolute path of the "json" directory
+  const htmlFilePath = path.join(process.cwd(), 'app/api/mailerHelper/template.html');
   const emailContent = await generateEmailContent(subject, text, htmlFilePath);
 
   mailOptions.to = to;
