@@ -14,28 +14,28 @@ const readHtmlFile = async (filePath) => {
 };
 
 // Función para generar el contenido del correo
-const generateEmailContent = async (subject, text, htmlFilePath) => {
+const generateEmailContent = async (subject, htmlFilePath, nombreDeUsuario, fecha, url) => {
   const htmlContent = await readHtmlFile(htmlFilePath);
   return {
       subject,
       text,
-      html: htmlContent.replace("[Nombre del Usuario]","pamcho"),
+      html: htmlContent.replace("[Nombre del Usuario]",nombreDeUsuario).replace("[Fecha]", fecha).replace("[URL]", url),
   };
 };
 
 
 export async function POST(req) {
   const body = await req.json();
-  const { to, subject, text } = body;
+  const { to, subject, nombreDeUsuario, fecha, url } = body;
 
   // Input validation
-  if (!to || !subject || !text) {
+  if (!to || !subject) {
     return NextResponse.json({ message: 'Missing required fields ' + to }, { status: 400 });
   }
 
   // Find the absolute path of the "json" directory
   const htmlFilePath = path.join(process.cwd(), 'app/api/mailerHelper/template.html');
-  const emailContent = await generateEmailContent(subject, text, htmlFilePath);
+  const emailContent = await generateEmailContent(subject, htmlFilePath, nombreDeUsuario, fecha, url);
 
   mailOptions.to = to;
   try {

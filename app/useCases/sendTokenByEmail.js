@@ -1,16 +1,22 @@
-const MedicalReport = require('../entities/MedicalReport');
-import { sendEmail } from "../lib/mailer";
+import { MedicalReport } from '../entities/MedicalReport';
+import { sendEmail } from '../lib/mailer';
+import { format } from 'date-fns'; // Assuming you are using date-fns for date formatting
 
-export default function sendTokenByEmail(report){
-  const medicalReport = new MedicalReport(report);
-  const url = medicalReport.generateToken(); // Call the method on the instance
-  /* Lógica para enviar el correo electrónico con el token */
-  const subject = 'Token para acceder a informes médicos';
-  const text = `Este es su URL para acceder a sus informes médicos: ${url}`;
-  const to = medicalReport.patient.email;
+export async function sendTokenByEmail(report) {
+    try {
+        const medicalReport = new MedicalReport(report);
+        const url = medicalReport.generateToken(); 
+        const subject = 'Token para acceder a informes médicos';
+        const to = medicalReport.patient.email;
+        const nombreDeUsuario = medicalReport.patient.name;
+        const fecha = format(medicalReport.date, 'dd/MMMMM/yyyy'); // Format date
+        
+        await sendEmail({ to, subject, url, nombreDeUsuario, fecha });
 
-  sendEmail({to, subject, text});
-
-  return medicalReport;
+        return medicalReport;
+    } catch (error) {
+        // Handle or log the error appropriately
+        console.error('Error sending token by email:', error);
+        throw error; // or handle it as per your application's error handling policy
+    }
 };
-
