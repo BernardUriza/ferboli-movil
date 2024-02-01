@@ -14,11 +14,9 @@ const readHtmlFile = async (filePath) => {
 };
 
 // Función para generar el contenido del correo
-const generateEmailContent = async (subject, htmlFilePath, nombreDeUsuario, fecha, url) => {
+const generateEmailContent = async (htmlFilePath, nombreDeUsuario, fecha, url) => {
   const htmlContent = await readHtmlFile(htmlFilePath);
   return {
-      subject,
-      text,
       html: htmlContent.replace("[Nombre del Usuario]",nombreDeUsuario).replace("[Fecha]", fecha).replace("[URL]", url),
   };
 };
@@ -35,7 +33,7 @@ export async function POST(req) {
 
   // Find the absolute path of the "json" directory
   const htmlFilePath = path.join(process.cwd(), 'app/api/mailerHelper/template.html');
-  const emailContent = await generateEmailContent(subject, htmlFilePath, nombreDeUsuario, fecha, url);
+  const emailContent = await generateEmailContent(htmlFilePath, nombreDeUsuario, fecha, url);
 
   mailOptions.to = to;
   try {

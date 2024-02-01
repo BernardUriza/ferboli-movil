@@ -90,6 +90,17 @@ export async function updateMedicalReport(id, data) {
   });
 }
 
+
+// Actualizar un reporte médico por su ID
+export async function updateStatusMedicalReport(id, data) {
+  return prisma.medicalReport.update({
+    where: {
+      id,
+    },
+    data
+  });
+}
+
 // Eliminar un reporte médico por su ID
 export async function deleteMedicalReport(id) {
   return prisma.medicalReport.delete({

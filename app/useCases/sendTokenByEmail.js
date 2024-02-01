@@ -8,15 +8,8 @@ export default async function sendTokenByEmail(report) {
         const url = medicalReport.generateToken(); 
         const subject = 'Token para acceder a informes médicos';
         const to = medicalReport.patient.email;
-        const nombreDeUsuario = medicalReport.patient.name;
-        
-        let fecha = '';
-        if (medicalReport.date instanceof Date && !isNaN(medicalReport.date)) {
-            fecha = format(medicalReport.date, 'dd/MMMMM/yyyy');
-        } else {
-            // Handle invalid or undefined date here
-            console.error('Invalid or undefined date:', medicalReport.date);
-        }
+        const nombreDeUsuario = medicalReport.patient.name;        
+        let fecha = format(new Date(medicalReport.date), 'dd/MMMMM/yyyy');
         
         await sendEmail({ to, subject, url, nombreDeUsuario, fecha });
 

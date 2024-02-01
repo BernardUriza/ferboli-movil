@@ -4,7 +4,8 @@ import {
   createMedicalReport,
   updateMedicalReport,
   getMedicalReportById,
-  deleteMedicalReport
+  deleteMedicalReport,
+  updateStatusMedicalReport
 } from '../../../../prisma/medicalReportsClient';
 
 // Manejador para el método GET
@@ -26,11 +27,13 @@ export const POST = async (req) => {
   const body = await req.json();
   const { id, name, date, status, expirationDate, patient, studies } = body;
 
-  if (!date || !status || !patient) {
-    return NextResponse.json({ error: 'Date, status, and patient are required fields' }, { status: 400 });
+  let existingReport = parseInt(id) > 0 ? await getMedicalReportById(id) : false;
+  
+  if (!date || !patient) {
+    const updatedReport = await updateStatusMedicalReport(id, {status});
+    return NextResponse.json(updatedReport, { status: 201 });
   }
 
-  let existingReport = parseInt(id) > 0 ? await getMedicalReportById(id) : false;
 
   if (existingReport) {
     const updatedReport = await updateMedicalReport(id, {
