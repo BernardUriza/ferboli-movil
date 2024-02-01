@@ -6,7 +6,7 @@ export default async function sendTokenByEmail(report) {
     try {
         const medicalReport = new MedicalReport(report);
         const url = medicalReport.generateToken(); 
-        const subject = 'Token para acceder a informes médicos';
+        const subject = 'Link para acceder a informes médicos';
         const to = medicalReport.patient.email;
         debugger
 
