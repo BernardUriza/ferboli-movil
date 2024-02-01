@@ -129,7 +129,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
 
   const sendTokenReportByEmail = async (report) => {
     try {
-      const sentReport = sendTokenByEmail(report)
+      const sentReport = await sendTokenByEmail(report)
       sentReport.status = "Activo";
       const promise = save(sentReport);
 
