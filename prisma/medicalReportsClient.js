@@ -52,6 +52,10 @@ export async function createMedicalReport(data) {
       ...data,
       createdAt: new Date() // Agrega la fecha de creación automáticamente
     },
+    include: {
+      patient: true,
+      studies: true
+    },
   });
 }
 

@@ -47,7 +47,7 @@ export const POST = async (req) => {
       },
       studies: {
         create: studies.map((study) => ({
-          name: "",
+          name: study.name,
           studyTypeId: study.type.id,
           createdAt: study.createdAt,
           // add other properties as needed
