@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { fetchMedicalReport } from './useCases/fetchMedicalReport'; 
-import { HeaderFrameClient, ContentCardsClient } from './controls/ContentCardsClient/ContentCardsClient';
+import { fetchMedicalReport } from './useCases/fetchMedicalReport';
+import { ContentCardsClient } from './controls/ContentCardsClient/ContentCardsClient';
 import { Watch } from 'react-loader-spinner'
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 
@@ -49,12 +49,17 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
 
   return (
     <div className='container mx-auto px-3'>
-      <HeaderFrameClient/>
+      <div className="frame">
+        <p className="centro-de-diagn">
+          <span className="text-wrapper">Centro de </span>
+          <span className="text-wrapper font-bold">Diagnóstico Móvil</span>
+        </p>
+      </div>
       <div className="flex mx-3 my-3">
         <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto pt-6" width={105.426} height={40} />
         <p className="flex-1"></p>
       </div>
-      <ContentCardsClient data={data}/>
+      <ContentCardsClient data={data} />
     </div>
   );
 };

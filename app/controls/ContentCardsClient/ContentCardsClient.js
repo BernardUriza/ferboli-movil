@@ -4,23 +4,14 @@ import "./style.css";
 import { CardEstudio } from "../CardEstudio";
 import { Button, Card } from '@tremor/react';
 import { formatDateHandler } from "../../providers/formatDateHandler";
-
-export const HeaderFrameClient = () => {
-  return (
-    <div className="frame">
-      <p className="centro-de-diagn">
-        <span className="text-wrapper">Centro de </span>
-        <span className="text-wrapper font-bold">Diagnóstico Móvil</span>
-      </p>
-    </div>
-  );
-};
+import { Watch } from 'react-loader-spinner'
 
 export const ContentCardsClient = ({ data }) => {
   // Destructuring patient and studies information from data
   const { patient, studies } = data;
-  // Función para manejar la descarga de todos los PDFs
   const handleDownloadAll = async () => {
+    setIsLoading(true); // Show the loader
+    // Assuming loadingState is managed elsewhere or similarly toggled
     const pdfUrls = studies.map(study => study.name);
 
     try {
@@ -33,26 +24,44 @@ export const ContentCardsClient = ({ data }) => {
       });
 
       if (!response.ok) {
-        throw new Error('No se pudo descargar el archivo');
+        throw new Error('Failed to download the file');
       }
 
-      // Recibir el PDF combinado y descargarlo
+      // Receive the combined PDF and download it
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Estudios de '+patient.name+'.pdf'; // Nombre del archivo PDF resultante
+      a.download = 'Studies of '+patient.name+'.pdf'; // Name of the resulting PDF file
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
       a.remove();
     } catch (error) {
-      console.error('Error al descargar el archivo combinado:', error);
+      console.error('Error downloading the combined file:', error);
+    } finally {
+      setIsLoading(false); // Hide the loader
     }
   };
 
+
   return (
     <Card>
+    {/* Your loader */}
+    {(isLoading || loadingState) && (
+      <div className="fixed inset-0 bg-gray-100 bg-opacity-100 flex items-center justify-center z-50">
+        <Watch
+          height="80"
+          width="80"
+          radius="48"
+          color="#4fa94d"
+          ariaLabel="watch-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      </div>
+    )}
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <div className="header flex flex-col relative w-full">
