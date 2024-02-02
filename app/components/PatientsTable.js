@@ -7,6 +7,7 @@ import CoreTable from '../controls/CoreTable';
 import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removePatient } from '../useCases/removePatient';
+import { formatDateHandler } from '../providers/formatDateHandler';
 
 const PatientsTable = ({ patients, savePatient, key, refresh }) => {
   const { confirm } = useConfirmationContext();
@@ -69,8 +70,8 @@ const PatientsTable = ({ patients, savePatient, key, refresh }) => {
     } else if (columnKey === 'phone') {
       return item.phone;
     } else if (columnKey === 'dateOfBirth') {
-      // Format the dateOfBirth as needed
-      return new Date(item.dateOfBirth).toLocaleDateString();
+      const formattedDate = formatDateHandler(item.dateOfBirth, { month: 'short' });
+      return formattedDate;
     } else {
       return item[columnKey];
     }

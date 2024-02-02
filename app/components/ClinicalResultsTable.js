@@ -159,10 +159,8 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       return <StatusBadge status={item.status} />;
     }
     else if (columnKey === 'date') {
-      // Render the 'date' column in the desired format with slashes
-      const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-      const formattedDate = formatDateHandler(item, dateOptions);
-      return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
+      const formattedDate = formatDateHandler(item.date, { month: 'short' });
+      return formattedDate; // Replace spaces with slashes
     }
     else if (columnKey === 'name') {
       return item.name + " - " + item.patient?.email; // Replace spaces with slashes

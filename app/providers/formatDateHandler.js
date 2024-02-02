@@ -8,9 +8,9 @@ export function formatDateHandler(item, dateOptions) {
     };
     
     // Formateando la fecha
-    const formattedDate = new Date(item.date).toLocaleDateString('es-MX', defaultDateOptions);
+    const formattedDate = new Date(item).toLocaleDateString('es-MX', defaultDateOptions);
     
     // Removiendo "de" y posiblemente "del" para fechas en español (ajusta según sea necesario)
-    return formattedDate.replace(/de /g, '').replace(/ del /g, ' de ');
+    return formattedDate.replace(/de /g, '').replace(/ del /g, ' de ').replace(/ /g, '/');
   }
   
