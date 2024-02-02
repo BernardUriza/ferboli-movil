@@ -125,6 +125,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
   };
 
   const sendTokenReportByEmail = async (report) => {
+    setDisableSave(true)
     try {
       const sentReport = await sendTokenByEmail(report)
       sentReport.status = "Activo";
@@ -140,6 +141,8 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
       );
 
       promise.then(() => {
+        setDisableSave(false)
+        setSelectedReport(sentReport);
         refresh(false);
       });
 

@@ -34,9 +34,10 @@ const Dashboard = ({setLoadingState}) => {
       })
       .catch((error) => console.error(error.message))
       .finally(() => {
-        if(loadingStateActive)
+        if(loadingStateActive){
           setLoadingState(false)
-        setKeyClinicalResultsTable(keyClinicalResultsTable+1);
+          setKeyClinicalResultsTable(keyClinicalResultsTable+1);
+        }
       });
   };
 
@@ -62,7 +63,6 @@ const Dashboard = ({setLoadingState}) => {
         });
     });
   };
-  
   
   const handleSaveStudy = (editedStudy) => {
     return saveStudy(editedStudy)      
@@ -102,6 +102,7 @@ const Dashboard = ({setLoadingState}) => {
   }
   
   const handleCloseForm = () => {
+    setKeyClinicalResultsTable(keyClinicalResultsTable+1);
     setOpenForm(false)
   }
 

@@ -80,7 +80,10 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
       await onSavePatient(editedPatientData);
       setDisableSavePatient(false);
       setPatientEditorOpen(false);
-      toast.success(`Cambios guardados con éxito, paciente ${editedPatientData.name} modificado.`);
+      toast.success(`Cambios guardados, paciente ${editedPatientData.name} modificado.`);
+      editedReport.status = 'Pendiente';
+      await onSave(editedReport)
+      setEditedReport(editedReport)
     } catch (err) {
       setDisableSavePatient(false);
       toast.error(`Error ha sucedido: ${err.toString()}`);
