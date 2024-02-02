@@ -49,7 +49,7 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
   }
 
   return (
-    <div className='container px-3'>
+    <div className='container mx-auto px-3'>
       <HeaderFrameClient/>
       <div className="flex mx-3 my-3">
         <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto pt-6" width={105.426} height={40} />
