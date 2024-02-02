@@ -2,7 +2,7 @@
 import React from "react";
 import "./style.css";
 import { CardEstudio } from "../CardEstudio";
-import { Card } from '@tremor/react';
+import { Button, Card } from '@tremor/react';
 import { formatDateHandler } from "../../providers/formatDateHandler";
 
 export const HeaderFrameClient = () => {
@@ -22,18 +22,23 @@ export const ContentCardsClient = ({ data }) => {
 
   return (
     <Card>
-      <div className="div flex flex-col gap-2">
-        <div className="header flex flex-col relative w-full">
-          <p className="p">
-            <span className="text-wrapper font-semibold">Nombre<br /></span>
-            <span className="span">{patient.name}</span>
-          </p>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
+          <div className="header flex flex-col relative w-full">
+            <p className="p">
+              <span className="text-wrapper font-semibold">Nombre<br /></span>
+              <span className="span">{patient.name}</span>
+            </p>
+          </div>
+          <div className="header flex flex-col relative w-full">
+            <p className="p">
+              <span className="text-wrapper font-semibold">Fecha de realización<br /></span>
+              <span className="span">{formatDateHandler(data.date)}</span>
+            </p>
+          </div>
         </div>
-        <div className="header flex flex-col relative w-full">
-          <p className="p">
-            <span className="text-wrapper font-semibold">Fecha de realización<br /></span>
-            <span className="span">{formatDateHandler(data.date)}</span>
-          </p>
+        <div className="flex justify-end">
+          <Button style={{height: 50}}>Descargar todo</Button>
         </div>
       </div>
       <div className="text-wrapper font-semibold my-3">Resultados</div>
