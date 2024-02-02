@@ -130,36 +130,30 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
   };
 
   const handleStudyRemove = async (studyToRemove) => {
-    confirm({
-      title: "Confirmación",
-      message: "¿Estás seguro de que quieres eliminar este registro?",
-    }).then(async (result) => {
-      setIsLoading(true); // Optional: Manage loading state for UI feedback
-      try {
-        // If the report has a valid ID, assume it's already saved and handle the removal accordingly
-        if (editedReport.id && editedReport.id > 0) {
-          await onRemoveStudy(studyToRemove.id);
-          toast.success('Estudio removido exitosamente');
-        }
+    try {
+      await confirm("¿Estás seguro de que quieres eliminar este registro?");
 
-        // Update the local state to reflect the removal of the study
-        setEditedReport(prevReport => ({
-          ...prevReport,
-          studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
-        }));
-
-        editedReport.status = 'Pendiente';
-        await onSave(editedReport);
-      } catch (err) {
-        console.error(err);
-        toast.error(`Error occurred: ${err.toString()}`);
-      } finally {
-        setIsLoading(false); // Optional: Manage loading state
+      setDisableSaveStudy(true); // Optional: Manage loading state for UI feedback
+      // If the report has a valid ID, assume it's already saved and handle the removal accordingly
+      if (editedReport.id && editedReport.id > 0) {
+        await onRemoveStudy(studyToRemove.id);
+        toast.success('Estudio removido exitosamente');
       }
-    }).catch((error) => {
-      // Handle any errors or cancellation
-      console.log('Acción cancelada o error:', error);
-    });
+
+      // Update the local state to reflect the removal of the study
+      setEditedReport(prevReport => ({
+        ...prevReport,
+        studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
+      }));
+
+      editedReport.status = 'Pendiente';
+      await onSave(editedReport);
+    } catch (err) {
+      console.error(err);
+      toast.error(`Error occurred: ${err.toString()}`);
+    } finally {
+      setDisableSaveStudy(false); // Optional: Manage loading state
+    }
   };
 
   return (
