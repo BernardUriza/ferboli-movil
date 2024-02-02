@@ -13,9 +13,11 @@ import StudieCard from '../controls/StudieCard';
 import esLocale from 'date-fns/locale/es';
 import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
+import { useConfirmationContext } from '../providers/ConfirmationContext';
 
 const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
+  const { confirm } = useConfirmationContext();
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStudy, setSelectedStudy] = useState(null);
@@ -102,7 +104,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
   const handleStudySave = async (editedStudy) => {
     try {
       setDisableSaveStudy(true); // Disable the save button immediately to prevent multiple submissions
-  
+
       if (editedReport.id > 0) {
         editedStudy.medicalReportId = editedReport.id;
         await onSaveStudy(editedStudy);
@@ -116,7 +118,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
       }
       editedReport.status = 'Pendiente';
       await onSave(editedReport)
-  
+
       // Operations after successful save
       setStudyFormOpen(false);
     } catch (err) {
@@ -126,31 +128,39 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
       setDisableSaveStudy(false); // Re-enable the save button after operation completion
     }
   };
-  
+
   const handleStudyRemove = async (studyToRemove) => {
-    setIsLoading(true); // Optional: Manage loading state for UI feedback
-    try {
-      // If the report has a valid ID, assume it's already saved and handle the removal accordingly
-      if (editedReport.id && editedReport.id > 0) {
-        await onRemoveStudy(studyToRemove.id); 
-        toast.success('Estudio removido exitosamente');
+    confirm({
+      title: "Confirmación",
+      message: "¿Estás seguro de que quieres eliminar este registro?",
+    }).then(async (result) => {
+      setIsLoading(true); // Optional: Manage loading state for UI feedback
+      try {
+        // If the report has a valid ID, assume it's already saved and handle the removal accordingly
+        if (editedReport.id && editedReport.id > 0) {
+          await onRemoveStudy(studyToRemove.id);
+          toast.success('Estudio removido exitosamente');
+        }
+
+        // Update the local state to reflect the removal of the study
+        setEditedReport(prevReport => ({
+          ...prevReport,
+          studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
+        }));
+
+        editedReport.status = 'Pendiente';
+        await onSave(editedReport);
+      } catch (err) {
+        console.error(err);
+        toast.error(`Error occurred: ${err.toString()}`);
+      } finally {
+        setIsLoading(false); // Optional: Manage loading state
       }
-      
-      // Update the local state to reflect the removal of the study
-      setEditedReport(prevReport => ({
-        ...prevReport,
-        studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
-      }));
-      
-      editedReport.status = 'Pendiente';
-      await onSave(editedReport);
-    } catch (err) {
-      console.error(err);
-      toast.error(`Error occurred: ${err.toString()}`);
-    } finally {
-      setIsLoading(false); // Optional: Manage loading state
-    }
-  };  
+    }).catch((error) => {
+      // Handle any errors or cancellation
+      console.log('Acción cancelada o error:', error);
+    });
+  };
 
   return (
     <>
@@ -168,7 +178,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
             </Button>
             <Button
               variant="secondary"
-              className="ml-3" disabled={disableSave} 
+              className="ml-3" disabled={disableSave}
               onClose={onClose}
               onClick={async () => {
                 const savedReport = report ? editedReport : await onSave(editedReport);
