@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useState} from "react";
 import "./style.css";
 import { CardEstudio } from "../CardEstudio";
 import { Button, Card } from '@tremor/react';
@@ -7,6 +7,7 @@ import { formatDateHandler } from "../../providers/formatDateHandler";
 import { Watch } from 'react-loader-spinner'
 
 export const ContentCardsClient = ({ data }) => {
+  const [isLoading, setIsLoading] = useState(false);
   // Destructuring patient and studies information from data
   const { patient, studies } = data;
   const handleDownloadAll = async () => {
@@ -48,8 +49,8 @@ export const ContentCardsClient = ({ data }) => {
   return (
     <Card>
     {/* Your loader */}
-    {(isLoading || loadingState) && (
-      <div className="fixed inset-0 bg-gray-100 bg-opacity-100 flex items-center justify-center z-50">
+    {isLoading && (
+      <div className="fixed inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
         <Watch
           height="80"
           width="80"
