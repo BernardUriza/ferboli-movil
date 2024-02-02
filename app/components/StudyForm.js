@@ -53,9 +53,9 @@ const StudyForm = ({ study, onClose, onSave, onRemove, categories, disabledSave 
             titleClassName="text-blue-500"
             modalClassName="p-8"
             footerElement={
-                <div className="flex justify-end">
+                <div className={"flex justify-"+(study ? 'between' : 'end')}>
                     <Button icon={FaTrash}
-                        className= {(study ? '' : 'hidden ') + "mr-3 bg-red-500 border-0 text-white hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200"}
+                        className= {(study ? '' : 'hidden') + " mr-3 bg-red-500 border-0 text-white hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200"}
                         disabled={!isSaveEnabled}
                         onClick={async (e) => {
                             e.preventDefault();
