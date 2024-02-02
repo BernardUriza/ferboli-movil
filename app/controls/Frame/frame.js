@@ -19,6 +19,38 @@ export const HeaderFrameClient = () => {
 export const ContentCardsClient = ({ data }) => {
   // Destructuring patient and studies information from data
   const { patient, studies } = data;
+  // Función para manejar la descarga de todos los PDFs
+  const handleDownloadAll = async () => {
+    // Extrayendo los URLs de los estudios
+    const pdfUrls = studies.map(study => study.name);
+
+    try {
+      const response = await fetch('/api/mergePdfs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pdfUrls }),
+      });
+
+      if (!response.ok) {
+        throw new Error('No se pudo descargar el archivo');
+      }
+
+      // Recibir el PDF combinado y descargarlo
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Estudios_Combinados.pdf'; // Nombre del archivo PDF resultante
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    } catch (error) {
+      console.error('Error al descargar el archivo combinado:', error);
+    }
+  };
 
   return (
     <Card>
@@ -38,7 +70,7 @@ export const ContentCardsClient = ({ data }) => {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button style={{height: 50}}>Descargar todo</Button>
+          <Button onClick={handleDownloadAll} style={{height: 50}}>Descargar todo</Button>
         </div>
       </div>
       <div className="text-wrapper font-semibold my-3">Resultados</div>
