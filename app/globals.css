@@ -11,3 +11,7 @@
 .slick-prev:before, .slick-next:before {
   color: black;
 }
+
+.onhoverunderline:hover {
+  text-decoration: underline;
+}

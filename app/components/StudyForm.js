@@ -4,6 +4,7 @@ import CustomModal from '../controls/CustomModal/CustomModal';
 import StudieCard from '../controls/StudieCard';
 import esLocale from 'date-fns/locale/es';
 import { HiDocumentArrowUp } from 'react-icons/hi2';
+import { FaTrash } from "react-icons/fa";
 import { useEdgeStore } from '../lib/edgestore';
 import { useLoading } from '../providers/LoadingContext';
 
@@ -16,7 +17,7 @@ function isValidUrl(url) {
     }
 }
 
-const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
+const StudyForm = ({ study, onClose, onSave, onRemove, categories, disabledSave }) => {
     const { edgestore } = useEdgeStore();
     const { showLoading, hideLoading, showLoadingWithProgress } = useLoading();
 
@@ -33,7 +34,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
         createdAt: new Date(),
     };
     const [editedStudy, setEditedStudy] = useState(initialEditedStudy);
-    const [fileUploaded, setFileUploaded] = useState(isValidUrl(editedStudy.name)); 
+    const [fileUploaded, setFileUploaded] = useState(isValidUrl(editedStudy.name));
     const [selectedCategory, setSelectedCategory] = useState(categories.find((category) => category.id === editedStudy.type.category.id) ?? {});
     const fileInputRef = React.createRef();
 
@@ -52,8 +53,17 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
             titleClassName="text-blue-500"
             modalClassName="p-8"
             footerElement={
-                <div className="flex">
-                    <Button type="primary" className='ml-auto' disabled={!isSaveEnabled} onClick={async (e) => {
+                <div className="flex justify-between">
+                    <Button icon={FaTrash}
+                        className="bg-red-500 border-0 text-white hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200"
+                        disabled={!isSaveEnabled}
+                        onClick={async (e) => {
+                            e.preventDefault();
+                            onRemove(editedStudy);
+                        }}>
+                        Eliminar
+                    </Button>
+                    <Button disabled={!isSaveEnabled} onClick={async (e) => {
                         e.preventDefault();
                         onSave(editedStudy);
                     }}>
@@ -120,7 +130,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                         ))}
                     </SearchSelect>
                 </div>
-                {editedStudy?.name && 
+                {editedStudy?.name &&
                     <div className="mb-4">
                         <StudieCard
                             document={editedStudy?.title}

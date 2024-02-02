@@ -53,7 +53,7 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, document, 
             <a href='./' onClick={handleFileDownload} rel="noopener noreferrer" className='flex' >
               <div className='p-2' style={{maxWidth: 180}}>
                 <div className='text-gray-500'>Documento</div>
-                <div className='font-bold'>{title}</div>
+                <div className='font-bold onhoverunderline'>{title}</div>
               </div>
             </a>
 
@@ -75,7 +75,7 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, document, 
               <p className="text-gray-600 text-sm overflow-hidden whitespace-nowrap truncate" style={{ position: 'absolute', bottom: 0 }} title={category.name}>{category.name}</p>
             </div>
             <div style={{ height: '55px', position: 'relative', overflow: 'hidden', width: '200px' }}>
-              <a href='./' onClick={handleOpenStudyForm} className="text-lg font-bold" style={{ maxHeight: '40px', maxWidth: '240px' }}>
+              <a href='./' onClick={handleOpenStudyForm} className="text-lg font-bold onhoverunderline" style={{ maxHeight: '40px', maxWidth: '240px' }}>
                 {name}
               </a>
             </div>
