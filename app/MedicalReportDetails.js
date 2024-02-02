@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { fetchMedicalReport } from './useCases/fetchMedicalReport'; 
-import { HeaderFrameClient, ContentCardsClient } from './controls/Frame/frame';
+import { HeaderFrameClient, ContentCardsClient } from './controls/ContentCardsClient/ContentCardsClient';
 import { Watch } from 'react-loader-spinner'
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 

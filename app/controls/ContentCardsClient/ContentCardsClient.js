@@ -21,7 +21,6 @@ export const ContentCardsClient = ({ data }) => {
   const { patient, studies } = data;
   // Función para manejar la descarga de todos los PDFs
   const handleDownloadAll = async () => {
-    // Extrayendo los URLs de los estudios
     const pdfUrls = studies.map(study => study.name);
 
     try {
