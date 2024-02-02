@@ -42,7 +42,7 @@ export const ContentCardsClient = ({ data }) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Estudios_Combinados.pdf'; // Nombre del archivo PDF resultante
+      a.download = 'Estudios de '+patient.name+'.pdf'; // Nombre del archivo PDF resultante
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
