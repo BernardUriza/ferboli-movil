@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextInput, DatePicker } from '@tremor/react';
 import CustomModal from '../controls/CustomModal/CustomModal';
 import { Select, SelectItem } from "@tremor/react";
+import esLocale from 'date-fns/locale/es';
 import { BanIcon, CheckCircleIcon } from "@heroicons/react/outline";
 
 const PatientForm = ({ patient, onClose, onSave, disableSave}) => {
@@ -96,6 +97,7 @@ const PatientForm = ({ patient, onClose, onSave, disableSave}) => {
                         name="dateOfBirth"
                         value={new Date(editedPatient.dateOfBirth)}
                         onValueChange={(e) => setEditedPatient({ ...editedPatient, dateOfBirth: e })}
+                        locale={esLocale}
                     />
                 </div>
                 <div className="mb-4">

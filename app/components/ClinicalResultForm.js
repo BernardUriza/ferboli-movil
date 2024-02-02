@@ -10,6 +10,7 @@ import { PencilIcon } from '@heroicons/react/outline';
 import PatientForm from './PatientForm';
 import CustomStatus from '../controls/CustomStatus';
 import StudieCard from '../controls/StudieCard';
+import esLocale from 'date-fns/locale/es';
 import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
 
@@ -181,6 +182,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
                     enableClear={false}
                     onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
                     className="mt-1 rounded-md"
+                    locale={esLocale}
                   />
                 </div>
               </div>
