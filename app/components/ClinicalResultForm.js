@@ -13,7 +13,7 @@ import StudieCard from '../controls/StudieCard';
 import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
 
-const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
+const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -86,8 +86,8 @@ const ClinicalResultForm = ({ refresh, report, categories, onClose, onSave, onSa
     }
   };
 
-  const clickToOpenStudyForm = (selectedStudie) => {
-    setSelectedStudy(selectedStudie);
+  const clickToOpenStudyForm = (selected) => {
+    setSelectedStudy(selected);
     setStudyFormOpen(true);
   };
 

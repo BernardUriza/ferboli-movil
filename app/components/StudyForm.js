@@ -23,6 +23,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
     const initialEditedStudy = study || {
         id: '',
         name: '',
+        title: '',
         categoryId: '',
         medicalReportId: '',
         medicalReport: {},
@@ -122,7 +123,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                 {editedStudy?.name && 
                     <div className="mb-4">
                         <StudieCard
-                            document={editedStudy?.name}
+                            document={editedStudy?.title}
                             studieData={editedStudy}
                             clickFileLink={isValidUrl(editedStudy.name)}
                         />
@@ -147,6 +148,7 @@ const StudyForm = ({ study, onClose, onSave, categories, disabledSave }) => {
                             });
                             hideLoading();
                             editedStudy.name = res.url;
+                            editedStudy.title = file.name;
                             setFileUploaded(true);
                         }
                     }}

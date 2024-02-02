@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { fetchMedicalReport } from './useCases/fetchMedicalReport'; 
 import { HeaderFrameClient, ContentCardsClient } from './controls/Frame/frame';
 import { Watch } from 'react-loader-spinner'
-import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 
 const MedicalReportDetails = ({ loading, medicalReportId }) => {

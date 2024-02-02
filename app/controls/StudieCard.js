@@ -23,10 +23,10 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, document, 
     );
   }
   if (studieData) {
-    var { type, createdAt } = studieData;
+    var { type, createdAt, title } = studieData;
     var { category, name } = type;
     // Function to handle opening the study link
-    const handleOpenStudy = (e) => {
+    const handleOpenStudyForm = (e) => {
       e.preventDefault();
       if (actionLink && studieData) {
         actionLink(studieData);
@@ -37,22 +37,27 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, document, 
     const formattedDate = format(new Date(createdAt), 'dd MMMM yyyy', { locale: es });
 
     // Function to handle file download
-    const handleFileDownload = () => {
-      saveAs(clickFileLink, name + ".pdf"); // Using file-saver to download with a custom name
+    const handleFileDownload = (e) => {
+      e.preventDefault();
+      saveAs(clickFileLink, title); // Using file-saver to download with a custom name
     };
+    // Function to handle file open
+    const handleFileInNewTab = () => {
+      window.open(clickFileLink, '_blank');
+    };  
 
     if (document) {
       return (
         <div className="rounded-lg p-4 shadow-md mb-3" style={{ height: '110px' }}>
           <p className="text-sm flex items-center justify-between h-full">
-            <a href={clickFileLink} target='_blank' rel="noopener noreferrer" className='flex' >
+            <a href='./' onClick={handleFileDownload} rel="noopener noreferrer" className='flex' >
               <div className='p-2' style={{maxWidth: 180}}>
                 <div className='text-gray-500'>Documento</div>
-                <div className='font-bold'>{name}.pdf</div>
+                <div className='font-bold'>{title}</div>
               </div>
             </a>
 
-            <div onClick={handleFileDownload} className="text-green-500 line-clamp-1" style={{ cursor: "pointer", fontSize: '13px', width: "140px !important" }}>
+            <div onClick={handleFileInNewTab} className="text-green-500 line-clamp-1" style={{ cursor: "pointer", fontSize: '13px', width: "140px !important" }}>
               <div className="bg-green-100 items-center justify-center rounded-full p-2 mx-auto" style={{ width: "35px" }}>
                 <DocumentTextIcon className="w-5 h-5" />
               </div>
@@ -70,14 +75,13 @@ const StudieCard = ({ clickFileLink, actionLink, studieData, newCard, document, 
               <p className="text-gray-600 text-sm overflow-hidden whitespace-nowrap truncate" style={{ position: 'absolute', bottom: 0 }} title={category.name}>{category.name}</p>
             </div>
             <div style={{ height: '55px', position: 'relative', overflow: 'hidden', width: '200px' }}>
-              {/* Updated class and style for name */}
-              <a href='./' onClick={handleOpenStudy} className="text-lg font-bold" title={name} style={{ maxHeight: '40px', maxWidth: '240px' }}>
+              <a href='./' onClick={handleOpenStudyForm} className="text-lg font-bold" style={{ maxHeight: '40px', maxWidth: '240px' }}>
                 {name}
               </a>
             </div>
             <p className="text-gray-600 text-sm line-clamp-1">Fecha: {formattedDate}</p>
           </div>
-          <div onClick={handleFileDownload} className="text-green-500 line-clamp-1" style={{ cursor: "pointer", fontSize: '13px', width: "140px !important" }}>
+          <div onClick={handleFileInNewTab} className="text-green-500 line-clamp-1" style={{ cursor: "pointer", fontSize: '13px', width: "140px !important" }}>
             <div className="bg-green-100 items-center justify-center rounded-full p-2 mx-auto" style={{ width: "35px" }}>
               <DocumentTextIcon className="w-5 h-5" />
             </div>
