@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { mailOptions, transporter } from '../../config/nodemailer';
+import { formatDateHandler } from '../../providers/formatDateHandler';
 const path = require('path');
 const fs = require('fs').promises;
 
@@ -33,7 +34,7 @@ export async function POST(req) {
 
   // Find the absolute path of the "json" directory
   const htmlFilePath = path.join(process.cwd(), 'app/api/mailerHelper/template.html');
-  const emailContent = await generateEmailContent(htmlFilePath, nombreDeUsuario, fecha, url);
+  const emailContent = await generateEmailContent(htmlFilePath, nombreDeUsuario, formatDateHandler(fecha), url);
 
   mailOptions.to = to;
   try {

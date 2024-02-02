@@ -17,7 +17,7 @@ export const CardEstudio = ({ tipoEstudio, nombreEstudio, fechaEstudio, url }) =
       <div className="flex gap-2 items-center w-full">
         <div className="flex flex-col flex-1 gap-2 justify-center">
           <div className="text-sm leading-5">{tipoEstudio}</div>
-          <div className="text-base leading-6">{nombreEstudio}</div>
+          <div className="text-base font-semibold leading-6">{nombreEstudio}</div>
           <div className="text-xs leading-5">{fechaEstudio}</div>
         </div>
         <a href={url} target="_blank" className="inline-flex flex-col gap-2 items-center">

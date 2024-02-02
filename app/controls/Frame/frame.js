@@ -3,6 +3,7 @@ import React from "react";
 import "./style.css";
 import { CardEstudio } from "../CardEstudio";
 import { Card } from '@tremor/react';
+import { formatDateHandler } from "../../providers/formatDateHandler";
 
 export const HeaderFrameClient = () => {
   return (
@@ -31,7 +32,7 @@ export const ContentCardsClient = ({ data }) => {
         <div className="header flex flex-col relative w-full">
           <p className="p">
             <span className="text-wrapper font-semibold">Fecha de realización<br /></span>
-            <span className="span">{new Date(data.date).toLocaleDateString()}</span>
+            <span className="span">{formatDateHandler(data.date)}</span>
           </p>
         </div>
       </div>
@@ -43,7 +44,7 @@ export const ContentCardsClient = ({ data }) => {
             tipoEstudio={study.type.category.name}
             nombreEstudio={study.type.name}
             url={study.name}
-            fechaEstudio={`Fecha. ${new Date(study.createdAt).toLocaleDateString()}`}
+            fechaEstudio={`Fecha. ${formatDateHandler(study.createdAt, { separator: ' ' })}`}
           />
         ))}
       </div>
