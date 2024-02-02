@@ -10,6 +10,7 @@ import { saveMedicalReports } from './useCases/saveMedicalReport';
 import { savePatient } from './useCases/savePatient';
 import { fetchCategories } from './useCases/fetchCategories';
 import { saveStudy } from './useCases/saveStudy';
+import { removeStudy } from './useCases/removeStudy';
 
 const Dashboard = ({setLoadingState}) => {
   const [patientsCount, setPatientsCount] = useState(0);
@@ -106,6 +107,10 @@ const Dashboard = ({setLoadingState}) => {
     setOpenForm(false)
   }
 
+  const handleRemoveStudy = (study) => {
+    removeStudy(study)
+  }
+
   return (
     <div className='pt-3'>
       <Grid numItems={1} numItemsLg={3} className="gap-2">
@@ -120,7 +125,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports}/>
+        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports} removeStudy={handleRemoveStudy}/>
       </div>
     </div>
   );

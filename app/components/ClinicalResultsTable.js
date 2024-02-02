@@ -11,7 +11,7 @@ import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removeMedicalReport } from '../useCases/removeMedicalReport';
 import { formatDateHandler } from '../providers/formatDateHandler';
 
-const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm, onClose }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, removeStudy, refresh, key, isOpenForm, onClose }) => {
   const { confirm } = useConfirmationContext();
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
@@ -77,7 +77,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     // Call the savePatient function to save the patient information
     return savePatient(patient);
   };
-
+  
   const handleSaveStudy = (study) => {
     return saveStudy(study).then(() => {
       if (selectedReport) {
@@ -101,6 +101,23 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
           studies: updatedStudies,
         });
       }
+    });
+  };
+  const handleRemoveStudy = (studyId) => {
+    return removeStudy(studyId).then(() => {
+      if (selectedReport) {
+        // Filter out the study to be removed
+        const updatedStudies = selectedReport.studies.filter((existingStudy) => existingStudy.id !== studyId);
+  
+        // Update the selectedReport with the new array of studies
+        setSelectedReport({
+          ...selectedReport,
+          studies: updatedStudies,
+        });
+      }
+    }).catch((error) => {
+      console.error("Error removing the study:", error);
+      // Optionally, show a toast or alert to the user
     });
   };
 
@@ -236,6 +253,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         onSend={sendTokenReportByEmail}
         onSave={saveReport}
         onSaveStudy={handleSaveStudy}
+        onRemoveStudy={handleRemoveStudy}
         onSavePatient={handleSavePatient} />}
     </Card>
   );

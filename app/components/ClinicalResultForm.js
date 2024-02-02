@@ -14,7 +14,7 @@ import esLocale from 'date-fns/locale/es';
 import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
 
-const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, onSavePatient, onSend, disableSave }) => {
+const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -127,6 +127,30 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
     }
   };
   
+  const handleStudyRemove = async (studyToRemove) => {
+    setIsLoading(true); // Optional: Manage loading state for UI feedback
+    try {
+      // If the report has a valid ID, assume it's already saved and handle the removal accordingly
+      if (editedReport.id && editedReport.id > 0) {
+        await onRemoveStudy(studyToRemove.id); 
+        toast.success('Estudio removido exitosamente');
+      }
+      
+      // Update the local state to reflect the removal of the study
+      setEditedReport(prevReport => ({
+        ...prevReport,
+        studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
+      }));
+      
+      editedReport.status = 'Pendiente';
+      await onSave(editedReport);
+    } catch (err) {
+      console.error(err);
+      toast.error(`Error occurred: ${err.toString()}`);
+    } finally {
+      setIsLoading(false); // Optional: Manage loading state
+    }
+  };  
 
   return (
     <>
@@ -262,6 +286,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
           study={selectedStudy}
           onClose={closeStudyForm}
           onSave={handleStudySave}
+          onRemove={handleStudyRemove}
           disabledSave={disableSaveStudy}
         />
       )}
