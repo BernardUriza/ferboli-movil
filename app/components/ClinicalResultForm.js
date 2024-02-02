@@ -149,8 +149,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
       editedReport.status = 'Pendiente';
       await onSave(editedReport);
     } catch (err) {
-      console.error(err);
-      toast.error(`Error occurred: ${err.toString()}`);
+      if(err)
+        toast.error(`Error occurred: ${err?.toString()}`);
     } finally {
       setDisableSaveStudy(false); // Optional: Manage loading state
     }
