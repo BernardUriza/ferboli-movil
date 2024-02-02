@@ -33,7 +33,7 @@ export async function GET(req, context) {
 export async function POST(req, context) {
   try {
     const body = await req.json();
-    const { id, medicalReportId, name, type } = body;
+    const { id, medicalReportId, name, type, title } = body;
 
     // Validation of the fields
     if (!medicalReportId || !type || !name)  {
@@ -49,6 +49,7 @@ export async function POST(req, context) {
       // If the study exists, update it
       const updatedStudy = await updateStudy(id, {
         name,
+        title: title,
         studyTypeId: type.id
       });
       return NextResponse.json(updatedStudy, { status: 200 });
@@ -57,6 +58,7 @@ export async function POST(req, context) {
       const newStudy = await createStudy({
         medicalReportId,
         name,
+        title: title,
         studyTypeId: type.id, // categoryId instead of the complete category object
       });
       return NextResponse.json(newStudy, { status: 201 });

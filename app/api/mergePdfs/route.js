@@ -5,7 +5,8 @@ import { NextResponse } from 'next/server';
 // Manejador para el método POST
 export const POST = async (req) => {
   try {
-    const { pdfUrls } = req.body; // Array de URLs de los PDFs a concatenar
+    const body = await req.json();
+    const { pdfUrls } = body; // Array de URLs de los PDFs a concatenar
     const mergedPdf = await PDFDocument.create();
 
     for (const pdfUrl of pdfUrls) {
