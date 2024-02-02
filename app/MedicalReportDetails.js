@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchMedicalReport } from './useCases/fetchMedicalReport';
 import { ContentCardsClient } from './controls/ContentCardsClient/ContentCardsClient';
 import { Watch } from 'react-loader-spinner'
+import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 import PropTypes from 'prop-types'; // If you choose to use PropTypes
 
 const MedicalReportDetails = ({ loading, medicalReportId }) => {
@@ -55,9 +56,13 @@ const MedicalReportDetails = ({ loading, medicalReportId }) => {
           <span className="text-wrapper font-bold">Diagnóstico Móvil</span>
         </p>
       </div>
-      <div className="flex mx-3 my-3">
-        <img src="/images/ferboliMovil.png" alt="Logo Image" className="mx-auto my-auto pt-6" width={105.426} height={40} />
-        <p className="flex-1"></p>
+      <div className="flex justify-between mx-3 my-6">
+        <a href="https://ferbolimovil.com/" target='_blank'>
+          <img src="/images/ferboliMovil.png" alt="Logo Image" className="my-auto pt-2" width={105.426} height={40} />
+        </a>
+        <a href="https://ferbolimovil.com/">
+          <HiOutlineArrowRightOnRectangle className="mx-1 w-6 h-6" />
+        </a>
       </div>
       <ContentCardsClient data={data} />
     </div>
