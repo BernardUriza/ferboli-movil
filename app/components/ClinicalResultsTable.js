@@ -9,6 +9,7 @@ import sendTokenByEmail from '../useCases/sendTokenByEmail';
 import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removeMedicalReport } from '../useCases/removeMedicalReport';
+import { formatDateHandler } from '../providers/formatDateHandler';
 
 const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, refresh, key, isOpenForm, onClose }) => {
   const { confirm } = useConfirmationContext();
@@ -160,7 +161,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     else if (columnKey === 'date') {
       // Render the 'date' column in the desired format with slashes
       const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-      const formattedDate = new Date(item.date).toLocaleDateString('es-AR', dateOptions).replace(/de /g, '');
+      const formattedDate = formatDateHandler(item, dateOptions);
       return formattedDate.replace(/ /g, '/'); // Replace spaces with slashes
     }
     else if (columnKey === 'name') {
