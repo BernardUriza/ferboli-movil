@@ -8,10 +8,8 @@ export default async function sendTokenByEmail(report) {
         const url = medicalReport.generateToken(); 
         const subject = 'Link para acceder a informes médicos';
         const to = medicalReport.patient.email;
-        debugger
-
         const nombreDeUsuario = medicalReport.patient.name;        
-        let fecha = format(new Date(medicalReport.date), 'dd/MM/yyyy');
+        let fecha = medicalReport.date;
         
         await sendEmail({ to, subject, url, nombreDeUsuario, fecha });
 

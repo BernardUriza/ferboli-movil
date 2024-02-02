@@ -113,11 +113,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         loading: 'Cargando',
         success: () => {
           setDisableSave(false)
-          setSelectedReport(null);
-          setIsFormOpen(false);
-          refresh(false);
-          onClose();
-          return `Cambios guardados con éxito.`
+          return `Cambios en el reporte guardados con éxito.`
         },
         error: (err) => {
           setDisableSave(false)

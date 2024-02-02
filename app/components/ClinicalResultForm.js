@@ -111,6 +111,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
         }));
         toast.success('Cambios guardados con éxito, estudio modificado.');
       }
+      editedReport.status = 'Pendiente';
+      await onSave(editedReport)
   
       // Operations after successful save
       setStudyFormOpen(false);
@@ -180,7 +182,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onSaveStudy, 
                     name="date"
                     value={new Date(editedReport.date)}
                     enableClear={false}
-                    onValueChange={(e) => setEditedReport({ ...editedReport, date: e })}
+                    onValueChange={(e) => setEditedReport({ ...editedReport, date: e, status: 'Pendiente' })}
                     className="mt-1 rounded-md"
                     locale={esLocale}
                   />
