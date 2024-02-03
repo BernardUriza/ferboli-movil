@@ -106,11 +106,6 @@ const Dashboard = ({setLoadingState}) => {
     setKeyClinicalResultsTable(keyClinicalResultsTable+1);
     setOpenForm(false)
   }
-
-  const handleRemoveStudy = (study) => {
-    removeStudy(study)
-  }
-
   return (
     <div className='pt-3'>
       <Grid numItems={1} numItemsLg={3} className="gap-2">
@@ -125,7 +120,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports} removeStudy={handleRemoveStudy}/>
+        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports} removeStudy={removeStudy}/>
       </div>
     </div>
   );

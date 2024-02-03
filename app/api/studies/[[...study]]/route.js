@@ -3,7 +3,8 @@ import {
   getAllStudies,
   createStudy,
   updateStudy,
-  getStudyById
+  getStudyById,
+  deleteStudy
 } from '../../../../prisma/studiesClient';
 
 export async function GET(req, context) {
@@ -66,5 +67,34 @@ export async function POST(req, context) {
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Error saving study ' + error }, { status: 500 });
+  }
+}
+/**
+ * DELETE method to remove a study.
+ * 
+ * @param {NextApiRequest} req The Next.js API request object.
+ * @returns {NextApiResponse} The response to be sent back to the client.
+ */
+export async function DELETE(req) {
+  try {
+    // Extract the patient ID from the URL path
+    const StudyId = parseInt(req.nextUrl.pathname.split('/').pop());
+
+    if (!StudyId) {
+      return NextResponse.json({ error: 'Study ID is required for deletion' }, { status: 400 });
+    }
+
+    // Check if the patient exists
+    const existingStudy = await getStudyById(StudyId);
+    if (!existingStudy) {
+      return NextResponse.json({ error: 'Study not found' }, { status: 404 });
+    }
+
+    // Perform the deletion
+    const result = await deleteStudy(StudyId);
+    return NextResponse.json({ message: 'Study successfully deleted', result }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Error deleting Study: ' + error.message }, { status: 500 });
   }
 }
