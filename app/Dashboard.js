@@ -17,7 +17,11 @@ const Dashboard = ({setLoadingState}) => {
   const [reportsSentCount, setReportsSentCount] = useState(0);
   const [studiesData, setStudiesData] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [keyClinicalResultsTable, setKeyClinicalResultsTable] = useState(1);
+  const [keyClinicalResultsTable, setKeyClinicalResultsTableState] = useState(1);
+  
+  const setKeyClinicalResultsTable = () => {
+    setKeyClinicalResultsTableState(keyClinicalResultsTable+1)
+  }
   const [openForm, setOpenForm] = useState(false);
 
   const fetchReports = (loadingStateActive=true) => {
@@ -37,7 +41,7 @@ const Dashboard = ({setLoadingState}) => {
       .finally(() => {
         if(loadingStateActive){
           setLoadingState(false)
-          setKeyClinicalResultsTable(keyClinicalResultsTable+1);
+          setKeyClinicalResultsTable();
         }
       });
   };
@@ -52,6 +56,7 @@ const Dashboard = ({setLoadingState}) => {
         .then((result) => {
           if (result.success) {
             fetchReports(false);
+            setOpenForm(false)
             resolve(result.data); // Resolve with the original result
           } else {
             console.error('Error saving the medical report in the API.');
@@ -103,7 +108,7 @@ const Dashboard = ({setLoadingState}) => {
   }
   
   const handleCloseForm = () => {
-    setKeyClinicalResultsTable(keyClinicalResultsTable+1);
+    setKeyClinicalResultsTable();
     setOpenForm(false)
   }
   return (
@@ -120,7 +125,7 @@ const Dashboard = ({setLoadingState}) => {
       </Grid> 
       {/* Table of Clinical Results */}
       <div className='pt-3'>
-        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports} removeStudy={removeStudy}/>
+        <ClinicalResultsTable onClose={handleCloseForm} isOpenForm={openForm} key={keyClinicalResultsTable} reports={studiesData} categories={categories} save={handleSaveReport} saveStudy={handleSaveStudy} savePatient={handleSavePatient} refresh={fetchReports} removeStudy={removeStudy} setKeyClinicalResultsTable={setKeyClinicalResultsTable}/>
       </div>
     </div>
   );

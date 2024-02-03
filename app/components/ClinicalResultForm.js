@@ -133,23 +133,27 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
     try {
       await confirm("¿Estás seguro de que quieres eliminar este registro?");
 
-      setDisableSaveStudy(true); // Optional: Manage loading state for UI feedback
+      setDisableSaveStudy(true);
       // If the report has a valid ID, assume it's already saved and handle the removal accordingly
       if (editedReport.id && editedReport.id > 0) {
         await onRemoveStudy(studyToRemove.id);
         toast.success('Estudio removido exitosamente');
+
+        // Operations after successful remove
+        setStudyFormOpen(false);
+
+
+        // Update the local state to reflect the removal of the study
+        setEditedReport(prevReport => ({
+          ...prevReport,
+          studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
+        }));
+
+        editedReport.status = 'Pendiente';
+        await onSave(editedReport);
       }
-
-      // Update the local state to reflect the removal of the study
-      setEditedReport(prevReport => ({
-        ...prevReport,
-        studies: prevReport.studies.filter(study => study.id !== studyToRemove.id),
-      }));
-
-      editedReport.status = 'Pendiente';
-      await onSave(editedReport);
     } catch (err) {
-      if(err)
+      if (err)
         toast.error(`Error occurred: ${err?.toString()}`);
     } finally {
       setDisableSaveStudy(false); // Optional: Manage loading state

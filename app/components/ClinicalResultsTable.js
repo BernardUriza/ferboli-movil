@@ -11,7 +11,7 @@ import { useConfirmationContext } from '../providers/ConfirmationContext';
 import { removeMedicalReport } from '../useCases/removeMedicalReport';
 import { formatDateHandler } from '../providers/formatDateHandler';
 
-const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, removeStudy, refresh, key, isOpenForm, onClose }) => {
+const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStudy, removeStudy, refresh, key, isOpenForm, onClose, setKeyClinicalResultsTable }) => {
   const { confirm } = useConfirmationContext();
   const [selectedReport, setSelectedReport] = useState(null);
   const [studiesData, setStudiesData] = useState(reports);
@@ -130,6 +130,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         loading: 'Cargando',
         success: () => {
           setDisableSave(false)
+          setKeyClinicalResultsTable();
           return `Cambios en el reporte guardados con éxito.`
         },
         error: (err) => {
