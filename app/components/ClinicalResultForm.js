@@ -150,7 +150,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
         }));
 
         editedReport.status = 'Pendiente';
-        await onSave(editedReport);
+        await onSave(editedReport, false);
       }
     } catch (err) {
       if (err)

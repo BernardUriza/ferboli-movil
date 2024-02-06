@@ -121,7 +121,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     });
   };
 
-  const saveReport = (report) => {
+  const saveReport = (report, hardReload = true) => {
     setDisableSave(true)
     var myPromise = save(report)
     toast.promise(
@@ -130,7 +130,8 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
         loading: 'Cargando',
         success: () => {
           setDisableSave(false)
-          setKeyClinicalResultsTable();
+          if(hardReload)
+            setKeyClinicalResultsTable();
           return `Cambios en el reporte guardados con éxito.`
         },
         error: (err) => {
