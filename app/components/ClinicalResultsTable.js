@@ -132,7 +132,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
           setDisableSave(false)
           if(hardReload)
             setKeyClinicalResultsTable();
-          return `Cambios en el reporte guardados con éxito.`
+          return "Cambios en el reporte guardados con éxito. "+(hardReload?" Recargando...":"")
         },
         error: (err) => {
           setDisableSave(false)
