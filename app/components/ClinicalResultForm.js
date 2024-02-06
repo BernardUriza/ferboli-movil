@@ -84,7 +84,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
       setPatientEditorOpen(false);
       toast.success(`Cambios guardados, paciente ${editedPatientData.name} modificado.`);
       editedReport.status = 'Pendiente';
-      await onSave(editedReport)
+      await onSave(editedReport, false)
       setEditedReport(editedReport)
     } catch (err) {
       setDisableSavePatient(false);
@@ -117,7 +117,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
         toast.success('Cambios guardados con éxito, estudio modificado.');
       }
       editedReport.status = 'Pendiente';
-      await onSave(editedReport)
+      await onSave(editedReport, false)
 
       // Operations after successful save
       setStudyFormOpen(false);
@@ -179,8 +179,12 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
               className="ml-3" disabled={disableSave}
               onClose={onClose}
               onClick={async () => {
-                const savedReport = report ? editedReport : await onSave(editedReport);
-                onSend(savedReport);
+                if(report){
+                  onSend(editedReport);
+                }
+                else{
+                  onSend(await onSave(editedReport, false), true);
+                }
               }}
             >
               {report ? 'Enviar al cliente' : 'Guardar y enviar al cliente'}

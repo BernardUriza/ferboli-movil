@@ -143,7 +143,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     return myPromise;
   };
 
-  const sendTokenReportByEmail = async (report) => {
+  const sendTokenReportByEmail = async (report, hardReload = true) => {
     setDisableSave(true)
     try {
       const sentReport = await sendTokenByEmail(report)
@@ -161,8 +161,10 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
 
       promise.then(() => {
         setDisableSave(false)
-        setSelectedReport(sentReport);
-        refresh(false);
+        if(hardReload){
+          setSelectedReport(sentReport);
+          refresh(false);
+        }
       });
 
       return await promise;
