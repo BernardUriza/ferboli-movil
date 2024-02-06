@@ -108,16 +108,16 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
       if (editedReport.id > 0) {
         editedStudy.medicalReportId = editedReport.id;
         await onSaveStudy(editedStudy);
-        toast.success('Cambios guardados con éxito, estudio modificado.');
+        editedReport.status = 'Pendiente';
+        await onSave(editedReport, false)
+        toast.success('Cambios guardados con éxito, estudio modificado en el reporte.');
       } else {
         setEditedReport((prevReport) => ({
           ...prevReport,
           studies: [...prevReport.studies, editedStudy],
         }));
-        toast.success('Cambios guardados con éxito, estudio modificado.');
+        toast.success('Cambios guardados con éxito, estudio creado para el nuevo reporte.');
       }
-      editedReport.status = 'Pendiente';
-      await onSave(editedReport, false)
 
       // Operations after successful save
       setStudyFormOpen(false);
