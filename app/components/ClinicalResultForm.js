@@ -253,7 +253,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
               </div>
             </div>
             <div className="flex-1">
-              <div className="mb-4">
+              <div className="mb-4 mr-2">
                 <label className="block text-sm font-medium text-gray-700">Email</label>
                 <TextInput
                   type="text"
@@ -262,6 +262,20 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
                   placeholder="Escribe el mail del paciente."
                   value={editedReport.patient.email}
                   onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, email: value } })}
+                  className="mt-1 border rounded-md"
+                />
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Teléfono</label>
+                <TextInput
+                  type="text"
+                  name="id"
+                  readOnly={!!report}
+                  placeholder="Escribe el teléfono del paciente."
+                  value={editedReport.patient.phone}
+                  onValueChange={(value) => setEditedReport({ ...editedReport, patient: { ...editedReport.patient, phone: value } })}
                   className="mt-1 border rounded-md"
                 />
               </div>
