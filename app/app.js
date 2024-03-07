@@ -63,6 +63,7 @@ const Tabs = ({ setLoadingState }) => {
 };
 const Menu = ({ user, setLoadingState }) => {
 
+  console.log("username", user)
   const isAdmin = user.roles && user.roles.includes('FM-Admin');
 
   return (
@@ -73,7 +74,7 @@ const Menu = ({ user, setLoadingState }) => {
         </div>
         <div className="flex-1">
           <div className="text-gray-700 text-xl lg:text-2xl font-normal leading-7 lg:leading-10">
-            {user ? `Bienvenido, ${user.name}` : "Favor de ingresar para ver el contenido."}
+            {user ? `Bienvenido, ${user.nickname}` : "Favor de ingresar para ver el contenido."}
           </div>
 
           <div className="text-gray-500 text-base lg:text-xl font-normal leading-5 lg:leading-7">

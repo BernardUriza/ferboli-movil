@@ -83,9 +83,11 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
       setDisableSavePatient(false);
       setPatientEditorOpen(false);
       toast.success(`Cambios guardados, paciente ${editedPatientData.name} modificado.`);
-      editedReport.status = 'Pendiente';
+      setEditedReport((prevReport) => ({
+        ...prevReport,
+        status: 'Pendiente'
+      }));
       await onSave(editedReport, false)
-      setEditedReport(editedReport)
     } catch (err) {
       setDisableSavePatient(false);
       toast.error(`Error ha sucedido: ${err.toString()}`);
@@ -105,17 +107,18 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
     try {
       setDisableSaveStudy(true); // Disable the save button immediately to prevent multiple submissions
 
+      setEditedReport((prevReport) => ({
+        ...prevReport,
+        status: 'Pendiente',
+        studies: [...prevReport.studies, editedStudy],
+      }));
+      
       if (editedReport.id > 0) {
         editedStudy.medicalReportId = editedReport.id;
         await onSaveStudy(editedStudy);
-        editedReport.status = 'Pendiente';
         await onSave(editedReport, false)
         toast.success('Cambios guardados con éxito, estudio modificado en el reporte.');
       } else {
-        setEditedReport((prevReport) => ({
-          ...prevReport,
-          studies: [...prevReport.studies, editedStudy],
-        }));
         toast.success('Cambios guardados con éxito, estudio creado para el nuevo reporte.');
       }
 
