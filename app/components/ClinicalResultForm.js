@@ -1,5 +1,5 @@
 // ClinicalResultForm.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -23,6 +23,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [disableSavePatient, setDisableSavePatient] = useState(false);
   const [disableSaveStudy, setDisableSaveStudy] = useState(false);
+  let sliderRef = useRef(null);
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -112,6 +113,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
         status: 'Pendiente',
         studies: [...prevReport.studies, editedStudy],
       }));
+      sliderRef.slickGoTo(0);
       
       if (editedReport.id > 0) {
         editedStudy.medicalReportId = editedReport.id;
@@ -286,10 +288,16 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
           </div>
           <div className="mb-4 max-w-full ml-3">
             <label className="block text-sm font-medium text-gray-700">Estudios</label>
-            <Slider {...sliderSettings}>
-              {editedReport.studies.map((study, index) => (
-                <StudieCard key={index} actionLink={clickToOpenStudyForm} clickFileLink={study.name} studieData={study} />
-              ))}
+            <Slider 
+              ref={slider => {
+                sliderRef = slider;
+              }} {...sliderSettings}>{
+                editedReport.studies
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Ordena de más reciente a más antiguo
+                  .map((study, index) => (
+                    <StudieCard key={index} actionLink={clickToOpenStudyForm} clickFileLink={study.name} studieData={study} />
+                  ))
+              }
               <StudieCard
                 newCard={true}
                 openNewStudyForm={(e) => {
