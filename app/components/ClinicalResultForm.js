@@ -165,6 +165,8 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
     }
   };
 
+  const isSaveEnabled = !editedReport.patient.name &&  !editedReport.patient.id;
+
   return (
     <>
       <CustomModal
@@ -195,7 +197,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
               {report ? 'Enviar al cliente' : 'Guardar y enviar al cliente'}
             </Button>
 
-            <Button disabled={disableSave} type="primary" className="ml-3" onClick={() => onSave(editedReport)}>
+            <Button disabled={disableSave && isSaveEnabled} type="primary" className="ml-3" onClick={() => onSave(editedReport)}>
               Guardar
             </Button>
           </div>
@@ -243,7 +245,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
           </div>
           <div className="flex">
             <div className="flex-1 mb-4">
-              <label className="block text-sm font-medium text-gray-700">Nombre</label>
+              <label className="block text-sm font-medium text-gray-700">Nombre{!editedReport.patient.name && <span style={{ color: 'red' }}>*</span>}</label>
               <div className="flex">
                 <TextInput
                   type="text"
@@ -259,7 +261,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
             </div>
             <div className="flex-1">
               <div className="mb-4 mr-2">
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">Email{!editedReport.patient.email && <span style={{ color: 'red' }}>*</span>}</label>
                 <TextInput
                   type="text"
                   name="id"
