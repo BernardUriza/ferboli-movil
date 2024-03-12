@@ -74,7 +74,7 @@ const Menu = ({ user, setLoadingState }) => {
         </div>
         <div className="flex-1">
           <div className="text-gray-700 text-xl lg:text-2xl font-normal leading-7 lg:leading-10">
-            {user ? `Bienvenido, ${user.nickname}` : "Favor de ingresar para ver el contenido."}
+            {user ? `Bienvenido a dev, ${user.nickname}` : "Favor de ingresar para ver el contenido."}
           </div>
 
           <div className="text-gray-500 text-base lg:text-xl font-normal leading-5 lg:leading-7">
