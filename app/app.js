@@ -137,7 +137,7 @@ const RedirectComponent = () => {
 
   // Perform the redirect
   React.useEffect(() => {
-    router.push("/api/auth/login");
+    //router.push("/api/auth/login");
   }, [router]);
 
   return null; // or any loading indicator if needed
