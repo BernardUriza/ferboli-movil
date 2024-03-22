@@ -65,12 +65,6 @@ const Menu = ({ user, setLoadingState }) => {
 
   console.log("username", user)
   const isAdmin = user.roles && user.roles.includes('FM-Admin');
-  var name_of_environment = process.env.NAME_OF_ENVIRONMENT;
-  var is_dev = process.env.DEVELOP_ENVIRONMENT;
-  if(is_dev != "1")
-    name_of_environment = ""
-  else 
-    name_of_environment+=" "
   return (
     <div className="container px-1 mx-auto my-5 font-sans">
       <div className="flex items-center my-5 space-x-4 flex-col lg:flex-row justify-between">
@@ -79,8 +73,8 @@ const Menu = ({ user, setLoadingState }) => {
         </div>
         <div className="flex-1">
           <div className="text-gray-700 text-xl lg:text-2xl font-normal leading-7 lg:leading-10">
-            {user ? `Bienvenid@, Dr. ${name_of_environment}${user.name}` : "Favor de ingresar para ver el contenido."}
-          </div>
+            {user ? `Bienvenid@, Dr. ${user.name}` : "Favor de ingresar para ver el contenido."}
+          </div>          
 
           <div className="text-gray-500 text-base lg:text-xl font-normal leading-5 lg:leading-7">
             {/* Display different content based on the user's role */}
@@ -185,6 +179,9 @@ const App = () => {
             // Render the RedirectComponent only if the user is not logged in and data is not loading
             !isLoading && <RedirectComponent />
           )}
+           <span className="text-gray-500 text-sm px-2">
+              FerboliMovil App v1.0.1®
+          </span>
           <ToastAlert />
           <LoadingAlert />
         </LoadingProvider>
