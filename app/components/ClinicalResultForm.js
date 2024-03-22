@@ -15,7 +15,7 @@ import StudyForm from './StudyForm';
 import toast from 'react-hot-toast';
 import { useConfirmationContext } from '../providers/ConfirmationContext';
 
-const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy, onSaveStudy, onSavePatient, onSend, disableSave }) => {
+const ClinicalResultForm = ({ report, categories, refresh, onClose, onSave, onRemoveStudy, onSaveStudy, onSavePatient, onSend, disableSave }) => {
   const [isPatientEditorOpen, setPatientEditorOpen] = useState(false);
   const { confirm } = useConfirmationContext();
   const [isStudyFormOpen, setStudyFormOpen] = useState(false);
@@ -89,6 +89,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
         status: 'Pendiente'
       }));
       await onSave(editedReport, false)
+      await refresh()
     } catch (err) {
       setDisableSavePatient(false);
       toast.error(`Error ha sucedido: ${err.toString()}`);
@@ -197,7 +198,7 @@ const ClinicalResultForm = ({ report, categories, onClose, onSave, onRemoveStudy
               {report ? 'Enviar al cliente' : 'Guardar y enviar al cliente'}
             </Button>
 
-            <Button disabled={disableSave && isSaveEnabled} type="primary" className="ml-3" onClick={() => onSave(editedReport)}>
+            <Button disabled={disableSave && isSaveEnabled} type="primary" className="ml-3" onClick={() => {onSave(editedReport); refresh()}}>
               Guardar
             </Button>
           </div>

@@ -33,9 +33,13 @@ const Dashboard = ({setLoadingState}) => {
       .then(([medicalReports, c, p]) => {
         // Establecer los estados después de que ambos fetch se completen
         setStudiesData(medicalReports);
+        setKeyClinicalResultsTable();
         setCategories(c);
         setPatientsCount(p.length)
         setReportsSentCount(medicalReports.length)
+        if(loadingStateActive){
+          setLoadingState(false)
+        }
       })
       .catch((error) => console.error(error.message))
       .finally(() => {
