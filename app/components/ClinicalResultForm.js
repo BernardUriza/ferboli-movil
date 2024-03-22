@@ -191,14 +191,14 @@ const ClinicalResultForm = ({ report, categories, refresh, onClose, onSave, onRe
                   onSend(editedReport);
                 }
                 else{
-                  onSend(await onSave(editedReport, false), true);
+                  onSend(await onSave(editedReport, false), true).then(refresh)
                 }
               }}
             >
               {report ? 'Enviar al cliente' : 'Guardar y enviar al cliente'}
             </Button>
 
-            <Button disabled={disableSave && isSaveEnabled} type="primary" className="ml-3" onClick={() => {onSave(editedReport); refresh()}}>
+            <Button disabled={disableSave && isSaveEnabled} type="primary" className="ml-3" onClick={() => {onSave(editedReport).then(refresh)}}>
               Guardar
             </Button>
           </div>
