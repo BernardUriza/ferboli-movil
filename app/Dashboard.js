@@ -17,7 +17,7 @@ const Dashboard = ({ setLoadingState }) => {
   const incrementKeyClinicalResultsTable = () => setKeyClinicalResultsTableState(prevKey => prevKey + 1);
 
   const handleError = (error, customMessage = '') => {
-    alert(`${customMessage} ${error.message}`);
+    console.error(`${customMessage} ${error.message}`);
     // Here, you could log to an external service or show a notification to the user
   };
 

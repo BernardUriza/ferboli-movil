@@ -18,8 +18,8 @@ const CoreTable = ({
   key
 }) => {
   const [selectAll, setSelectAll] = useState(false);
-  const [sortedColumn, setSortedColumn] = useState(null);
-  const [sortAscending, setSortAscending] = useState(true);
+  const [sortedColumn, setSortedColumn] = useState('id');
+  const [sortAscending, setSortAscending] = useState(false);
   const [itemsSelected, setItemsSelected] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
 
@@ -74,16 +74,25 @@ const CoreTable = ({
   };
 
   const sortedData = sortedColumn
-    ? [...filteredDataWithColumnFilter].sort((a, b) => {
-      const aValue = extractNestedValue(a, sortedColumn) || '';
-      const bValue = extractNestedValue(b, sortedColumn) || '';
-      if (sortAscending) {
-        return aValue.localeCompare(bValue);
+  ? [...filteredDataWithColumnFilter].sort((a, b) => {
+      // Extract the values for comparison
+      const aValue = extractNestedValue(a, sortedColumn);
+      const bValue = extractNestedValue(b, sortedColumn);
+      // Check if the values are numbers (for 'id' or similar numeric columns)
+      const isNumeric = !isNaN(aValue) && !isNaN(bValue);
+      if (isNumeric) {
+        // Perform numeric sort
+        return sortAscending ? aValue - bValue : bValue - aValue;
       } else {
-        return bValue.localeCompare(aValue);
+        // Perform string sort
+        if (sortAscending) {
+          return aValue.localeCompare(bValue);
+        } else {
+          return bValue.localeCompare(aValue);
+        }
       }
     })
-    : filteredDataWithColumnFilter;
+  : filteredDataWithColumnFilter;
 
   const handleDataFiltering = () => {
     // Update the currentItems state when the pagination or filtered data changes
