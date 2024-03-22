@@ -127,7 +127,7 @@ const ClinicalResultsTable = ({ reports, categories, save, savePatient, saveStud
     toast.promise(
       myPromise,
       {
-        loading: 'Cargando',
+        loading: 'Guardando...',
         success: () => {
           setDisableSave(false)
           if(hardReload)
